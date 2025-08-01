@@ -9,17 +9,21 @@ class ServidorController extends Controller
 {
     public function index()
     {
+        $this->authorizeRole(['admin', 'consultor']);
         $servidores = Servidor::paginate(10);
         return view('servidores.index', compact('servidores'));
     }
 
     public function create()
     {
+        $this->authorizeRole(['admin']);
         return view('servidores.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorizeRole(['admin']);
+        
         $request->validate([
             'tipo' => 'required|in:desarrollo,produccion',
             'sistema_operativo' => 'required|string|max:255',
@@ -37,16 +41,20 @@ class ServidorController extends Controller
 
     public function show(Servidor $servidor)
     {
+        $this->authorizeRole(['admin', 'consultor']);
         return view('servidores.show', compact('servidor'));
     }
 
     public function edit(Servidor $servidor)
     {
+        $this->authorizeRole(['admin']);
         return view('servidores.edit', compact('servidor'));
     }
 
     public function update(Request $request, Servidor $servidor)
     {
+        $this->authorizeRole(['admin']);
+        
         $request->validate([
             'tipo' => 'required|in:desarrollo,produccion',
             'sistema_operativo' => 'required|string|max:255',
@@ -64,9 +72,23 @@ class ServidorController extends Controller
 
     public function destroy(Servidor $servidor)
     {
+        $this->authorizeRole(['admin']);
+        
         $servidor->delete();
 
         return redirect()->route('servidores.index')
                         ->with('success', 'Servidor eliminado exitosamente.');
+    }
+    
+    private function authorizeRole($allowedRoles)
+    {
+        if (!auth()->check()) {
+            abort(401);
+        }
+        
+        $userRole = auth()->user()->rol;
+        if (!in_array($userRole, $allowedRoles)) {
+            abort(403, 'No tienes permisos para acceder a esta sección.');
+        }
     }
 }

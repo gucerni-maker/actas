@@ -101,7 +101,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h6><strong>Documento PDF</strong></h6>
-                            <a href="{{ asset('storage/' . $acta->archivo_pdf) }}" class="btn btn-success" target="_blank">
+                            <a href="{{ route('actas.pdf', $acta) }}" class="btn btn-success">
                                 <i class="fas fa-file-pdf"></i> Descargar PDF
                             </a>
                         </div>

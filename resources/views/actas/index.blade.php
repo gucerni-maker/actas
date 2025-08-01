@@ -14,6 +14,57 @@
                     @endif
                 </div>
                 <div class="card-body">
+
+                    <!-- Formulario de filtros -->
+                    <form method="GET" action="{{ route('actas.index') }}" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="buscar" class="form-label">Buscar</label>
+                                <input type="text" class="form-control" id="buscar" name="buscar" 
+                                       value="{{ request('buscar') }}" placeholder="Programador o servidor">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="fecha_desde" class="form-label">Fecha desde</label>
+                                <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" 
+                                       value="{{ request('fecha_desde') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="fecha_hasta" class="form-label">Fecha hasta</label>
+                                <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" 
+                                       value="{{ request('fecha_hasta') }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="programador_id" class="form-label">Programador</label>
+                                <select class="form-control" id="programador_id" name="programador_id">
+                                    <option value="">Todos</option>
+                                    @foreach($programadores as $programador)
+                                        <option value="{{ $programador->id }}" {{ request('programador_id') == $programador->id ? 'selected' : '' }}>
+                                            {{ $programador->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="servidor_tipo" class="form-label">Tipo servidor</label>
+                                <select class="form-control" id="servidor_tipo" name="servidor_tipo">
+                                    <option value="">Todos</option>
+                                    <option value="desarrollo" {{ request('servidor_tipo') == 'desarrollo' ? 'selected' : '' }}>Desarrollo</option>
+                                    <option value="produccion" {{ request('servidor_tipo') == 'produccion' ? 'selected' : '' }}>Producción</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Filtrar
+                                </button>
+                                <a href="{{ route('actas.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Limpiar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -25,8 +76,16 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Fecha Entrega</th>
+                                        <th>
+					   <a href="{{ route('actas.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'id', 'direccion' => request('orden') == 'id' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
+                                             ID @if(request('orden') == 'id') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
+                                           </a>
+					</th>
+                                        <th>
+					   <a href="{{ route('actas.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'fecha_entrega', 'direccion' => request('orden') == 'fecha_entrega' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
+                                             Fecha Entrega @if(request('orden') == 'fecha_entrega') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
+                                           </a>
+					</th>
                                         <th>Programador</th>
                                         <th>Servidor</th>
                                         <th>Tipo</th>
