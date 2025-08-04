@@ -11,19 +11,19 @@
                 <div class="card-body">
                     <form action="{{ route('actas.store') }}" method="POST">
                         @csrf
-                        
+
                         <div class="mb-3">
                             <label for="fecha_entrega" class="form-label">Fecha de Entrega *</label>
-                            <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror" 
+                            <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror"
                                    id="fecha_entrega" name="fecha_entrega" value="{{ old('fecha_entrega') }}" required>
                             @error('fecha_entrega')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="programador_id" class="form-label">Programador *</label>
-                            <select class="form-control @error('programador_id') is-invalid @enderror" 
+                            <select class="form-control @error('programador_id') is-invalid @enderror"
                                     id="programador_id" name="programador_id" required>
                                 <option value="">Seleccione un programador</option>
                                 @foreach($programadores as $programador)
@@ -36,15 +36,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="servidor_id" class="form-label">Servidor *</label>
-                            <select class="form-control @error('servidor_id') is-invalid @enderror" 
+                            <select class="form-control @error('servidor_id') is-invalid @enderror"
                                     id="servidor_id" name="servidor_id" required>
                                 <option value="">Seleccione un servidor</option>
                                 @foreach($servidores as $servidor)
                                     <option value="{{ $servidor->id }}" {{ old('servidor_id') == $servidor->id ? 'selected' : '' }}>
-                                        {{ $servidor->sistema_operativo }} - {{ $servidor->cpu }} ({{ ucfirst($servidor->tipo) }})
+                                        {{ $servidor->descripcion_completa }}
                                     </option>
                                 @endforeach
                             </select>
@@ -52,7 +52,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="observaciones" class="form-label">Observaciones</label>
                             <textarea class="form-control @error('observaciones') is-invalid @enderror" 

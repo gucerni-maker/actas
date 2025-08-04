@@ -12,6 +12,7 @@ class Servidor extends Model
     protected $table = 'servidores';
 
     protected $fillable = [
+        'nombre',
         'tipo',
         'sistema_operativo',
         'cpu',
@@ -29,5 +30,16 @@ class Servidor extends Model
     public function actas()
     {
         return $this->hasMany(Acta::class, 'servidor_id');
+    }
+    
+    // Método para obtener una descripción completa del servidor
+    public function getDescripcionCompletaAttribute()
+    {
+        return ($this->nombre ? $this->nombre . ' - ' : '') . 
+               $this->sistema_operativo . ' - ' . 
+               $this->cpu . ' - ' . 
+               $this->ram . ' - ' . 
+               $this->disco . 
+               ($this->notas_tecnicas ? ' (' . substr($this->notas_tecnicas, 0, 50) . '...)' : '');
     }
 }

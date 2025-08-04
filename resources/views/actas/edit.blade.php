@@ -48,7 +48,7 @@
                                 <option value="">Seleccione un servidor</option>
                                 @foreach($servidores as $servidor)
                                     <option value="{{ $servidor->id }}" {{ old('servidor_id', $acta->servidor_id) == $servidor->id ? 'selected' : '' }}>
-                                        {{ $servidor->sistema_operativo }} - {{ $servidor->cpu }} ({{ ucfirst($servidor->tipo) }})
+                                        {{ $servidor->descripcion_completa }}
                                     </option>
                                 @endforeach
                             </select>

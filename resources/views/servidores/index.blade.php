@@ -26,6 +26,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Nombre</th>
                                         <th>Tipo</th>
                                         <th>Sistema Operativo</th>
                                         <th>CPU</th>
@@ -38,6 +39,7 @@
                                     @foreach($servidores as $servidor)
                                         <tr>
                                             <td>{{ $servidor->id }}</td>
+					    <td>{{ $servidor->nombre ?? 'Sin nombre' }}</td>
                                             <td>
                                                 <span class="badge bg-{{ $servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
                                                     {{ ucfirst($servidor->tipo) }}
