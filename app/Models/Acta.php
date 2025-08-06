@@ -15,6 +15,7 @@ class Acta extends Model
         'fecha_entrega',
         'observaciones',
         'archivo_pdf',
+	'es_acta_existente',
         'programador_id',
         'servidor_id',
         'usuario_id',

@@ -92,6 +92,23 @@
                         <i class="fas fa-plus me-1"></i> Nueva Acta
                     </a>
                     @endif
+
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold text-primary">
+                         <i class="fas fa-history me-2"></i> Últimas Actas de Entrega
+                      </h6>
+                      @if(Auth::user()->isAdmin())
+                        <div>
+                           <a href="{{ route('actas.create') }}" class="btn btn-primary btn-sm me-2">
+                              <i class="fas fa-plus me-1"></i> Nueva Acta
+                            </a>
+                           <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-success btn-sm">
+                              <i class="fas fa-upload me-1"></i> Cargar Acta Existente
+                           </a>
+                        </div>
+                      @endif
+                    </div>
+
                 </div>
                 <div class="card-body">
                     @if($ultimasActas->count() > 0)

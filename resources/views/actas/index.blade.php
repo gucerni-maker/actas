@@ -20,17 +20,17 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="buscar" class="form-label">Buscar</label>
-                                <input type="text" class="form-control" id="buscar" name="buscar" 
+                                <input type="text" class="form-control" id="buscar" name="buscar"
                                        value="{{ request('buscar') }}" placeholder="Programador o servidor">
                             </div>
                             <div class="col-md-2">
                                 <label for="fecha_desde" class="form-label">Fecha desde</label>
-                                <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" 
+                                <input type="date" class="form-control" id="fecha_desde" name="fecha_desde"
                                        value="{{ request('fecha_desde') }}">
                             </div>
                             <div class="col-md-2">
                                 <label for="fecha_hasta" class="form-label">Fecha hasta</label>
-                                <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" 
+                                <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta"
                                        value="{{ request('fecha_hasta') }}">
                             </div>
                             <div class="col-md-3">
@@ -89,6 +89,7 @@
                                         <th>Programador</th>
                                         <th>Servidor</th>
                                         <th>Tipo</th>
+					<th>Tipo Acta</th>
                                         <th>Creada por</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -99,12 +100,20 @@
                                             <td>{{ $acta->id }}</td>
                                             <td>{{ $acta->fecha_entrega->format('d/m/Y') }}</td>
                                             <td>{{ $acta->programador->nombre }}</td>
-                                            <td>{{ $acta->servidor->sistema_operativo }} - {{ $acta->servidor->cpu }}</td>
+                                            <td>{{ $acta->servidor->nombre }} - {{ $acta->servidor->sistema_operativo }}</td>
                                             <td>
                                                 <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
                                                     {{ ucfirst($acta->servidor->tipo) }}
                                                 </span>
                                             </td>
+                                            <td>
+                                               @if($acta->es_acta_existente)
+                                                   <span class="badge bg-secondary">Existente</span>
+                                               @else
+                                                   <span class="badge bg-primary">Generada</span>
+                                               @endif
+                                            </td>
+
                                             <td>{{ $acta->usuario->name }}</td>
                                             <td>
                                                 <a href="{{ route('actas.show', $acta) }}" class="btn btn-info btn-sm">
