@@ -23,6 +23,8 @@ Route::get('/profile', function () {
 Route::get('actas/cargar-existente', [ActaController::class, 'showCargarExistente'])->name('actas.cargar-existente.form');
 Route::post('actas/cargar-existente', [ActaController::class, 'cargarExistente'])->name('actas.cargar-existente');
 Route::get('actas/{acta}/pdf', [ActaController::class, 'descargarPDF'])->name('actas.pdf');
+Route::get('programadores/buscar-por-rut/{rut}', [ProgramadorController::class, 'buscarPorRut'])->name('programadores.buscar-por-rut');
+
 
 // Rutas para todos los usuarios autenticados
 Route::middleware(['auth'])->group(function () {

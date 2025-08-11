@@ -16,6 +16,10 @@ class Programador extends Model
         'correo',
         'cargo',
         'telefono',
+	'oficina',
+	'departamento',
+	'rut',
+	'codigo_programador',
     ];
 
     protected $casts = [
