@@ -12,57 +12,63 @@ use Illuminate\Support\Facades\Storage;
 
 class ActaController extends Controller
 {
-    public function index(Request $request)
+
+  public function index(Request $request)
     {
-        $this->authorizeRole(['admin', 'consultor']);
-        
-        $query = Acta::with(['programador', 'servidor', 'usuario']);
-        
-        // Filtros
-        if ($request->filled('fecha_desde')) {
-            $query->where('fecha_entrega', '>=', $request->fecha_desde);
-        }
-        
-        if ($request->filled('fecha_hasta')) {
-            $query->where('fecha_entrega', '<=', $request->fecha_hasta);
-        }
-        
-        if ($request->filled('programador_id')) {
-            $query->where('programador_id', $request->programador_id);
-        }
-        
-        if ($request->filled('servidor_tipo')) {
-            $query->whereHas('servidor', function ($q) use ($request) {
-                $q->where('tipo', $request->servidor_tipo);
-            });
-        }
-        
-        if ($request->filled('buscar')) {
-            $buscar = $request->buscar;
-            $query->where(function ($q) use ($buscar) {
-                $q->whereHas('programador', function ($qp) use ($buscar) {
-                    $qp->where('nombre', 'LIKE', "%{$buscar}%")
-                      ->orWhere('correo', 'LIKE', "%{$buscar}%");
-                })
-                ->orWhereHas('servidor', function ($qs) use ($buscar) {
-                    $qs->where('sistema_operativo', 'LIKE', "%{$buscar}%")
-                      ->orWhere('cpu', 'LIKE', "%{$buscar}%");
-                });
-            });
-        }
-        
-        // Ordenamiento
-        $orden = $request->get('orden', 'fecha_entrega');
-        $direccion = $request->get('direccion', 'desc');
-        $query->orderBy($orden, $direccion);
-        
-        $actas = $query->paginate(10)->appends($request->except('page'));
-        
-        $programadores = Programador::all();
-        $tiposServidor = ['desarrollo', 'produccion'];
-        
-        return view('actas.index', compact('actas', 'programadores', 'tiposServidor'));
-    }
+      $this->authorizeRole(['admin', 'consultor']);
+    
+      $query = Acta::with(['programador', 'servidor', 'usuario']);
+    
+      // Filtros
+      if ($request->filled('fecha_desde')) {
+          $query->where('fecha_entrega', '>=', $request->fecha_desde);
+      }
+    
+      if ($request->filled('fecha_hasta')) {
+          $query->where('fecha_entrega', '<=', $request->fecha_hasta);
+      }
+    
+      if ($request->filled('programador_id')) {
+          $query->where('programador_id', $request->programador_id);
+      }
+    
+      if ($request->filled('servidor_tipo')) {
+          $query->whereHas('servidor', function ($q) use ($request) {
+              $q->where('tipo', $request->servidor_tipo);
+          });
+      }
+    
+      if ($request->filled('buscar')) {
+          $buscar = $request->buscar;
+          $query->where(function ($q) use ($buscar) {
+              $q->whereHas('programador', function ($qp) use ($buscar) {
+                  $qp->where('nombre', 'LIKE', "%{$buscar}%")
+                    ->orWhere('correo', 'LIKE', "%{$buscar}%");
+              })
+              ->orWhereHas('servidor', function ($qs) use ($buscar) {
+                  $qs->where('sistema_operativo', 'LIKE', "%{$buscar}%")
+                    ->orWhere('cpu', 'LIKE', "%{$buscar}%")
+                    ->orWhere('ram', 'LIKE', "%{$buscar}%")
+                    ->orWhere('disco', 'LIKE', "%{$buscar}%")
+                    ->orWhere('nombre', 'LIKE', "%{$buscar}%")
+                    ->orWhere('notas_tecnicas', 'LIKE', "%{$buscar}%");
+              })
+              ->orWhere('observaciones', 'LIKE', "%{$buscar}%");
+          });
+      }
+    
+      // Ordenamiento
+      $orden = $request->get('orden', 'fecha_entrega');
+      $direccion = $request->get('direccion', 'desc');
+      $query->orderBy($orden, $direccion);
+    
+      $actas = $query->paginate(10)->appends($request->except('page'));
+    
+      $programadores = Programador::all();
+      $tiposServidor = ['desarrollo', 'produccion'];
+    
+      return view('actas.index', compact('actas', 'programadores', 'tiposServidor'));
+  }
 
     public function create()
     {
