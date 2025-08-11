@@ -11,6 +11,9 @@
                     <a href="{{ route('actas.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Nueva Acta
                     </a>
+		    <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-success ms-2">
+	                <i class="fas fa-upload"></i> Cargar Acta Existente
+	            </a>
                     @endif
                 </div>
                 <div class="card-body">

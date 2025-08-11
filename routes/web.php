@@ -36,4 +36,16 @@ Route::middleware(['auth'])->group(function () {
 Route::get('test-acta', [ActaController::class, 'test']);
 Route::get('prueba-cargar', [ActaController::class, 'showCargarExistente']);
 
+// Ruta especial para que administradores registren nuevos usuarios
+Route::get('/admin/register', function () {
+    // Verificar que el usuario sea administrador
+    if (!auth()->check() || !auth()->user()->isAdmin()) {
+        abort(403, 'No tienes permisos para acceder a esta sección.');
+    }
+    return view('auth.register-admin');
+})->name('admin.register')->middleware('auth');
+
+// Ruta especial para que administradores registren nuevos usuarios
+Route::post('/admin/register', [App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.register.store')->middleware('auth');
+
 require __DIR__.'/auth.php';

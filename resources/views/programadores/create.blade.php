@@ -87,9 +87,9 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="telefono" class="form-label">Observaciones (opcional)</label>
+                            <label for="telefono" class="form-label">Telefono</label>
                             <input type="text" class="form-control @error('telefono') is-invalid @enderror" 
-                                   id="telefono" name="telefono" value="{{ old('telefono') }}">
+                                   id="telefono" name="telefono" value="{{ old('telefono') }}" placeholder="Particular o fono IP (opcional)">
                             @error('telefono')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

@@ -17,34 +17,39 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
-    {
-        return view('auth.register');
+
+public function store(Request $request): RedirectResponse
+{
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        'rol' => ['required', 'string', 'in:admin,consultor'],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'rol' => $request->rol,
+        'password' => Hash::make($request->password),
+    ]);
+
+    // No iniciar sesión automáticamente cuando un administrador registra a otro usuario
+    // Solo redirigir al dashboard con mensaje de éxito
+    if (Auth::check() && Auth::user()->isAdmin()) {
+        return redirect()->route('dashboard')->with('success', 'Usuario registrado exitosamente.');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+    // Log para debugging
+    \Log::info('Usuario creado:', ['user_id' => $user->id, 'email' => $user->email, 'rol' => $user->rol]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    // Si por alguna razón un usuario no autenticado se registra, iniciar sesión
+    event(new Registered($user));
+    Auth::login($user);
+    
+    return redirect()->route('dashboard');
+}
 
-        event(new Registered($user));
 
-        Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
-    }
 }
