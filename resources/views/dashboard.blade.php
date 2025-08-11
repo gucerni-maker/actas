@@ -19,79 +19,127 @@
             </div>
         </div>
     </div>
-    
-    <!-- Resto del contenido del dashboard permanece igual -->
-    <div class="row">
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2 dashboard-card">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total Actas
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalActas }}</div>
-                            <div class="mt-2">
-                                <a href="{{ route('actas.index') }}" class="btn btn-sm btn-outline-primary">
-                                    Ver todas
-                                </a>
-                            </div>
+
+
+<div class="row mb-4">
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2 dashboard-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Actas
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-file-contract fa-2x text-gray-300"></i>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalActas }}</div>
+                        <div class="mt-2">
+                            <a href="{{ route('actas.index') }}" class="btn btn-sm btn-outline-primary">
+                                Ver todas
+                            </a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2 dashboard-card">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Programadores
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalProgramadores }}</div>
-                            <div class="mt-2">
-                                <a href="{{ route('programadores.index') }}" class="btn btn-sm btn-outline-success">
-                                    Ver todos
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2 dashboard-card">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Servidores
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalServidores }}</div>
-                            <div class="mt-2">
-                                <a href="{{ route('servidores.index') }}" class="btn btn-sm btn-outline-info">
-                                    Ver todos
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-server fa-2x text-gray-300"></i>
-                        </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file-contract fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2 dashboard-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Programadores
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalProgramadores }}</div>
+                        <div class="mt-2">
+                            <a href="{{ route('programadores.index') }}" class="btn btn-sm btn-outline-success">
+                                Ver todos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2 dashboard-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Servidores
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalServidores }}</div>
+                        <div class="mt-2">
+                            <a href="{{ route('servidores.index') }}" class="btn btn-sm btn-outline-info">
+                                Ver todos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-server fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NUEVAS TARJETAS PARA USUARIOS -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2 dashboard-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Administradores
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalAdministradores }}</div>
+                        <div class="mt-2">
+                            <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-warning">
+                                Ver todos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-cog fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2 dashboard-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                            Consultores
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalConsultores }}</div>
+                        <div class="mt-2">
+                            <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-danger">
+                                Ver todos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
