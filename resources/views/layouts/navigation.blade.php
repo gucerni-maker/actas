@@ -37,6 +37,16 @@
                         <i class="fas fa-file-contract me-1"></i> {{ __('Actas') }}
                     </x-nav-link>
                 </li>
+
+		<!-- Agregar esta sección para usuarios administradores -->
+		@if(Auth::check() && Auth::user()->isAdmin())
+		<li class="nav-item">
+		    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="nav-link">
+		        <i class="fas fa-users-cog me-1"></i> {{ __('Usuarios') }}
+		    </x-nav-link>
+		</li>
+		@endif
+
             </ul>
 
             <!-- Menú de usuario -->
