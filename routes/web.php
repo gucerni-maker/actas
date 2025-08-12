@@ -57,4 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::put('users/{user}/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('users.change-password');
 });
 
+// Rutas para filtrar usuarios por rol
+Route::middleware('auth')->group(function () {
+    Route::get('users/administradores', [App\Http\Controllers\UserController::class, 'administradores'])->name('users.administradores');
+    Route::get('users/consultores', [App\Http\Controllers\UserController::class, 'consultores'])->name('users.consultores');
+});
+
+
 require __DIR__.'/auth.php';

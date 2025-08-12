@@ -6,10 +6,26 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Lista de Usuarios</h5>
-                    <a href="{{ route('admin.register') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Nuevo Usuario
-                    </a>
+                    <h5 class="mb-0">
+                        @if(isset($filtro) && $filtro == 'administradores')
+                            Lista de Administradores
+                        @elseif(isset($filtro) && $filtro == 'consultores')
+                            Lista de Consultores
+                        @else
+                            Lista de Usuarios
+                        @endif
+                    </h5>
+                    <div>
+                        @if(!isset($filtro) || (isset($filtro) && $filtro != 'administradores' && $filtro != 'consultores'))
+                            <a href="{{ route('admin.register') }}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Nuevo Usuario
+                            </a>
+                        @else
+                            <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-list"></i> Todos los Usuarios
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 <div class="card-body">
                     @if(session('success'))
@@ -24,6 +40,18 @@
                         </div>
                     @endif
 
+                    <!-- Filtros rápidos -->
+                    @if(!isset($filtro))
+                    <div class="mb-3">
+                        <a href="{{ route('users.administradores') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-user-cog"></i> Solo Administradores
+                        </a>
+                        <a href="{{ route('users.consultores') }}" class="btn btn-outline-secondary btn-sm ms-2">
+                            <i class="fas fa-user-tie"></i> Solo Consultores
+                        </a>
+                    </div>
+                    @endif
+
                     @if($users->count() > 0)
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
@@ -34,7 +62,9 @@
                                         <th>Email</th>
                                         <th>Rol</th>
                                         <th>Fecha de Registro</th>
+                                        @if(!isset($filtro))
                                         <th>Acciones</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,6 +79,7 @@
                                                 </span>
                                             </td>
                                             <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                            @if(!isset($filtro))
                                             <td>
                                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit"></i> Editar
@@ -64,6 +95,7 @@
                                                 </form>
                                                 @endif
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

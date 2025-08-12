@@ -90,4 +90,29 @@ class UserController extends Controller
         return redirect()->route('users.index')
                         ->with('success', 'Contraseña actualizada exitosamente.');
     }
+
+public function administradores()
+{
+    // Verificar que el usuario sea administrador
+    if (!auth()->check() || !auth()->user()->isAdmin()) {
+        abort(403, 'No tienes permisos para acceder a esta sección.');
+    }
+    
+    $users = User::where('rol', 'admin')->paginate(10);
+    $filtro = 'administradores';
+    return view('users.index', compact('users', 'filtro'));
+}
+
+public function consultores()
+{
+    // Verificar que el usuario sea administrador
+    if (!auth()->check() || !auth()->user()->isAdmin()) {
+        abort(403, 'No tienes permisos para acceder a esta sección.');
+    }
+    
+    $users = User::where('rol', 'consultor')->paginate(10);
+    $filtro = 'consultores';
+    return view('users.index', compact('users', 'filtro'));
+}
+
 }

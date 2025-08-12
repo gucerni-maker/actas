@@ -102,7 +102,7 @@
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalAdministradores }}</div>
                         <div class="mt-2">
-                            <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-warning">
+			    <a href="{{ route('users.administradores') }}" class="btn btn-sm btn-outline-warning">
                                 Ver todos
                             </a>
                         </div>
@@ -125,7 +125,7 @@
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalConsultores }}</div>
                         <div class="mt-2">
-                            <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-danger">
+			    <a href="{{ route('users.consultores') }}" class="btn btn-sm btn-outline-danger">
                                 Ver todos
                             </a>
                         </div>
