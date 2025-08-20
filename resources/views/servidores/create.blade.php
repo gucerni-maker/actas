@@ -12,11 +12,20 @@
                     <form action="{{ route('servidores.store') }}" method="POST">
                         @csrf
 
-		        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre/Identificador</label>
+		                <div class="mb-3">
+                            <label for="nombre" class="form-label">Direccion IP</label>
                             <input type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                   id="nombre" name="nombre" value="{{ old('nombre') }}" placeholder="Ej: Servidor Web Principal">
+                                   id="nombre" name="nombre" value="{{ old('nombre') }}" placeholder="Ej: 172.21.100.10">
                             @error('nombre')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notas_tecnicas" class="form-label">Notas</label>
+                            <textarea class="form-control @error('notas_tecnicas') is-invalid @enderror"
+                                      id="notas_tecnicas" name="notas_tecnicas" rows="4" placeholder="Depto.Destino, nro. doe o cualquier dato relevante">{{ old('notas_tecnicas') }}</textarea>
+                            @error('notas_tecnicas')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -66,15 +75,6 @@
                             <input type="text" class="form-control @error('disco') is-invalid @enderror"
                                    id="disco" name="disco" value="{{ old('disco') }}" required placeholder="Ej: 500GB SSD">
                             @error('disco')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="notas_tecnicas" class="form-label">Notas Técnicas</label>
-                            <textarea class="form-control @error('notas_tecnicas') is-invalid @enderror"
-                                      id="notas_tecnicas" name="notas_tecnicas" rows="4">{{ old('notas_tecnicas') }}</textarea>
-                            @error('notas_tecnicas')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

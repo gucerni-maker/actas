@@ -55,21 +55,22 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // Verificar que el usuario sea administrador
+            // Verificar que el usuario sea administrador
         if (!auth()->check() || !auth()->user()->isAdmin()) {
             abort(403, 'No tienes permisos para acceder a esta sección.');
         }
-        
-        // Evitar que un usuario se elimine a sí mismo
+
+        // Evitar que un usuario se desactive a sí mismo
         if ($user->id === auth()->id()) {
             return redirect()->route('users.index')
-                            ->with('error', 'No puedes eliminarte a ti mismo.');
+                            ->with('error', 'No puedes desactivarte a ti mismo.');
         }
 
-        $user->delete();
+        // Desactivar el usuario en lugar de eliminarlo
+        $user->update(['activo' => false]);
 
         return redirect()->route('users.index')
-                        ->with('success', 'Usuario eliminado exitosamente.');
+                        ->with('success', 'Usuario desactivado exitosamente.');
     }
 
     public function changePassword(Request $request, User $user)
@@ -91,28 +92,42 @@ class UserController extends Controller
                         ->with('success', 'Contraseña actualizada exitosamente.');
     }
 
-public function administradores()
-{
-    // Verificar que el usuario sea administrador
-    if (!auth()->check() || !auth()->user()->isAdmin()) {
-        abort(403, 'No tienes permisos para acceder a esta sección.');
+    public function administradores()
+    {
+        // Verificar que el usuario sea administrador
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            abort(403, 'No tienes permisos para acceder a esta sección.');
+        }
+        
+        $users = User::where('rol', 'admin')->paginate(10);
+        $filtro = 'administradores';
+        return view('users.index', compact('users', 'filtro'));
     }
     
-    $users = User::where('rol', 'admin')->paginate(10);
-    $filtro = 'administradores';
-    return view('users.index', compact('users', 'filtro'));
-}
-
-public function consultores()
-{
-    // Verificar que el usuario sea administrador
-    if (!auth()->check() || !auth()->user()->isAdmin()) {
-        abort(403, 'No tienes permisos para acceder a esta sección.');
+    public function consultores()
+    {
+        // Verificar que el usuario sea administrador
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            abort(403, 'No tienes permisos para acceder a esta sección.');
+        }
+        
+        $users = User::where('rol', 'consultor')->paginate(10);
+        $filtro = 'consultores';
+        return view('users.index', compact('users', 'filtro'));
     }
     
-    $users = User::where('rol', 'consultor')->paginate(10);
-    $filtro = 'consultores';
-    return view('users.index', compact('users', 'filtro'));
-}
+    public function reactivar(User $user)
+    {
+        // Verificar que el usuario sea administrador
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            abort(403, 'No tienes permisos para acceder a esta sección.');
+        }
+        
+        // Reactivar el usuario
+        $user->update(['activo' => true]);
+    
+        return redirect()->route('users.index')
+                        ->with('success', 'Usuario reactivado exitosamente.');
+    }
 
 }

@@ -7,12 +7,38 @@ use Illuminate\Http\Request;
 
 class ProgramadorController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
         $this->authorizeRole(['admin', 'consultor']);
-        $programadores = Programador::paginate(10);
+        
+        $query = Programador::query();
+        
+        // Filtro de búsqueda
+        if ($request->filled('buscar')) {
+            $buscar = $request->buscar;
+            $query->where(function ($q) use ($buscar) {
+                $q->where('nombre', 'LIKE', "%{$buscar}%")
+                  ->orWhere('correo', 'LIKE', "%{$buscar}%")
+                  ->orWhere('cargo', 'LIKE', "%{$buscar}%")
+                  ->orWhere('telefono', 'LIKE', "%{$buscar}%")
+                  ->orWhere('codigo_programador', 'LIKE', "%{$buscar}%")
+                  ->orWhere('oficina', 'LIKE', "%{$buscar}%")
+                  ->orWhere('departamento', 'LIKE', "%{$buscar}%")
+                  ->orWhere('rut', 'LIKE', "%{$buscar}%");
+            });
+        }
+        
+        // Ordenamiento
+        $orden = $request->get('orden', 'nombre');
+        $direccion = $request->get('direccion', 'asc');
+        $query->orderBy($orden, $direccion);
+        
+        $programadores = $query->paginate(10)->appends($request->except('page'));
+        
         return view('programadores.index', compact('programadores'));
     }
+
 
     public function create()
     {
@@ -23,7 +49,7 @@ class ProgramadorController extends Controller
     public function store(Request $request)
     {
         $this->authorizeRole(['admin']);
-        
+
         $request->validate([
             'nombre' => 'required|string|max:255',
             'correo' => 'required|email|unique:programadores,correo',

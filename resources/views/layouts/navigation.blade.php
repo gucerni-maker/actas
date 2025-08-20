@@ -22,7 +22,7 @@
                 
                 <li class="nav-item">
                     <x-nav-link :href="route('programadores.index')" :active="request()->routeIs('programadores.*')" class="nav-link">
-                        <i class="fas fa-users me-1"></i> {{ __('Programadores') }}
+                        <i class="fas fa-users me-1"></i> {{ __('Encargados') }}
                     </x-nav-link>
                 </li>
                 

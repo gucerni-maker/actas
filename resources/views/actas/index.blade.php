@@ -24,7 +24,7 @@
                             <div class="col-md-3">
                                 <label for="buscar" class="form-label">Buscar</label>
                                 <input type="text" class="form-control" id="buscar" name="buscar"
-                                       value="{{ request('buscar') }}" placeholder="Programador o servidor">
+                                       value="{{ request('buscar') }}" placeholder="Encargado o servidor">
                             </div>
                             <div class="col-md-2">
                                 <label for="fecha_desde" class="form-label">Fecha desde</label>
@@ -37,7 +37,7 @@
                                        value="{{ request('fecha_hasta') }}">
                             </div>
                             <div class="col-md-3">
-                                <label for="programador_id" class="form-label">Programador</label>
+                                <label for="programador_id" class="form-label">Encargado</label>
                                 <select class="form-control" id="programador_id" name="programador_id">
                                     <option value="">Todos</option>
                                     @foreach($programadores as $programador)
@@ -80,60 +80,46 @@
                                 <thead>
                                     <tr>
                                         <th>
-					   <a href="{{ route('actas.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'id', 'direccion' => request('orden') == 'id' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
-                                             ID @if(request('orden') == 'id') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
-                                           </a>
-					</th>
-                                        <th>
 					   <a href="{{ route('actas.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'fecha_entrega', 'direccion' => request('orden') == 'fecha_entrega' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
                                              Fecha Entrega @if(request('orden') == 'fecha_entrega') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                            </a>
 					</th>
-                                        <th>Programador</th>
+                                        <th>Encargado</th>
                                         <th>Servidor</th>
                                         <th>Tipo</th>
-					<th>Tipo Acta</th>
-                                        <th>Creada por</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($actas as $acta)
                                         <tr>
-                                            <td>{{ $acta->id }}</td>
-                                            <td>{{ $acta->fecha_entrega->format('d/m/Y') }}</td>
-                                            <td>{{ $acta->programador->nombre }}</td>
-                                            <td>{{ $acta->servidor->nombre }} - {{ $acta->servidor->sistema_operativo }}</td>
-                                            <td>
+                                            <td class="col-md-2">{{ $acta->fecha_entrega->format('d/m/Y') }}</td>
+                                            <td class="col-md-3">{{ $acta->programador->nombre }}</td>
+                                            <td class="col-md-3">{{ $acta->servidor->nombre }} - {{ $acta->servidor->sistema_operativo }}</td>
+                                            <td class="col-md-1">
                                                 <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
                                                     {{ ucfirst($acta->servidor->tipo) }}
                                                 </span>
                                             </td>
-                                            <td>
-                                               @if($acta->es_acta_existente)
-                                                   <span class="badge bg-secondary">Existente</span>
-                                               @else
-                                                   <span class="badge bg-primary">Generada</span>
-                                               @endif
-                                            </td>
 
-                                            <td>{{ $acta->usuario->name }}</td>
-                                            <td>
+                                            <td class="col-md-3">
+					      <div class="btn-group-horizontal btn-group-sm">
                                                 <a href="{{ route('actas.show', $acta) }}" class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i> Ver
+                                                    <i class="fas fa-eye"></i>
                                                 </a>
                                                 @if(Auth::user()->isAdmin())
                                                 <a href="{{ route('actas.edit', $acta) }}" class="btn btn-warning btn-sm">
-                                                    <i class="fas fa-edit"></i> Editar
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ route('actas.destroy', $acta) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta acta?')">
-                                                        <i class="fas fa-trash"></i> Eliminar
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
                                                 @endif
+					      </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -141,7 +127,7 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-center">
-                            {{ $actas->links() }}
+                            {{ $actas->links('pagination::bootstrap-5') }}
                         </div>
                     @else
                         <p>No hay actas registradas.</p>

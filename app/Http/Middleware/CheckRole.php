@@ -10,8 +10,16 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
+        // Verificar que el usuario esté autenticado
         if (!auth()->check()) {
             return redirect()->route('login');
+        }
+        
+        // Verificar que el usuario esté activo
+        if (!auth()->user()->isActivo()) {
+            auth()->logout();
+            return redirect()->route('login')
+                           ->with('error', 'Tu cuenta ha sido desactivada. Contacta al administrador del sistema.');
         }
 
         $user = auth()->user();

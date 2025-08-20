@@ -11,7 +11,7 @@
                 </div>
                 @if(Auth::user()->isAdmin())
                 <div>
-                    <a href="{{ route('admin.register') }}" class="btn btn-success">
+                    <a href="{{ route('admin.register') }}" class="btn btn-dark">
                         <i class="fas fa-user-plus"></i> Registrar Nuevo Usuario
                     </a>
                 </div>
@@ -27,12 +27,12 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                             Total Actas
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalActas }}</div>
                         <div class="mt-2">
-                            <a href="{{ route('actas.index') }}" class="btn btn-sm btn-outline-primary">
+                            <a href="{{ route('actas.index') }}" class="btn btn-sm btn-outline-danger">
                                 Ver todas
                             </a>
                         </div>
@@ -50,12 +50,12 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Programadores
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                            Encargados
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalProgramadores }}</div>
                         <div class="mt-2">
-                            <a href="{{ route('programadores.index') }}" class="btn btn-sm btn-outline-success">
+                            <a href="{{ route('programadores.index') }}" class="btn btn-sm btn-outline-danger">
                                 Ver todos
                             </a>
                         </div>
@@ -73,12 +73,12 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                             Servidores
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalServidores }}</div>
                         <div class="mt-2">
-                            <a href="{{ route('servidores.index') }}" class="btn btn-sm btn-outline-info">
+                            <a href="{{ route('servidores.index') }}" class="btn btn-sm btn-outline-danger">
                                 Ver todos
                             </a>
                         </div>
@@ -97,12 +97,12 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                             Administradores
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalAdministradores }}</div>
                         <div class="mt-2">
-			    <a href="{{ route('users.administradores') }}" class="btn btn-sm btn-outline-warning">
+			    <a href="{{ route('users.administradores') }}" class="btn btn-sm btn-outline-danger">
                                 Ver todos
                             </a>
                         </div>
@@ -144,15 +144,15 @@
         <div class="col-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">
+                    <h6 class="m-0 font-weight-bold text-body">
                         <i class="fas fa-history me-2"></i> Últimas Actas de Entrega
                     </h6>
                     @if(Auth::user()->isAdmin())
                     <div>
-                        <a href="{{ route('actas.create') }}" class="btn btn-primary btn-sm me-2">
+                        <a href="{{ route('actas.create') }}" class="btn btn-danger btn-sm me-2">
                             <i class="fas fa-plus me-1"></i> Nueva Acta
                         </a>
-                        <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-success btn-sm">
+                        <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-dark btn-sm">
                             <i class="fas fa-upload me-1"></i> Cargar Acta Existente
                         </a>
                     </div>
@@ -165,7 +165,7 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Programador</th>
+                                        <th>Encargado</th>
                                         <th>Servidor</th>
                                         <th>Tipo</th>
                                         <th>Acciones</th>

@@ -6,14 +6,14 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Crear Nuevo Programador</h5>
+                    <h5 class="mb-0">Crear Nuevo Encargado</h5>
                 </div>
                 <div class="card-body">
                     <!-- Campo de búsqueda por RUT -->
                     <div class="mb-4">
                         <label for="buscar_rut" class="form-label">Buscar por RUT</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="buscar_rut" placeholder="Ingrese el RUT del programador (sin puntos y sin guión)">
+                            <input type="text" class="form-control" id="buscar_rut" placeholder="Ingrese el RUT del encargado (sin puntos y sin guión)">
                             <button class="btn btn-outline-secondary" type="button" id="btn_buscar_rut">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
@@ -100,7 +100,7 @@
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Guardar Programador
+                                <i class="fas fa-save"></i> Guardar Encargado
                             </button>
                         </div>
                     </form>

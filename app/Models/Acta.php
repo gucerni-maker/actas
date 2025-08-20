@@ -15,16 +15,22 @@ class Acta extends Model
         'fecha_entrega',
         'observaciones',
         'archivo_pdf',
-	'es_acta_existente',
+	    'es_acta_existente',
         'programador_id',
         'servidor_id',
         'usuario_id',
+        'comuna', 
+        'oficina_origen', 
+        'oficina_destino',
+        'texto_introduccion', 
+        'texto_confidencialidad',
     ];
 
     protected $casts = [
         'fecha_entrega' => 'date',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'es_acta_existente' => 'boolean',
     ];
 
     // Relaciones

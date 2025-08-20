@@ -35,10 +35,10 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="programador_id" class="form-label">Programador *</label>
+                            <label for="programador_id" class="form-label">Encargado *</label>
                             <select class="form-control @error('programador_id') is-invalid @enderror" 
                                     id="programador_id" name="programador_id" required>
-                                <option value="">Seleccione un programador</option>
+                                <option value="">Seleccione un encargado</option>
                                 @foreach($programadores as $programador)
                                     <option value="{{ $programador->id }}" {{ old('programador_id') == $programador->id ? 'selected' : '' }}>
                                         {{ $programador->nombre }} ({{ $programador->correo }})

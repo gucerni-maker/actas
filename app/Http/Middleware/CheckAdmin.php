@@ -10,7 +10,20 @@ class CheckAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->rol !== 'admin') {
+        // Verificar que el usuario esté autenticado
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        
+        // Verificar que el usuario esté activo
+        if (!auth()->user()->isActivo()) {
+            auth()->logout();
+            return redirect()->route('login')
+                           ->with('error', 'Tu cuenta ha sido desactivada. Contacta al administrador del sistema.');
+        }
+        
+        // Verificar que el usuario tenga rol de administrador
+        if (auth()->user()->rol !== 'admin') {
             return redirect()->route('dashboard')
                            ->with('error', 'No tienes permisos para acceder a esta sección.');
         }

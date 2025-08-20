@@ -7,10 +7,34 @@ use Illuminate\Http\Request;
 
 class ServidorController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
         $this->authorizeRole(['admin', 'consultor']);
-        $servidores = Servidor::paginate(10);
+        
+        $query = Servidor::query();
+        
+        // Filtro de búsqueda
+        if ($request->filled('buscar')) {
+            $buscar = $request->buscar;
+            $query->where(function ($q) use ($buscar) {
+                $q->where('nombre', 'LIKE', "%{$buscar}%")
+                  ->orWhere('sistema_operativo', 'LIKE', "%{$buscar}%")
+                  ->orWhere('cpu', 'LIKE', "%{$buscar}%")
+                  ->orWhere('ram', 'LIKE', "%{$buscar}%")
+                  ->orWhere('disco', 'LIKE', "%{$buscar}%")
+                  ->orWhere('notas_tecnicas', 'LIKE', "%{$buscar}%")
+                  ->orWhere('tipo', 'LIKE', "%{$buscar}%");
+            });
+        }
+        
+        // Ordenamiento
+        $orden = $request->get('orden', 'nombre');
+        $direccion = $request->get('direccion', 'asc');
+        $query->orderBy($orden, $direccion);
+        
+        $servidores = $query->paginate(10)->appends($request->except('page'));
+        
         return view('servidores.index', compact('servidores'));
     }
 

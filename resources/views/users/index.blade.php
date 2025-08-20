@@ -57,10 +57,10 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Email</th>
                                         <th>Rol</th>
+                                        <th>Estado</th>
                                         <th>Fecha de Registro</th>
                                         @if(!isset($filtro))
                                         <th>Acciones</th>
@@ -70,31 +70,53 @@
                                 <tbody>
                                     @foreach($users as $user)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
+                                            
                                             <td>
                                                 <span class="badge bg-{{ $user->rol == 'admin' ? 'primary' : 'secondary' }}">
                                                     {{ ucfirst($user->rol) }}
                                                 </span>
                                             </td>
+
+                                            <td>
+                                                @if($user->isActivo())
+                                                    <span class="badge bg-success">Activo</span>
+                                                @else
+                                                    <span class="badge bg-danger">Inactivo</span>
+                                                @endif
+                                            </td>
+
                                             <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
                                             @if(!isset($filtro))
+                                           
                                             <td>
                                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit"></i> Editar
                                                 </a>
                                                 @if($user->id !== auth()->id())
-                                                <form action="{{ route('users.destroy', $user) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" 
-                                                            onclick="return confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.')">
-                                                        <i class="fas fa-trash"></i> Eliminar
-                                                    </button>
-                                                </form>
+                                                    @if($user->isActivo())
+                                                        <form action="{{ route('users.destroy', $user) }}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm" 
+                                                                    onclick="return confirm('¿Estás seguro de desactivar este usuario?')">
+                                                                <i class="fas fa-user-slash"></i> Desactivar
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('users.reactivar', $user) }}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="submit" class="btn btn-success btn-sm" 
+                                                                    onclick="return confirm('¿Estás seguro de reactivar este usuario?')">
+                                                                <i class="fas fa-user-check"></i> Reactivar
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 @endif
                                             </td>
+
                                             @endif
                                         </tr>
                                     @endforeach
@@ -102,7 +124,7 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-center">
-                            {{ $users->links() }}
+                            {{ $users->links('pagination::bootstrap-5') }}
                         </div>
                     @else
                         <p>No hay usuarios registrados.</p>

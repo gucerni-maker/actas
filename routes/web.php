@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActaController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProgramadorController;
 use App\Http\Controllers\ServidorController;
@@ -45,6 +46,11 @@ Route::get('/admin/register', function () {
     return view('auth.register-admin');
 })->name('admin.register')->middleware('auth');
 
+// Ruta para buscar programadores por RUT en el registro de usuarios
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/usuarios/buscar-por-rut/{rut}', [App\Http\Controllers\AdminUserController::class, 'buscarPorRut'])->name('admin.usuarios.buscar-por-rut');
+});
+
 // Ruta especial para que administradores registren nuevos usuarios
 Route::post('/admin/register', [App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.register.store')->middleware('auth');
 
@@ -63,5 +69,14 @@ Route::middleware('auth')->group(function () {
     Route::get('users/consultores', [App\Http\Controllers\UserController::class, 'consultores'])->name('users.consultores');
 });
 
+// Rutas para gestión de usuarios (solo administradores)
+Route::middleware('auth')->group(function () {
+    Route::get('users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::get('users/{user}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+    Route::put('users/{user}/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('users.change-password');
+    Route::put('users/{user}/reactivar', [App\Http\Controllers\UserController::class, 'reactivar'])->name('users.reactivar');
+});
 
 require __DIR__.'/auth.php';

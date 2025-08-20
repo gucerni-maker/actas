@@ -16,6 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'rol',
+        'activo',
     ];
 
     protected $hidden = [
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'rol' => 'string',
+        'activo' => 'boolean',
     ];
 
     // Relación: Un usuario puede crear múltiples actas
@@ -45,5 +47,11 @@ class User extends Authenticatable
     public function isConsultor()
     {
         return $this->rol === 'consultor';
+    }
+
+    // Verificar si el usuario está activo
+    public function isActivo()
+    {
+        return $this->activo === true;
     }
 }
