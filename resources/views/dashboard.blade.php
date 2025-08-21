@@ -178,12 +178,12 @@
                                             <td>{{ $acta->programador->nombre }}</td>
                                             <td>{{ $acta->servidor->sistema_operativo }} - {{ $acta->servidor->cpu }}</td>
                                             <td>
-                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
+                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'black' }}">
                                                     {{ ucfirst($acta->servidor->tipo) }}
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-info btn-sm">
+                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-secondary btn-sm">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>

@@ -22,9 +22,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="notas_tecnicas" class="form-label">Notas</label>
-                            <textarea class="form-control @error('notas_tecnicas') is-invalid @enderror"
-                                      id="notas_tecnicas" name="notas_tecnicas" rows="4" placeholder="Depto.Destino, nro. doe o cualquier dato relevante">{{ old('notas_tecnicas') }}</textarea>
+                            <label for="notas_tecnicas" class="form-label">Reparticion</label>
+                            <input type="text" class="form-control @error('notas_tecnicas') is-invalid @enderror"
+                                      id="notas_tecnicas" name="notas_tecnicas" rows="4" placeholder="Reparticion de destino.">
                             @error('notas_tecnicas')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -83,7 +83,7 @@
                             <a href="{{ route('servidores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark">
                                 <i class="fas fa-save"></i> Guardar Servidor
                             </button>
                         </div>

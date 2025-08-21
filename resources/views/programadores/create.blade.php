@@ -58,16 +58,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="departamento" class="form-label">Otros datos relevantes (opcional)</label>
-                            <input type="text" class="form-control @error('departamento') is-invalid @enderror" 
-                                   id="departamento" name="departamento" value="{{ old('departamento') }}">
-                            @error('departamento')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
+                                                
                         <div class="mb-3">
                             <label for="rut" class="form-label">RUT *</label>
                             <input type="text" class="form-control @error('rut') is-invalid @enderror" 
@@ -85,21 +76,12 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="telefono" class="form-label">Telefono</label>
-                            <input type="text" class="form-control @error('telefono') is-invalid @enderror" 
-                                   id="telefono" name="telefono" value="{{ old('telefono') }}" placeholder="Particular o fono IP (opcional)">
-                            @error('telefono')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
+                                                
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('programadores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark">
                                 <i class="fas fa-save"></i> Guardar Encargado
                             </button>
                         </div>

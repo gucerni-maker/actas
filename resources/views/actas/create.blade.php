@@ -94,25 +94,25 @@
                         <div class="mb-3">
                             <label for="texto_confidencialidad" class="form-label">Texto Confidencialidad</label>
                             <textarea class="form-control @error('texto_confidencialidad') is-invalid @enderror" 
-                                        id="texto_confidencialidad" name="texto_confidencialidad" rows="4" placeholder="Texto sobre confidencialidad...">{{ old('texto_confidencialidad', 'Se hace presente la confidencialidad que se debe tener sobre la información que se hace entrega y el resguardo de la misma. Atendido a lo dispuesto en la Ley N° 21459 relativa a delitos informáticos, Ley Nº 19.628 sobre protección de la vida privada o protección de datos de carácter personal, Ley 20.285 acceso a la información pública y Artículo 436 código justicia militar.') }}</textarea>
+                                        id="texto_confidencialidad" name="texto_confidencialidad" rows="4" placeholder="Texto sobre confidencialidad...">{{ old('texto_confidencialidad','Las credenciales de acceso al servidor por SSH serán enviadas mediante correo electrónico, una vez que la presente acta sea firmada por la persona responsable de administrar dicho servidor. Una vez recibida las credenciales de acceso, éstas deben ser modificadas para que no exista conflicto de responsabilidades. Lo anterior ya que solamente una entidad puede ser administradora del servidor. Siendo responsable de su seguridad.
+
+Los servidores virtuales son asignados a la repartición que lo solicita, no al usuario que los administra. Por lo tanto, si el usuario cambia de repartición, no puede trasladar consigo la administración del servidor virtual. Debe entregárselo a otro profesional e informar lo anterior.
+
+Los servidores virtuales deben ser utilizados únicamente para los fines que fueron solicitados, ya sea para entornos de desarrollo o de producción. Se informa que los servidores en ambiente de desarrollo no cuentan con respaldos bajo ninguna circunstancia, mientas que los servidores en ambiente productivo se respaldan según los recursos disponibles.
+
+Los servidores virtuales en ambiente de desarrollo que no registren actividad durante un periodo superior a 150 días serán eliminados sin consulta ni previo aviso. En el caso de servidores en ambiente productivo, se dará aviso previo al administrador por DOE. Lo anterior con el fin de priorizar el uso eficiente de los recursos de espacio en disco, memoria ram y cpu.
+
+Se hace presente la confidencialidad que se debe tener sobre la información que se hace entrega y el resguardo de la misma. Atendido a lo dispuesto en la Ley N° 21459 relativa a delitos informáticos, Ley No 19.628 sobre protección de la vida privada o protección de datos de carácter personal, Ley 20.285 acceso a la información pública y Artículo 436 código justicia militar.') }} </textarea>
                             @error('texto_confidencialidad')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="mb-3">
-                            <label for="observaciones" class="form-label">Observaciones</label>
-                            <textarea class="form-control @error('observaciones') is-invalid @enderror" 
-                                      id="observaciones" name="observaciones" rows="4">{{ old('observaciones') }}</textarea>
-                            @error('observaciones')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>                                            
+                                           
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('actas.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark">
                                 <i class="fas fa-save"></i> Guardar Acta
                             </button>
                         </div>

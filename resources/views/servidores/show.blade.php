@@ -42,7 +42,7 @@
                             <td>{{ $servidor->disco }}</td>
                         </tr>
                         <tr>
-                            <th>Notas Técnicas:</th>
+                            <th>Reparticion:</th>
                             <td>{{ $servidor->notas_tecnicas ?? 'N/A' }}</td>
                         </tr>
                         <tr>

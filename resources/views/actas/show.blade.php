@@ -31,7 +31,7 @@
 	              			@if($acta->es_acta_existente)
                                           <span class="badge bg-secondary">Acta Existente Cargada</span>
                                        @else
-                                          <span class="badge bg-primary">Acta Generada por Sistema</span>
+                                          <span class="badge bg-secondary">Acta Generada por Sistema</span>
                                        @endif
 				    </td>
 				</tr>
@@ -58,10 +58,6 @@
                                     <th>Cargo:</th>
                                     <td>{{ $acta->programador->cargo }}</td>
                                 </tr>
-                                <tr>
-                                    <th>Teléfono:</th>
-                                    <td>{{ $acta->programador->telefono ?? 'N/A' }}</td>
-                                </tr>
                             </table>
                         </div>
                     </div>
@@ -73,7 +69,7 @@
                                 <tr>
                                     <th>Tipo:</th>
                                     <td>
-                                        <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
+                                        <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'dark' }}">
                                             {{ ucfirst($acta->servidor->tipo) }}
                                         </span>
                                     </td>
@@ -102,12 +98,6 @@
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h6><strong>Observaciones</strong></h6>
-                            <p>{{ $acta->observaciones ?? 'No hay observaciones.' }}</p>
-                        </div>
-                    </div>
 
 		   @if($acta->archivo_pdf)
 		     <div class="row">
@@ -117,10 +107,10 @@
                            @if($acta->es_acta_existente)
                              <span class="badge bg-secondary">Acta Existente Cargada</span>
                            @else
-                             <span class="badge bg-primary">Acta Generada por Sistema</span>
+                             <span class="badge bg-secondary">Acta Generada por Sistema</span>
                            @endif
                         </div>
-           	        <a href="{{ route('actas.pdf', $acta) }}" class="btn btn-success">
+           	        <a href="{{ route('actas.pdf', $acta) }}" class="btn btn-danger">
                           <i class="fas fa-file-pdf"></i> Descargar PDF
                         </a>
                       </div>
@@ -129,7 +119,7 @@
 
                     @if(Auth::user()->isAdmin())
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="{{ route('actas.edit', $acta) }}" class="btn btn-warning">
+                        <a href="{{ route('actas.edit', $acta) }}" class="btn btn-dark">
                             <i class="fas fa-edit"></i> Editar
                         </a>
                         

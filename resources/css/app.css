@@ -72,3 +72,28 @@
         font-size: 0.75rem;
     }
 }
+
+/* Personalización de paginación - Color negro */
+.pagination .page-link {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border-color: #000000 !important;
+}
+
+.pagination .page-link:hover {
+    color: #ffffff !important;
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.pagination .page-item.active .page-link {
+    color: #ffffff !important;
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d !important;
+    background-color: #ffffff !important;
+    border-color: #000000 !important;
+}

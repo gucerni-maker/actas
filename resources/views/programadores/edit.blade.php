@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Editar Programador</h5>
+                    <h5 class="mb-0">Editar Encargado</h5>
                     <a href="{{ route('programadores.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
@@ -42,22 +42,13 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control @error('telefono') is-invalid @enderror" 
-                                   id="telefono" name="telefono" value="{{ old('telefono', $programador->telefono) }}">
-                            @error('telefono')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
+                                                
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('programadores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Actualizar Programador
+                                <i class="fas fa-save"></i> Actualizar Encargado
                             </button>
                         </div>
                     </form>

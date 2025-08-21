@@ -6,10 +6,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Lista de Programadores</h5>
+                    <h5 class="mb-0">Lista de Encargados</h5>
                     @if(Auth::user()->isAdmin())
-                    <a href="{{ route('programadores.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Nuevo Programador
+                    <a href="{{ route('programadores.create') }}" class="btn btn-dark">
+                        <i class="fas fa-plus"></i> Nuevo Encargado
                     </a>
                     @endif
                 </div>
@@ -47,13 +47,12 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            <a href="{{ route('programadores.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'nombre', 'direccion' => request('orden') == 'nombre' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
+                                            <a class="text-dark" href="{{ route('programadores.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'nombre', 'direccion' => request('orden') == 'nombre' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
                                                 Nombre @if(request('orden') == 'nombre') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                             </a>
                                         </th>
                                         <th>Correo</th>
-                                        <th>Cargo</th>
-                                        <th>Teléfono</th>
+                                        <th>Grado</th>                                        
                                         @if(Auth::user()->isAdmin())
                                         <th>Acciones</th>
                                         @endif
@@ -65,20 +64,19 @@
                                             <td>{{ $programador->nombre }}</td>
                                             <td>{{ $programador->correo }}</td>
                                             <td>{{ $programador->cargo }}</td>
-                                            <td>{{ $programador->telefono ?? 'N/A' }}</td>
                                             @if(Auth::user()->isAdmin())
                                             <td>
                                                 <div class="d-flex gap-1">
-                                                    <a href="{{ route('programadores.show', $programador) }}" class="btn btn-info btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                    <a href="{{ route('programadores.show', $programador) }}" class="btn btn-secondary btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-warning btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                    <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-dark btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     <form action="{{ route('programadores.destroy', $programador) }}" method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;" onclick="return confirm('¿Estás seguro de eliminar este programador?')">
+                                                        <button type="submit" class="btn btn-danger btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;" onclick="return confirm('¿Estás seguro de eliminar este encargado?')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -97,9 +95,9 @@
                         <div class="text-center py-5">
                             <i class="fas fa-users fa-3x text-muted mb-3"></i>
                             @if(request('buscar'))
-                                <p class="text-muted">No se encontraron programadores que coincidan con tu búsqueda.</p>
+                                <p class="text-muted">No se encontraron encargados que coincidan con tu búsqueda.</p>
                             @else
-                                <p class="text-muted">No hay programadores registrados.</p>
+                                <p class="text-muted">No hay encargados registrados.</p>
                             @endif
                         </div>
                     @endif

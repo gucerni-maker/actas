@@ -79,7 +79,7 @@
                             <a href="{{ route('actas.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark">
                                 <i class="fas fa-upload"></i> Cargar Acta
                             </button>
                         </div>

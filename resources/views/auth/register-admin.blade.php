@@ -114,7 +114,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-dark">
                                     <i class="fas fa-user-plus"></i> Registrar Usuario
                                 </button>
                                 <a href="{{ route('dashboard') }}" class="btn btn-secondary ms-2">

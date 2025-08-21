@@ -17,7 +17,7 @@
                     </h5>
                     <div>
                         @if(!isset($filtro) || (isset($filtro) && $filtro != 'administradores' && $filtro != 'consultores'))
-                            <a href="{{ route('admin.register') }}" class="btn btn-primary">
+                            <a href="{{ route('admin.register') }}" class="btn btn-dark">
                                 <i class="fas fa-plus"></i> Nuevo Usuario
                             </a>
                         @else
@@ -43,7 +43,7 @@
                     <!-- Filtros rápidos -->
                     @if(!isset($filtro))
                     <div class="mb-3">
-                        <a href="{{ route('users.administradores') }}" class="btn btn-outline-primary btn-sm">
+                        <a href="{{ route('users.administradores') }}" class="btn btn-outline-danger btn-sm">
                             <i class="fas fa-user-cog"></i> Solo Administradores
                         </a>
                         <a href="{{ route('users.consultores') }}" class="btn btn-outline-secondary btn-sm ms-2">
@@ -74,14 +74,14 @@
                                             <td>{{ $user->email }}</td>
                                             
                                             <td>
-                                                <span class="badge bg-{{ $user->rol == 'admin' ? 'primary' : 'secondary' }}">
+                                                <span class="badge bg-{{ $user->rol == 'admin' ? 'dark' : 'secondary' }}">
                                                     {{ ucfirst($user->rol) }}
                                                 </span>
                                             </td>
 
                                             <td>
                                                 @if($user->isActivo())
-                                                    <span class="badge bg-success">Activo</span>
+                                                    <span class="badge bg-dark">Activo</span>
                                                 @else
                                                     <span class="badge bg-danger">Inactivo</span>
                                                 @endif
@@ -91,8 +91,8 @@
                                             @if(!isset($filtro))
                                            
                                             <td>
-                                                <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">
-                                                    <i class="fas fa-edit"></i> Editar
+                                                <a href="{{ route('users.edit', $user) }}" class="btn btn-secondary btn-sm">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
                                                 @if($user->id !== auth()->id())
                                                     @if($user->isActivo())
@@ -108,9 +108,9 @@
                                                         <form action="{{ route('users.reactivar', $user) }}" method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('PUT')
-                                                            <button type="submit" class="btn btn-success btn-sm" 
+                                                            <button type="submit" class="btn btn-dark btn-sm" 
                                                                     onclick="return confirm('¿Estás seguro de reactivar este usuario?')">
-                                                                <i class="fas fa-user-check"></i> Reactivar
+                                                                <i class="fas fa-user-check"></i> Activar
                                                             </button>
                                                         </form>
                                                     @endif

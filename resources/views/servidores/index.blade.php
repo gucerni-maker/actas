@@ -8,7 +8,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Lista de Servidores</h5>
                     @if(Auth::user()->isAdmin())
-                    <a href="{{ route('servidores.create') }}" class="btn btn-primary">
+                    <a href="{{ route('servidores.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nuevo Servidor
                     </a>
                     @endif
@@ -47,7 +47,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            <a href="{{ route('servidores.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'nombre', 'direccion' => request('orden') == 'nombre' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
+                                            <a class="text-dark" href="{{ route('servidores.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'nombre', 'direccion' => request('orden') == 'nombre' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
                                                 IP @if(request('orden') == 'nombre') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                             </a>
                                         </th>
@@ -76,11 +76,11 @@
                                             <td>{{ $servidor->disco }}</td>
                                             <td>
                                                 <div class="d-flex gap-1">
-                                                    <a href="{{ route('servidores.show', $servidor) }}" class="btn btn-info btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                    <a href="{{ route('servidores.show', $servidor) }}" class="btn btn-secondary btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                     @if(Auth::user()->isAdmin())
-                                                    <a href="{{ route('servidores.edit', $servidor) }}" class="btn btn-warning btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                    <a href="{{ route('servidores.edit', $servidor) }}" class="btn btn-dark btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     <form action="{{ route('servidores.destroy', $servidor) }}" method="POST" style="display: inline;">

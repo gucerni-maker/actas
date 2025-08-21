@@ -80,7 +80,7 @@
     }
     
     .signature-section {
-        margin-top: 40px;
+        margin-top: 25px;
         width: 100%;
     }
     
@@ -97,7 +97,7 @@
     }
     
     .signature-line {
-        margin-top: 40px;
+        margin-top: 25px;
         border-top: 1px solid #333;
         padding-top: 5px;
     }
@@ -118,10 +118,12 @@
     <!-- Encabezado -->
     
     <div class="header">
-        <p>DEPTO. OPERACIONES T.I.C.</p>
-        <p>SECCIÓN GESTION DE SERVICIOS T.I.C.</p>
-        <p>OFICINA DE APLIC. Y BASES DE DATOS</p>
-        
+        <div style="text-align: left; display: inline-block; min-width: 300px;">
+            <p style="text-align: center; margin: 2px 0; font-size: 10px;">DEPTO. OPERACIONES T.I.C.</p>
+            <p style="text-align: center; margin: 2px 0; font-size: 10px;">SECCIÓN GESTION DE SERVICIOS T.I.C.</p>
+            <p style="text-align: center; margin: 2px 0; font-size: 10px;">OFICINA DE APLIC. Y BASES DE DATOS</p>
+        </div>
+
         <h1>ACTA DE ENTREGA</h1>
         
         <div class="location">
@@ -162,7 +164,7 @@
     
     <!-- Texto introducción -->    
     <div class="section">
-        <p>{{ $acta->texto_introduccion }}</p>
+        <p style="text-indent: 300px;">{{ $acta->texto_introduccion }}</p>
     </div>
     
     <!-- Características del servidor -->    
@@ -184,34 +186,39 @@
                 <th>Disco Duro:</th>
                 <td>{{ $acta->servidor->disco }}</td>
             </tr>
-            <tr>
-                <th>CPU:</th>
-                <td>{{ $acta->servidor->cpu }}</td>
-            </tr>
         </table>
     </div>
     
     <!-- Texto confidencialidad -->    
-    <div class="section">
-        <p>{{ $acta->texto_confidencialidad }}</p>
-    </div>
+@if($acta->texto_confidencialidad)
+<div class="section">
+    @php
+        // Separar párrafos y limpiar espacios
+        $parrafos = array_filter(array_map('trim', preg_split('/\n\s*\n/', $acta->texto_confidencialidad)));
+    @endphp
+    @foreach($parrafos as $parrafo)
+        <p style="text-align: justify; margin-bottom: 1em; line-height: 1.4;text-indent: 300px;">
+            {!! nl2br(e($parrafo)) !!}
+        </p>
+    @endforeach
+</div>
+@endif
     
     <!-- Firmas -->    
     <div class="signature-section">
         <div class="signature-box">
-            <p>ENTREGADO POR</p>
-            <div class="signature-line">{{ $acta->usuario->name }}</div>
-            <div>{{ $acta->oficina_origen }}</div>
+            <p class="signature-line">ENTREGADO POR</p>
+            <div style="font-weight: bold;">{{ $acta->usuario->name }}</div>
+            <div >{{ $acta->programador->cargo }}</div>
+            <div style="font-weight: bold;">{{ $acta->oficina_origen }}</div>
         </div>
         <div class="signature-box">
-            <p>RECEPCIONADO POR</p>
-            <div class="signature-line">{{ $acta->programador->nombre }}</div>
-            <div>{{ $acta->oficina_destino }}</div>
+            <p class="signature-line">RECEPCIONADO POR</p>
+            <div style="font-weight: bold;">{{ $acta->programador->nombre }}</div>
+            <div >{{ $acta->programador->cargo }}</div>
+            <div style="font-weight: bold;">{{ $acta->oficina_destino }}</div>
         </div>
     </div>
     
-    <div class="footer">
-        <p>Documento generado el {{ now()->format('d/m/Y H:i') }} - Sistema de Gestión de Actas</p>
-    </div>
 </body>
 </html>

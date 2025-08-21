@@ -95,7 +95,7 @@ public function index(Request $request)
                 'oficina_origen' => 'required|string|max:255',
                 'oficina_destino' => 'required|string|max:255',
                 'texto_introduccion' => 'required|string|max:1000',
-                'texto_confidencialidad' => 'required|string|max:1000',
+                'texto_confidencialidad' => 'required|string',
             ]);
 
             // Crear el registro de acta

@@ -8,10 +8,10 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Lista de Actas de Entrega</h5>
                     @if(Auth::user()->isAdmin())
-                    <a href="{{ route('actas.create') }}" class="btn btn-primary">
+                    <a href="{{ route('actas.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nueva Acta
                     </a>
-		    <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-success ms-2">
+		    <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-dark ms-2">
 	                <i class="fas fa-upload"></i> Cargar Acta Existente
 	            </a>
                     @endif
@@ -58,7 +58,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-dark">
                                     <i class="fas fa-search"></i> Filtrar
                                 </button>
                                 <a href="{{ route('actas.index') }}" class="btn btn-secondary">
@@ -80,7 +80,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-					   <a href="{{ route('actas.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'fecha_entrega', 'direccion' => request('orden') == 'fecha_entrega' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
+					   <a  class="text-dark" href="{{ route('actas.index', array_merge(request()->except('orden', 'direccion'), ['orden' => 'fecha_entrega', 'direccion' => request('orden') == 'fecha_entrega' && request('direccion') == 'asc' ? 'desc' : 'asc'])) }}">
                                              Fecha Entrega @if(request('orden') == 'fecha_entrega') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                            </a>
 					</th>
@@ -97,18 +97,18 @@
                                             <td class="col-md-3">{{ $acta->programador->nombre }}</td>
                                             <td class="col-md-3">{{ $acta->servidor->nombre }} - {{ $acta->servidor->sistema_operativo }}</td>
                                             <td class="col-md-1">
-                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
+                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'dark' }}">
                                                     {{ ucfirst($acta->servidor->tipo) }}
                                                 </span>
                                             </td>
 
                                             <td class="col-md-3">
 					      <div class="btn-group-horizontal btn-group-sm">
-                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-info btn-sm">
+                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-secondary btn-sm">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 @if(Auth::user()->isAdmin())
-                                                <a href="{{ route('actas.edit', $acta) }}" class="btn btn-warning btn-sm">
+                                                <a href="{{ route('actas.edit', $acta) }}" class="btn btn-dark btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ route('actas.destroy', $acta) }}" method="POST" style="display: inline;">
