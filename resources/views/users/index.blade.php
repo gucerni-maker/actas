@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
+                    <h5 class="mb-0 text-dark">
                         @if(isset($filtro) && $filtro == 'administradores')
                             Lista de Administradores
                         @elseif(isset($filtro) && $filtro == 'consultores')
@@ -57,13 +57,14 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Rol</th>
-                                        <th>Estado</th>
-                                        <th>Fecha de Registro</th>
+                                        <th class="text-dark">Nombre</th>
+                                        <th class="text-dark">Email</th>
+                                        <th class="text-dark">Rol</th>
+					<th class="text-dark">Cargo</th>
+                                        <th class="text-dark">Estado</th>
+                                        <th class="text-dark">Fecha de Registro</th>
                                         @if(!isset($filtro))
-                                        <th>Acciones</th>
+                                        <th class="text-dark">Acciones</th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -78,7 +79,7 @@
                                                     {{ ucfirst($user->rol) }}
                                                 </span>
                                             </td>
-
+					    <td>{{ $user->cargo ?? 'N/A' }}</td>
                                             <td>
                                                 @if($user->isActivo())
                                                     <span class="badge bg-dark">Activo</span>
@@ -108,7 +109,7 @@
                                                         <form action="{{ route('users.reactivar', $user) }}" method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('PUT')
-                                                            <button type="submit" class="btn btn-dark btn-sm" 
+                                                            <button type="submit" class="btn btn-dark btn-sm btn-outline-secondary" 
                                                                     onclick="return confirm('¿Estás seguro de reactivar este usuario?')">
                                                                 <i class="fas fa-user-check"></i> Activar
                                                             </button>

@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Cargar Acta Existente</h5>
+                    <h5 class="mb-0 text-dark">Cargar Acta Existente</h5>
                     <a href="{{ route('actas.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
@@ -56,7 +56,8 @@
                                     id="servidor_id" name="servidor_id" required>
                                 <option value="">Seleccione un servidor</option>
                                 @foreach($servidores as $servidor)
-                                    <option value="{{ $servidor->id }}" {{ old('servidor_id') == $servidor->id ? 'selected' : '' }}>
+                                    <option value="{{ $servidor->id }}"
+                                        {{ (old('servidor_id', $servidorSeleccionado ?? '') == $servidor->id) ? 'selected' : '' }}>
                                         {{ $servidor->descripcion_completa }}
                                     </option>
                                 @endforeach
@@ -79,7 +80,7 @@
                             <a href="{{ route('actas.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-dark btn-outline-light">
                                 <i class="fas fa-upload"></i> Cargar Acta
                             </button>
                         </div>

@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Editar Encargado</h5>
+                    <h5 class="mb-0 text-dark">Editar Encargado</h5>
                     <a href="{{ route('programadores.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
@@ -47,7 +47,7 @@
                             <a href="{{ route('programadores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark btn-outline-light">
                                 <i class="fas fa-save"></i> Actualizar Encargado
                             </button>
                         </div>

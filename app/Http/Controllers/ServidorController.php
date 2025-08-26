@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Servidor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ServidorController extends Controller
 {
@@ -49,12 +50,34 @@ class ServidorController extends Controller
         $this->authorizeRole(['admin']);
         
         $request->validate([
+            'nombre' => [
+            'required', 
+            'string', 
+            'max:255',            
+            'unique:servidores,nombre'
+            ],
+            'notas_tecnicas' => 'nullable|string',
             'tipo' => 'required|in:desarrollo,produccion',
             'sistema_operativo' => 'required|string|max:255',
             'cpu' => 'required|string|max:255',
             'ram' => 'required|string|max:50',
             'disco' => 'required|string|max:255',
             'notas_tecnicas' => 'nullable|string',
+        ],[
+        // Mensajes de error personalizados
+        'nombre.unique' => 'Ya existe un servidor con esta dirección IP. Por favor, ingrese una dirección IP única.',
+        'nombre.required' => 'La dirección IP es obligatoria.',
+        'nombre.max' => 'La dirección IP no debe exceder los 255 caracteres.',
+        'tipo.required' => 'El tipo de servidor es obligatorio.',
+        'tipo.in' => 'El tipo de servidor debe ser desarrollo o producción.',
+        'sistema_operativo.required' => 'El sistema operativo es obligatorio.',
+        'sistema_operativo.max' => 'El sistema operativo no debe exceder los 255 caracteres.',
+        'cpu.required' => 'La CPU es obligatoria.',
+        'cpu.max' => 'La CPU no debe exceder los 255 caracteres.',
+        'ram.required' => 'La RAM es obligatoria.',
+        'ram.max' => 'La RAM no debe exceder los 255 caracteres.',
+        'disco.required' => 'El disco es obligatorio.',
+        'disco.max' => 'El disco no debe exceder los 255 caracteres.',
         ]);
 
         Servidor::create($request->all());

@@ -7,8 +7,13 @@ use App\Http\Controllers\ProgramadorController;
 use App\Http\Controllers\ServidorController;
 use Illuminate\Support\Facades\Route;
 
+/*
 Route::get('/', function () {
     return view('welcome');
+});
+*/
+Route::get('/', function () {
+    return view('auth.login');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -78,5 +83,13 @@ Route::middleware('auth')->group(function () {
     Route::put('users/{user}/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('users.change-password');
     Route::put('users/{user}/reactivar', [App\Http\Controllers\UserController::class, 'reactivar'])->name('users.reactivar');
 });
+
+// Rutas para gestión de firmas (solo usuarios autenticados - se verifica rol dentro del controlador)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'showFirma'])->name('profile.firma');
+    Route::post('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'uploadFirma'])->name('profile.firma.upload');
+    Route::delete('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'deleteFirma'])->name('profile.firma.delete');
+});
+
 
 require __DIR__.'/auth.php';

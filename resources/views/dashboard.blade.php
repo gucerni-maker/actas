@@ -21,23 +21,23 @@
     </div>
 
 
-<div class="row mb-4">
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2 dashboard-card">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                            Total Actas
+    <div class="row mb-4">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-start border-white shadow h-100 py-2 dashboard-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Total Actas
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalActas }}</div>
+                            <div class="mt-2">
+                                <a href="{{ route('actas.index') }}" class="btn btn-sm btn-outline-danger">
+                                    Ver todas
+                                </a>
+                            </div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalActas }}</div>
-                        <div class="mt-2">
-                            <a href="{{ route('actas.index') }}" class="btn btn-sm btn-outline-danger">
-                                Ver todas
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-auto">
+                        <div class="col-auto">
                         <i class="fas fa-file-contract fa-2x text-gray-300"></i>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2 dashboard-card">
+        <div class="card border-start border-white shadow h-100 py-2 dashboard-card">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -69,7 +69,7 @@
     </div>
 
     <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2 dashboard-card">
+        <div class="card border-start border-white shadow h-100 py-2 dashboard-card">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -93,7 +93,7 @@
 
     <!-- NUEVAS TARJETAS PARA USUARIOS -->
     <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2 dashboard-card">
+        <div class="card border-start border-white shadow h-100 py-2 dashboard-card">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -116,7 +116,7 @@
     </div>
 
     <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-danger shadow h-100 py-2 dashboard-card">
+        <div class="card border-start border-white shadow h-100 py-2 dashboard-card">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -124,27 +124,27 @@
                             Consultores
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalConsultores }}</div>
-                        <div class="mt-2">
-			    <a href="{{ route('users.consultores') }}" class="btn btn-sm btn-outline-danger">
-                                Ver todos
-                            </a>
+                            <div class="mt-2">
+	            	    	    <a href="{{ route('users.consultores') }}" class="btn btn-sm btn-outline-danger">
+                                    Ver todos
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-body">
+                    <h6 class="m-0 font-weight-bold text-dark">
                         <i class="fas fa-history me-2"></i> Últimas Actas de Entrega
                     </h6>
                     @if(Auth::user()->isAdmin())
@@ -164,11 +164,11 @@
                             <table class="table table-bordered table-hover">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Fecha</th>
-                                        <th>Encargado</th>
-                                        <th>Servidor</th>
-                                        <th>Tipo</th>
-                                        <th>Acciones</th>
+                                        <th class="text-dark">Fecha</th>
+                                        <th class="text-dark">Encargado</th>
+                                        <th class="text-dark">Servidor</th>
+                                        <th class="text-dark">Tipo</th>
+                                        <th class="text-dark">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -178,12 +178,12 @@
                                             <td>{{ $acta->programador->nombre }}</td>
                                             <td>{{ $acta->servidor->sistema_operativo }} - {{ $acta->servidor->cpu }}</td>
                                             <td>
-                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'black' }}">
+                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
                                                     {{ ucfirst($acta->servidor->tipo) }}
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-secondary btn-sm">
+                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-sm btn-outline-light" style="color:#666;">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
@@ -202,5 +202,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Sección de servidores sin actas -->
+    @if($servidoresSinActas->count() > 0 && Auth::user()->isAdmin())
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-dark">
+                        <i class="fas fa-exclamation-triangle me-2 text-warning"></i> Servidores Sin Actas Asociadas
+                    </h6>
+                    <a href="{{ route('servidores.index') }}" class="btn btn-sm btn-outline-dark">
+                        <i class="fas fa-server me-1"></i> Ver Todos los Servidores
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-dark">Dirección IP</th>
+                                    <th class="text-dark">Sistema Operativo</th>
+                                    <th class="text-dark">Tipo</th>
+                                    <th class="text-dark">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($servidoresSinActas as $servidor)
+                                    <tr>
+                                        <td>{{ $servidor->nombre }}</td>
+                                        <td>{{ $servidor->sistema_operativo }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ $servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
+                                                {{ ucfirst($servidor->tipo) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('actas.create') }}?servidor_id={{ $servidor->id }}" 
+                                               class="btn btn-sm btn-success me-1">
+                                                <i class="fas fa-plus me-1"></i> Crear Acta
+                                            </a>
+                                            <a href="{{ route('actas.cargar-existente.form') }}?servidor_id={{ $servidor->id }}" 
+                                               class="btn btn-sm btn-dark me-1">
+                                                <i class="fas fa-upload me-1"></i> Cargar Acta
+                                            </a>
+                                            <a href="{{ route('servidores.show', $servidor) }}" 
+                                               class="btn btn-sm btn-info">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @if($servidoresSinActas->count() >= 10)
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Se muestran solo los primeros 10 servidores sin actas. 
+                            Hay más servidores sin actas asociadas.
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif    
+
 </div>
 @endsection

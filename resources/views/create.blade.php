@@ -1,19 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
+   
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Crear Nueva Acta de Entrega</h5>
+                    <h5 class="mb-0">Crear Nueva Acta de Entregaaaa</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('actas.store') }}" method="POST">
                         @csrf
                         
                         <div class="mb-3">
-                            <label for="fecha_entrega" class="form-label">Fecha de Entrega *</label>
+                            <label for="fecha_entrega" class="form-label" style="color: F0C60E;">Fecha de Entrega *</label>
                             <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror" 
                                    id="fecha_entrega" name="fecha_entrega" value="{{ old('fecha_entrega') }}" required>
                             @error('fecha_entrega')

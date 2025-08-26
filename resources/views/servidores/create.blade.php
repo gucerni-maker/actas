@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Crear Nuevo Servidor</h5>
+                    <h5 class="mb-0 text-dark">Crear Nuevo Servidor</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('servidores.store') }}" method="POST">
@@ -83,7 +83,7 @@
                             <a href="{{ route('servidores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-dark btn-outline-light">
                                 <i class="fas fa-save"></i> Guardar Servidor
                             </button>
                         </div>

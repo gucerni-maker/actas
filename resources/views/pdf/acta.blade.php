@@ -39,7 +39,7 @@
     }
     
     .section {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     
     .section-title {
@@ -80,8 +80,9 @@
     }
     
     .signature-section {
-        margin-top: 25px;
+        margin-top: 30px;
         width: 100%;
+        position: relative;
     }
     
     .signature-box {
@@ -97,20 +98,20 @@
     }
     
     .signature-line {
-        margin-top: 25px;
+        margin-top: 5px;
         border-top: 1px solid #333;
         padding-top: 5px;
     }
-    
-    .footer {
-        position: fixed;
-        bottom: 20px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-size: 10px;
-        color: #666;
+
+    /* Estilo específico para la firma */
+    .signature-box img {
+        margin-top: 5px;
+        max-height: 60px;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
     }
+
 </style>
 
 </head>
@@ -204,21 +205,77 @@
 </div>
 @endif
     
-    <!-- Firmas -->    
-    <div class="signature-section">
-        <div class="signature-box">
-            <p class="signature-line">ENTREGADO POR</p>
-            <div style="font-weight: bold;">{{ $acta->usuario->name }}</div>
-            <div >{{ $acta->programador->cargo }}</div>
-            <div style="font-weight: bold;">{{ $acta->oficina_origen }}</div>
-        </div>
-        <div class="signature-box">
-            <p class="signature-line">RECEPCIONADO POR</p>
-            <div style="font-weight: bold;">{{ $acta->programador->nombre }}</div>
-            <div >{{ $acta->programador->cargo }}</div>
-            <div style="font-weight: bold;">{{ $acta->oficina_destino }}</div>
+<!-- Firmas -->    
+<div class="signature-section">
+    <div class="signature-box">
+        <!-- Contenedores para superponer la firma sobre el texto -->
+        <div style="position: relative; width: 100%;">
+            <p class="signature-line" style="margin-top: 0px;">ENTREGADO POR</p>
+            
+            <!-- Línea de firma -->
+            <div style="margin-top: 10px; padding-top: 5px; font-weight: bold;">
+                {{ $acta->usuario->name }}
+            </div>    
+            <div>{{ $acta->usuario->cargo }}</div>            
+            
+            <!-- Oficina -->
+            <div style="font-weight: bold; margin-top: 2px;">
+                {{ $acta->oficina_origen }}
+            </div>
+            
+            <!-- Firma sobre el texto -->
+            @if($acta->usuario->ruta_firma)
+                @php
+                    $rutaFirma = str_replace('public/', '', $acta->usuario->ruta_firma);
+                    $rutaFirmaAbsoluta = storage_path('app/public/' . $rutaFirma);
+                @endphp
+                
+                @if(file_exists($rutaFirmaAbsoluta))
+                    <!-- Imagen de firma posicionada sobre el texto -->
+                    <div style="position: absolute; top: -30px; left: 0; right: 0; text-align: center; z-index: 1;">
+                        <img src="file://{{ $rutaFirmaAbsoluta }}" 
+                             alt="Firma" 
+                             style="max-height: 60px; max-width: 200px; margin-left: auto; margin-right: auto;">
+                    </div>
+                @endif
+            @endif
         </div>
     </div>
-    
+    <div class="signature-box">
+        <!-- Contenedores para superponer la firma sobre el texto -->
+        <div style="position: relative; width: 100%;">
+            <p class="signature-line" style="margin-top: 0px;">RECEPCIONADO POR</p>
+            
+            <!-- Línea de firma -->
+            <div style="margin-top: 10px; padding-top: 5px; font-weight: bold;">
+                {{ $acta->programador->nombre }}
+            </div>    
+            <div>{{ $acta->programador->cargo }}</div>            
+            
+            <!-- Oficina -->
+            <div style="font-weight: bold; margin-top: 2px;">
+                {{ $acta->oficina_destino }}
+            </div>
+            
+            <!-- Firma sobre el texto -->
+            @if($acta->usuario->ruta_firma)
+                @php
+                    $rutaFirma = str_replace('public/', '', $acta->usuario->ruta_firma);
+                    $rutaFirmaAbsoluta = storage_path('app/public/' . $rutaFirma);
+                @endphp
+                
+                @if(file_exists($rutaFirmaAbsoluta))
+                    <!-- Imagen de firma posicionada sobre el texto -->
+                    <div style="position: absolute; top: -30px; left: 0; right: 0; text-align: center; z-index: 1;">
+                        <img src="" 
+                             alt="" 
+                             style="max-height: 60px; max-width: 200px; margin-left: auto; margin-right: auto;">
+                    </div>
+                @endif
+            @endif
+        </div>
+    </div>
+</div>
+        
 </body>
 </html>

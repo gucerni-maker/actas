@@ -64,7 +64,7 @@ class ProgramadorController extends Controller
         Programador::create($request->all());
 
         return redirect()->route('programadores.index')
-                        ->with('success', 'Programador creado exitosamente.');
+                        ->with('success', 'Encargado creado exitosamente.');
     }
 
     public function show(Programador $programador)

@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Crear Nuevo Encargado</h5>
+                    <h5 class="mb-0 text-dark">Crear Nuevo Encargado</h5>
                 </div>
                 <div class="card-body">
                     <!-- Campo de búsqueda por RUT -->
@@ -81,7 +81,7 @@
                             <a href="{{ route('programadores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-dark btn-outline-light">
                                 <i class="fas fa-save"></i> Guardar Encargado
                             </button>
                         </div>
@@ -155,14 +155,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     // Mostrar mensaje de éxito
-                    mostrarMensaje('Datos del programador cargados exitosamente', 'success');
+                    mostrarMensaje('Datos del encargado cargados exitosamente', 'success');
                 } else {
-                    mostrarMensaje(data.message || 'Programador no encontrado', 'warning');
+                    mostrarMensaje(data.message || 'Encargado no encontrado', 'warning');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                mostrarMensaje('Error al buscar el programador: ' + error.message, 'danger');
+                mostrarMensaje('Error al buscar el Encargado: ' + error.message, 'danger');
             })
             .finally(() => {
                 // Restaurar botón

@@ -62,8 +62,8 @@ public function index(Request $request)
     $direccion = $request->get('direccion', 'desc');
     $query->orderBy($orden, $direccion);
     
-    // Configurar paginación a 5 elementos por página
-    $actas = $query->paginate(5)->appends($request->except('page'));
+    // Configurar paginación a 10 elementos por página
+    $actas = $query->paginate(10)->appends($request->except('page'));
     
     $programadores = Programador::all();
     $tiposServidor = ['desarrollo', 'produccion'];
@@ -72,12 +72,16 @@ public function index(Request $request)
 }
 
 
-    public function create()
+    public function create(Request $request)
     {
         $this->authorizeRole(['admin']);
         
         $programadores = Programador::all();
         $servidores = Servidor::all();
+
+        // Si se pasa un servidor_id en la URL, preseleccionarlo
+        $servidorSeleccionado = $request->get('servidor_id');
+
         return view('actas.create', compact('programadores', 'servidores'));
     }
 
@@ -186,7 +190,13 @@ public function index(Request $request)
         
         $acta->load(['programador', 'servidor', 'usuario']);
         
-        $pdf = Pdf::loadView('pdf.acta', compact('acta'));
+        // Pasar datos adicionales a la vista
+        $datosVista = [
+            'acta' => $acta,
+            'rutaFirmaAbsoluta' => $acta->usuario->ruta_firma ? $this->getRutaFirmaAbsoluta($acta->usuario->ruta_firma) : null
+        ];
+        
+        $pdf = Pdf::loadView('pdf.acta', $datosVista);
         $pdf->setPaper('A4');
         
         // Nombre del archivo
@@ -197,8 +207,7 @@ public function index(Request $request)
         Storage::put($rutaArchivo, $pdf->output());
         
         // Actualizar la ruta del archivo en la base de datos
-        //$acta->update(['archivo_pdf' => $rutaArchivo]);
-        $acta->update(['archivo_pdf' => str_replace('public/', '', $rutaArchivo)]);
+        $acta->update(['archivo_pdf' => $rutaArchivo]);
         
         return $pdf->download($nombreArchivo);
     }
@@ -246,13 +255,17 @@ public function descargarPDF(Acta $acta)
         }
     }
 
-    public function showCargarExistente()
+    public function showCargarExistente(Request $request)
     {
        $this->authorizeRole(['admin']);
 
        $programadores = Programador::all();
        $servidores = Servidor::all();
-       return view('actas.cargar-existente', compact('programadores', 'servidores'));
+
+       // Si se pasa un servidor_id en la URL, preseleccionarlo
+       $servidorSeleccionado = $request->get('servidor_id');
+
+       return view('actas.cargar-existente', compact('programadores', 'servidores', 'servidorSeleccionado'));
     }
 
    public function cargarExistente(Request $request)
@@ -284,10 +297,23 @@ public function descargarPDF(Acta $acta)
            ->with('success', 'Acta existente cargada exitosamente.');
    }
 
-public function test()
-{
-    return response()->json(['message' => 'Test successful']);
-}
+    public function test()
+    {
+        return response()->json(['message' => 'Test successful']);
+    }
+
+    private function getRutaFirmaAbsoluta($rutaFirmaRelativa)
+    {
+        // Convertir la ruta relativa a absoluta
+        $rutaAbsoluta = storage_path('app/' . $rutaFirmaRelativa);
+        
+        // Verificar que el archivo exista
+        if (file_exists($rutaAbsoluta)) {
+            return $rutaAbsoluta;
+        }
+        
+        return null;
+    }
 
 
 }

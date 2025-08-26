@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Lista de Encargados</h5>
+                    <h5 class="mb-0 text-dark">Lista de Encargados</h5>
                     @if(Auth::user()->isAdmin())
                     <a href="{{ route('programadores.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nuevo Encargado
@@ -51,10 +51,10 @@
                                                 Nombre @if(request('orden') == 'nombre') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                             </a>
                                         </th>
-                                        <th>Correo</th>
-                                        <th>Grado</th>                                        
+                                        <th class="text-dark">Correo</th>
+                                        <th class="text-dark">Grado</th>                                        
                                         @if(Auth::user()->isAdmin())
-                                        <th>Acciones</th>
+                                        <th class="text-dark">Acciones</th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -67,7 +67,7 @@
                                             @if(Auth::user()->isAdmin())
                                             <td>
                                                 <div class="d-flex gap-1">
-                                                    <a href="{{ route('programadores.show', $programador) }}" class="btn btn-secondary btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                    <a href="{{ route('programadores.show', $programador) }}" class="btn btn-sm p-1 btn-outline-light" style="font-size: 0.7rem; width: 30px; height: 30px; color:#666;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                     <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-dark btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
@@ -88,8 +88,14 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex flex-column align-items-center">
+                          <div class="mb-2 small text-muted text-center">
+                            Mostrando {{ $programadores->firstItem() }} de {{ $programadores->lastItem() }} de {{ $programadores->total() }} resultados
+                          </div>  
+                          <div>
+                            <!-- <div class="d-flex justify-content-center"> -->
                             {{ $programadores->links('pagination::bootstrap-5') }}
+                          </div>
                         </div>
                     @else
                         <div class="text-center py-5">

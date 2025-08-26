@@ -1,12 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    div label{
+         color: #EDEDED;
+         font-weight: bold;
+    }
+    input[type="text"], input[type="date"]{
+        background-color:#333;
+    }
+    body{
+        background-color:#333;
+    }
+
+</style>    
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Crear Nueva Acta de Entrega</h5>
+                    <h5 class="mb-0 text-dark">Crear Nueva Acta de Entrega</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('actas.store') }}" method="POST">
@@ -23,7 +36,7 @@
 
                         <div class="mb-3">
                             <label for="programador_id" class="form-label">Encargado *</label>
-                            <select class="form-control @error('programador_id') is-invalid @enderror"
+                            <select style="background-color:#333333;" class="form-control @error('programador_id') is-invalid @enderror"
                                     id="programador_id" name="programador_id" required>
                                 <option value="">Seleccione un encargado</option>
                                 @foreach($programadores as $programador)
@@ -36,14 +49,16 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        
+                        <!-- DESDE ACAAAA ---->
                         <div class="mb-3">
                             <label for="servidor_id" class="form-label">Servidor *</label>
-                            <select class="form-control @error('servidor_id') is-invalid @enderror"
+                            <select style="background-color:#333333;" class="form-control @error('servidor_id') is-invalid @enderror"
                                     id="servidor_id" name="servidor_id" required>
                                 <option value="">Seleccione un servidor</option>
                                 @foreach($servidores as $servidor)
                                     <option value="{{ $servidor->id }}" {{ old('servidor_id') == $servidor->id ? 'selected' : '' }}>
+                                        {{ (old('servidor_id', $servidorSeleccionado ?? '') == $servidor->id) ? 'selected' : '' }}
                                         {{ $servidor->descripcion_completa }}
                                     </option>
                                 @endforeach
@@ -52,6 +67,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <!-- HASTA ACAAAA ---->
 
                         <!-- Campos adicionales -->
 
@@ -76,7 +92,7 @@
                         <div class="mb-3">
                             <label for="oficina_destino" class="form-label">Oficina Destino *</label>
                             <input type="text" class="form-control @error('oficina_destino') is-invalid @enderror" 
-                                   id="oficina_destino" name="oficina_destino" value="{{ old('oficina_destino', 'OFICINA DATA CENTER') }}" required>
+                                   id="oficina_destino" name="oficina_destino" value="{{ old('oficina_destino') }}" required placeholder="Ej: DEPTO. PROYECTOS T.I.C.">
                             @error('oficina_destino')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -84,7 +100,7 @@
 
                         <div class="mb-3">
                             <label for="texto_introduccion" class="form-label">Texto Introducción</label>
-                            <textarea class="form-control @error('texto_introduccion') is-invalid @enderror" 
+                            <textarea style="background-color:#333333;" class="form-control @error('texto_introduccion') is-invalid @enderror" 
                                         id="texto_introduccion" name="texto_introduccion" rows="4" placeholder="Texto introductorio...">{{ old('texto_introduccion', 'La Oficina de Aplicaciones y Bases de Datos de la Sección Gestión de Servicios, hace entrega de la Administración total del Servidor Virtual, cuyas características se mencionan a continuación.') }}</textarea>
                             @error('texto_introduccion')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -93,7 +109,7 @@
 
                         <div class="mb-3">
                             <label for="texto_confidencialidad" class="form-label">Texto Confidencialidad</label>
-                            <textarea class="form-control @error('texto_confidencialidad') is-invalid @enderror" 
+                            <textarea style="background-color:#333333;" class="form-control @error('texto_confidencialidad') is-invalid @enderror" 
                                         id="texto_confidencialidad" name="texto_confidencialidad" rows="4" placeholder="Texto sobre confidencialidad...">{{ old('texto_confidencialidad','Las credenciales de acceso al servidor por SSH serán enviadas mediante correo electrónico, una vez que la presente acta sea firmada por la persona responsable de administrar dicho servidor. Una vez recibida las credenciales de acceso, éstas deben ser modificadas para que no exista conflicto de responsabilidades. Lo anterior ya que solamente una entidad puede ser administradora del servidor. Siendo responsable de su seguridad.
 
 Los servidores virtuales son asignados a la repartición que lo solicita, no al usuario que los administra. Por lo tanto, si el usuario cambia de repartición, no puede trasladar consigo la administración del servidor virtual. Debe entregárselo a otro profesional e informar lo anterior.

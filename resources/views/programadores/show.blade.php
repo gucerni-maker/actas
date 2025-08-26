@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Detalles del Encargado</h5>
+                    <h5 class="mb-0 text-dark">Detalles del Encargado</h5>
                     <a href="{{ route('programadores.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
@@ -14,56 +14,47 @@
                 <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
-                            <th>ID:</th>
+                            <th class="text-dark">ID:</th>
                             <td>{{ $programador->id }}</td>
                         </tr>
                         <tr>
-                            <th>Nombre:</th>
+                            <th class="text-dark">Nombre:</th>
                             <td>{{ $programador->nombre }}</td>
                         </tr>
                         <tr>
-                            <th>Rut:</th>
+                            <th class="text-dark">Rut:</th>
                             <td>{{ $programador->rut }}</td>
                         </tr>
 
                         <tr>
-                            <th>Codigo:</th>
+                            <th class="text-dark">Codigo:</th>
                             <td>{{ $programador->codigo_programador }}</td>
                         </tr>                        
 
                         <tr>
-                            <th>Correo:</th>
+                            <th class="text-dark">Correo:</th>
                             <td>{{ $programador->correo }}</td>
                         </tr>
                         <tr>
-                            <th>Grado:</th>
+                            <th class="text-dark">Grado:</th>
                             <td>{{ $programador->cargo }}</td>
                         </tr>
                         <tr>
-                            <th>Reparticion:</th>
+                            <th class="text-dark">Dotacion:</th>
                             <td>{{ $programador->oficina }}</td>
                         </tr>                        
-
-                        <tr>
-                            <th>Fecha de Registro:</th>
-                            <td>{{ $programador->created_at->format('d/m/Y') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Última Actualización:</th>
-                            <td>{{ $programador->updated_at->format('d/m/Y') }}</td>
-                        </tr>
                     </table>
                     
                     @if(Auth::user()->isAdmin())
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-warning">
+                        <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-secondary">
                             <i class="fas fa-edit"></i> Editar
                         </a>
                         
                         <form action="{{ route('programadores.destroy', $programador) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" 
+                            <button type="submit" class="btn btn-dark btn-outline-light" 
                                     onclick="return confirm('¿Estás seguro de eliminar este encargado?')">
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>

@@ -26,13 +26,20 @@ class DashboardController extends Controller
                           ->limit(5)
                           ->get();
 
+        // Obtener servidores sin actas asociadas
+        $servidoresSinActas = Servidor::whereDoesntHave('actas')
+                          ->select('id', 'nombre', 'sistema_operativo', 'tipo')
+                          ->limit(10) // Limitar a 10 para no sobrecargar el dashboard
+                          ->get();
+
         return view('dashboard', compact(
             'totalActas',
             'totalProgramadores',
             'totalServidores',
             'totalAdministradores',
             'totalConsultores',
-            'ultimasActas'
+            'ultimasActas',
+            'servidoresSinActas'
         ));
     }
 }

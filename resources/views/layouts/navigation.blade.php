@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom" style="margin-bottom:30px;">
+
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('dashboard') }}">
@@ -61,6 +62,12 @@
                                 <i class="fas fa-user me-2"></i> {{ __('Profile') }}
                             </x-dropdown-link>
                         </li>
+                        <li>
+                            <x-dropdown-link :href="route('profile.firma')" class="dropdown-item">
+                                <i class="fas fa-signature me-2"></i> {{ __('Firma Digital') }}
+                            </x-dropdown-link>
+                        </li>
+
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

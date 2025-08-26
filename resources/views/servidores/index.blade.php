@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Lista de Servidores</h5>
+                    <h5 class="mb-0 text-dark">Lista de Servidores</h5>
                     @if(Auth::user()->isAdmin())
                     <a href="{{ route('servidores.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nuevo Servidor
@@ -43,7 +43,7 @@
 
                     @if($servidores->count() > 0)
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover table-dark">
                                 <thead>
                                     <tr>
                                         <th>
@@ -51,13 +51,13 @@
                                                 IP @if(request('orden') == 'nombre') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                             </a>
                                         </th>
-                                        <th>Reparticion</th>
-                                        <th>Tipo</th>
-                                        <th>S.O.</th>
-                                        <th>CPU</th>
-                                        <th>RAM</th>
-                                        <th>Disco</th>
-                                        <th>Acciones</th>
+                                        <th class="text-dark">Reparticion</th>
+                                        <th class="text-dark">Tipo</th>
+                                        <th class="text-dark">S.O.</th>
+                                        <th class="text-dark">CPU</th>
+                                        <th class="text-dark">RAM</th>
+                                        <th class="text-dark">Disco</th>
+                                        <th class="text-dark">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,7 +76,7 @@
                                             <td>{{ $servidor->disco }}</td>
                                             <td>
                                                 <div class="d-flex gap-1">
-                                                    <a href="{{ route('servidores.show', $servidor) }}" class="btn btn-secondary btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                    <a href="{{ route('servidores.show', $servidor) }}" class="btn btn-sm p-1 btn-outline-light" style="font-size: 0.7rem; width: 30px; height: 30px; color:#666;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                     @if(Auth::user()->isAdmin())

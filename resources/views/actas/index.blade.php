@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Lista de Actas de Entrega</h5>
+                    <h5 class="mb-0 text-dark">Lista de Actas de Entrega</h5>
                     @if(Auth::user()->isAdmin())
                     <a href="{{ route('actas.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nueva Acta
@@ -84,27 +84,27 @@
                                              Fecha Entrega @if(request('orden') == 'fecha_entrega') <i class="fas fa-sort-{{ request('direccion') == 'asc' ? 'up' : 'down' }}"></i> @endif
                                            </a>
 					</th>
-                                        <th>Encargado</th>
-                                        <th>Servidor</th>
-                                        <th>Tipo</th>
-                                        <th>Acciones</th>
+                                        <th class="text-dark">Encargado</th>
+                                        <th class="text-dark">Servidor</th>
+                                        <th class="text-dark">Tipo</th>
+                                        <th class="text-dark">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($actas as $acta)
                                         <tr>
                                             <td class="col-md-2">{{ $acta->fecha_entrega->format('d/m/Y') }}</td>
-                                            <td class="col-md-3">{{ $acta->programador->nombre }}</td>
-                                            <td class="col-md-3">{{ $acta->servidor->nombre }} - {{ $acta->servidor->sistema_operativo }}</td>
+                                            <td class="col-md-5">{{ $acta->programador->nombre }}</td>
+                                            <td class="col-md-2">{{ $acta->servidor->nombre }}</td>
                                             <td class="col-md-1">
-                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'dark' }}">
+                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
                                                     {{ ucfirst($acta->servidor->tipo) }}
                                                 </span>
                                             </td>
 
-                                            <td class="col-md-3">
+                                            <td class="col-md-2">
 					      <div class="btn-group-horizontal btn-group-sm">
-                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-secondary btn-sm">
+                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-outline-light btn-sm" style="color:#666;">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 @if(Auth::user()->isAdmin())

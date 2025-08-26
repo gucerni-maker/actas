@@ -20,6 +20,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'rol' => ['required', 'string', 'in:admin,consultor'],
+            'cargo' => ['nullable', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -27,6 +28,7 @@ class AdminUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'rol' => $request->rol,
+            'cargo' => $request->cargo,
             'password' => Hash::make($request->password),
         ]);
 

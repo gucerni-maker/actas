@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Editar Servidor</h5>
+                    <h5 class="mb-0 text-dark">Editar Servidor</h5>
                     <a href="{{ route('servidores.index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
@@ -76,9 +76,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="notas_tecnicas" class="form-label">Notas Técnicas</label>
-                            <textarea class="form-control @error('notas_tecnicas') is-invalid @enderror"
-                                      id="notas_tecnicas" name="notas_tecnicas" rows="4">{{ old('notas_tecnicas', $servidor->notas_tecnicas) }}</textarea>
+                            <label for="notas_tecnicas" class="form-label">Reparticion</label>
+                            <input type="text" class="form-control @error('notas_tecnicas') is-invalid @enderror"
+                                      id="notas_tecnicas" name="notas_tecnicas" rows="4" value="{{ old('notas_tecnicas', $servidor->notas_tecnicas) }}">
                             @error('notas_tecnicas')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -88,7 +88,7 @@
                             <a href="{{ route('servidores.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark btn-outline-light">
                                 <i class="fas fa-save"></i> Actualizar Servidor
                             </button>
                         </div>

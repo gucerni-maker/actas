@@ -97,3 +97,118 @@
     background-color: #ffffff !important;
     border-color: #000000 !important;
 }
+
+
+/* ===== ESTILOS PARA MODO OSCURO ===== */
+/* Variables de colores */
+:root {
+    --bg-primary: #121212; /* Fondo principal */
+    --bg-secondary: #1e1e1e; /* Fondo de campos */
+    --text-primary: #e0e0e0; /* Texto principal */
+    --text-label: #fbff03; /* Texto de etiquetas */
+    --text-placeholder: #020202; /* Placeholder */
+    --border-color: #333333; /* Bordes */
+    --btn-primary-bg: #1a1a1a; /* Botón principal */
+    --btn-primary-text: #ffffff; /* Texto del botón principal */
+    --btn-secondary-bg: #333333; /* Botón secundario */
+    --btn-secondary-text: #ffffff; /* Texto del botón secundario */
+}
+
+/* Estilos generales para modo oscuro */
+body.dark-mode {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Formulario en modo oscuro */
+.dark-mode .form-group {
+    margin-bottom: 1rem;
+}
+
+.dark-mode .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-label);
+    font-weight: 500;
+}
+
+.dark-mode .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.dark-mode .form-control:focus {
+    outline: none;
+    border-color: var(--btn-primary-bg);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .form-control::placeholder {
+    color: var(--text-placeholder);
+}
+
+/* Botones en modo oscuro */
+.dark-mode .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dark-mode .btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .btn-primary:hover {
+    background-color: #2a2a2a;
+}
+
+.dark-mode .btn-secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .btn-secondary:hover {
+    background-color: #444444;
+}
+
+/* Tarjetas en modo oscuro */
+.dark-mode .card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .card-header {
+    background-color: #2a2a2a;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Tablas en modo oscuro */
+.dark-mode .table {
+    color: var(--text-primary);
+}
+
+.dark-mode .table th {
+    background-color: #2a2a2a;
+    border-color: var(--border-color);
+}
+
+.dark-mode .table td {
+    border-color: var(--border-color);
+}
+
+.dark-mode .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
