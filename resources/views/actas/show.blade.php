@@ -105,6 +105,10 @@
                                     <th class="text-dark">Reparticion:</th>
                                     <td>{{ $acta->servidor->notas_tecnicas ?? 'N/A' }}</td>
                                 </tr>
+                                <tr>
+                                    <th class="text-dark">Observaciones:</th>
+                                    <td>{{ $acta->observaciones }}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>

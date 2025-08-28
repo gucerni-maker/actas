@@ -82,7 +82,7 @@ public function index(Request $request)
         // Si se pasa un servidor_id en la URL, preseleccionarlo
         $servidorSeleccionado = $request->get('servidor_id');
 
-        return view('actas.create', compact('programadores', 'servidores'));
+        return view('actas.create', compact('programadores', 'servidores', 'servidorSeleccionado'));
     }
 
     public function store(Request $request)

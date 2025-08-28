@@ -70,7 +70,7 @@
                         <div class="mb-3">
                             <label for="observaciones" class="form-label">Observaciones</label>
                             <textarea class="form-control @error('observaciones') is-invalid @enderror" 
-                                      id="observaciones" name="observaciones" rows="4" placeholder="Información adicional sobre esta acta">{{ old('observaciones') }}</textarea>
+                                      id="observaciones" name="observaciones" rows="4" placeholder="DOE Nro. u otra info relevante">{{ old('observaciones') }}</textarea>
                             @error('observaciones')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

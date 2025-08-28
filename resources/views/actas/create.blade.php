@@ -49,16 +49,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
-                        <!-- DESDE ACAAAA ---->
+
                         <div class="mb-3">
                             <label for="servidor_id" class="form-label">Servidor *</label>
                             <select style="background-color:#333333;" class="form-control @error('servidor_id') is-invalid @enderror"
                                     id="servidor_id" name="servidor_id" required>
                                 <option value="">Seleccione un servidor</option>
                                 @foreach($servidores as $servidor)
-                                    <option value="{{ $servidor->id }}" {{ old('servidor_id') == $servidor->id ? 'selected' : '' }}>
-                                        {{ (old('servidor_id', $servidorSeleccionado ?? '') == $servidor->id) ? 'selected' : '' }}
+                                    <option value="{{ $servidor->id }}"
+                                        {{ (old('servidor_id', $servidorSeleccionado ?? '') == $servidor->id) ? 'selected' : '' }}>
                                         {{ $servidor->descripcion_completa }}
                                     </option>
                                 @endforeach
@@ -67,7 +66,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <!-- HASTA ACAAAA ---->
 
                         <!-- Campos adicionales -->
 

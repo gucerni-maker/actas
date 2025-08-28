@@ -36,6 +36,19 @@
                                     Ver todas
                                 </a>
                             </div>
+
+                            <div class="mt-3">
+                                <form method="GET" action="{{ route('dashboard') }}" class="d-flex">
+                                    <input type="text" 
+                                           name="buscar_rapido" 
+                                           class="form-control form-control-sm me-2" 
+                                           placeholder="Buscar por encargado o IP..." 
+                                           value="{{ $terminoBusqueda }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>                                
                         </div>
                         <div class="col-auto">
                         <i class="fas fa-file-contract fa-2x text-gray-300"></i>
@@ -138,6 +151,74 @@
             </div>
         </div>
     </div>
+
+    <!-- Resultados de búsqueda rápida -->
+    @if(isset($resultadosBusqueda) && $terminoBusqueda)
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-dark">
+                        <i class="fas fa-search me-2"></i> Resultados de búsqueda para "{{ $terminoBusqueda }}"
+                        <span class="float-end">
+                            <a href="{{ route('dashboard') }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-times"></i> Cerrar
+                            </a>
+                        </span>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @if($resultadosBusqueda->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-dark">Fecha</th>
+                                        <th class="text-dark">Encargado</th>
+                                        <th class="text-dark">Servidor (IP)</th>
+                                        <th class="text-dark">Tipo</th>
+                                        <th class="text-dark">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($resultadosBusqueda as $acta)
+                                        <tr>
+                                            <td>{{ $acta->fecha_entrega->format('d/m/Y') }}</td>
+                                            <td>{{ $acta->programador->nombre }}</td>
+                                            <td>{{ $acta->servidor->nombre }}</td>
+                                            <td>
+                                                <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
+                                                    {{ ucfirst($acta->servidor->tipo) }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('actas.show', $acta) }}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i> Ver
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @if($resultadosBusqueda->count() >= 10)
+                            <div class="alert alert-info small">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Se muestran los primeros 10 resultados. 
+                                <a href="{{ route('actas.index', ['buscar' => $terminoBusqueda]) }}">Ver todos los resultados</a>.
+                            </div>
+                        @endif
+                    @else
+                        <div class="text-center py-3">
+                            <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
+                            <p class="text-muted mb-0">No se encontraron actas que coincidan con "{{ $terminoBusqueda }}"</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
 
     <div class="row">
