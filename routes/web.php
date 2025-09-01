@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProgramadorController;
 use App\Http\Controllers\ServidorController;
+use App\Http\Controllers\PlantillaActaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,5 +92,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'deleteFirma'])->name('profile.firma.delete');
 });
 
+// Rutas para gestión de plantillas de actas (solo administradores)
+Route::middleware(['auth'])->group(function () {
+    Route::resource('plantillas', PlantillaActaController::class)->parameters(['plantillas' => 'plantilla']);
+    Route::get('plantillas/{plantilla}/vista-previa-pdf', [PlantillaActaController::class, 'preview'])->name('plantillas.vista-previa-pdf');
 
+});
 require __DIR__.'/auth.php';

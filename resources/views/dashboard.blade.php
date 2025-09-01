@@ -236,6 +236,9 @@
                         <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-dark btn-sm">
                             <i class="fas fa-upload me-1"></i> Cargar Acta Existente
                         </a>
+                        <a href="{{ route('plantillas.create') }}" class="btn btn-success btn-sm">
+                            <i class="fas fa-file-signature me-1"></i> Crear Plantilla
+                        </a>
                     </div>
                     @endif
                 </div>

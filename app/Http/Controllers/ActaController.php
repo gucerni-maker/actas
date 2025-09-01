@@ -6,6 +6,7 @@ use App\Models\Acta;
 use App\Models\Programador;
 use App\Models\Servidor;
 use App\Models\User;
+use App\Models\PlantillaActa;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -78,11 +79,12 @@ public function index(Request $request)
         
         $programadores = Programador::all();
         $servidores = Servidor::all();
+        $plantillas = PlantillaActa::activas()->orderBy('nombre')->get();
 
         // Si se pasa un servidor_id en la URL, preseleccionarlo
         $servidorSeleccionado = $request->get('servidor_id');
 
-        return view('actas.create', compact('programadores', 'servidores', 'servidorSeleccionado'));
+        return view('actas.create', compact('programadores', 'servidores', 'servidorSeleccionado','plantillas'));
     }
 
     public function store(Request $request)
@@ -212,36 +214,36 @@ public function index(Request $request)
         return $pdf->download($nombreArchivo);
     }
 
-public function descargarPDF(Acta $acta)
-{
-    $this->authorizeRole(['admin', 'consultor']);
-    
-    // Verificar si es una acta existente cargada
-    if ($acta->es_acta_existente && $acta->archivo_pdf) {
-        // Si es una acta existente, descargar el archivo PDF cargado
-        $rutaArchivo = 'public/' . $acta->archivo_pdf;
-        if (Storage::exists($rutaArchivo)) {
-            $nombreArchivo = basename($acta->archivo_pdf);
-            return Storage::download($rutaArchivo, $nombreArchivo);
+    public function descargarPDF(Acta $acta)
+    {
+        $this->authorizeRole(['admin', 'consultor']);
+
+        // Verificar si es una acta existente cargada
+        if ($acta->es_acta_existente && $acta->archivo_pdf) {
+            // Si es una acta existente, descargar el archivo PDF cargado
+            $rutaArchivo = 'public/' . $acta->archivo_pdf;
+            if (Storage::exists($rutaArchivo)) {
+                $nombreArchivo = basename($acta->archivo_pdf);
+                return Storage::download($rutaArchivo, $nombreArchivo);
+            }
         }
+
+        // Si no es una acta existente o el archivo no existe, generar el PDF
+        if (!$acta->archivo_pdf) {
+            // Si no existe el PDF, lo generamos
+            return $this->generarPDF($acta);
+        }
+
+        // Verificar si el archivo existe
+        if (!Storage::exists('public/' . $acta->archivo_pdf)) {
+            // Si no existe el PDF, lo generamos
+            return $this->generarPDF($acta);
+        }
+
+        // Extraer solo el nombre del archivo para la descarga
+        $nombreArchivo = basename($acta->archivo_pdf);
+        return Storage::download('public/' . $acta->archivo_pdf, $nombreArchivo);
     }
-    
-    // Si no es una acta existente o el archivo no existe, generar el PDF
-    if (!$acta->archivo_pdf) {
-        // Si no existe el PDF, lo generamos
-        return $this->generarPDF($acta);
-    }
-    
-    // Verificar si el archivo existe
-    if (!Storage::exists('public/' . $acta->archivo_pdf)) {
-        // Si no existe el PDF, lo generamos
-        return $this->generarPDF($acta);
-    }
-    
-    // Extraer solo el nombre del archivo para la descarga
-    $nombreArchivo = basename($acta->archivo_pdf);
-    return Storage::download('public/' . $acta->archivo_pdf, $nombreArchivo);
-}
 
     private function authorizeRole($allowedRoles)
     {
@@ -295,7 +297,7 @@ public function descargarPDF(Acta $acta)
 
        return redirect()->route('actas.index')
            ->with('success', 'Acta existente cargada exitosamente.');
-   }
+    }
 
     public function test()
     {
@@ -314,6 +316,5 @@ public function descargarPDF(Acta $acta)
         
         return null;
     }
-
 
 }

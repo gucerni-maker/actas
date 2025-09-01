@@ -25,6 +25,28 @@
                     <form action="{{ route('actas.store') }}" method="POST">
                         @csrf
 
+                    <!-- Selector de plantilla -->
+                        <div class="mb-3">
+                            <label for="plantilla_id" class="form-label">Seleccionar Plantilla (Opcional)</label>
+                            <select class="form-control @error('plantilla_id') is-invalid @enderror" 
+                                    id="plantilla_id" name="plantilla_id">
+                                <option value="">Seleccione una plantilla</option>
+                                @foreach($plantillas as $plantilla)
+                                    @if($plantilla->activa)
+                                        <option value="{{ $plantilla->id }}" {{ old('plantilla_id') == $plantilla->id ? 'selected' : '' }}>
+                                            {{ $plantilla->nombre }} ({{ ucfirst($plantilla->tipo) }})
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('plantilla_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text">Seleccione una plantilla para pre-rellenar los campos del acta</div>
+                        </div>
+
+
+
                         <div class="mb-3">
                             <label for="fecha_entrega" class="form-label">Fecha de Entrega *</label>
                             <input type="date" class="form-control @error('fecha_entrega') is-invalid @enderror"
@@ -136,4 +158,86 @@ Se hace presente la confidencialidad que se debe tener sobre la información que
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const plantillaSelect = document.getElementById('plantilla_id');
+    const textoIntroduccion = document.getElementById('texto_introduccion');
+    const textoConfidencialidad = document.getElementById('texto_confidencialidad');
+    
+    if (plantillaSelect) {
+        plantillaSelect.addEventListener('change', function() {
+            const plantillaId = this.value;
+            
+            if (plantillaId) {
+                // Mostrar indicador de carga
+                const selectOriginalText = this.innerHTML;
+                this.innerHTML = '<option>Cargando...</option>';
+                this.disabled = true;
+                
+                fetch(`/plantillas/${plantillaId}/datos`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Rellenar los campos con los datos de la plantilla
+                            if (textoIntroduccion && data.plantilla.texto_introduccion) {
+                                textoIntroduccion.value = data.plantilla.texto_introduccion;
+                            }
+                            
+                            if (textoConfidencialidad && data.plantilla.texto_confidencialidad) {
+                                textoConfidencialidad.value = data.plantilla.texto_confidencialidad;
+                            }
+                            
+                            // Mostrar mensaje de éxito
+                            mostrarMensaje('Datos de la plantilla cargados exitosamente', 'success');
+                        } else {
+                            mostrarMensaje(data.message || 'Error al cargar los datos de la plantilla', 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        mostrarMensaje('Error al cargar los datos de la plantilla', 'danger');
+                    })
+                    .finally(() => {
+                        // Restaurar select
+                        this.innerHTML = selectOriginalText;
+                        this.disabled = false;
+                    });
+            }
+        });
+    }
+    
+    function mostrarMensaje(mensaje, tipo) {
+        // Remover mensajes anteriores
+        const mensajesAnteriores = document.querySelectorAll('#mensaje-alerta');
+        mensajesAnteriores.forEach(msg => msg.remove());
+        
+        // Crear nuevo mensaje
+        const alertDiv = document.createElement('div');
+        alertDiv.id = 'mensaje-alerta';
+        alertDiv.className = `alert alert-${tipo} alert-dismissible fade show`;
+        alertDiv.role = 'alert';
+        alertDiv.innerHTML = `
+            ${mensaje}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        
+        // Insertar el mensaje antes del formulario
+        const form = document.querySelector('form');
+        if (form) {
+            form.parentNode.insertBefore(alertDiv, form);
+        }
+        
+        // Auto-ocultar mensaje de éxito después de 5 segundos
+        if (tipo === 'success') {
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+    }
+
+});
+</script>
 @endsection
