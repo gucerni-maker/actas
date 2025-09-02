@@ -25,7 +25,7 @@
                     <form action="{{ route('actas.store') }}" method="POST">
                         @csrf
 
-                    <!-- Selector de plantilla -->
+                    <!-- Selector de plantilla 
                         <div class="mb-3">
                             <label for="plantilla_id" class="form-label">Seleccionar Plantilla (Opcional)</label>
                             <select class="form-control @error('plantilla_id') is-invalid @enderror" 
@@ -44,7 +44,7 @@
                             @enderror
                             <div class="form-text">Seleccione una plantilla para pre-rellenar los campos del acta</div>
                         </div>
-
+                        -->
 
 
                         <div class="mb-3">
@@ -148,7 +148,7 @@ Se hace presente la confidencialidad que se debe tener sobre la información que
                             <a href="{{ route('actas.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-dark btn-outline-light">
                                 <i class="fas fa-save"></i> Guardar Acta
                             </button>
                         </div>

@@ -98,4 +98,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('plantillas/{plantilla}/vista-previa-pdf', [PlantillaActaController::class, 'preview'])->name('plantillas.vista-previa-pdf');
 
 });
+
+// Ruta para obtener datos de plantilla (para usar en AJAX)
+Route::middleware(['auth'])->group(function () {
+    Route::get('plantillas/{plantilla}/datos', [PlantillaActaController::class, 'getDatosPlantilla'])->name('plantillas.datos');
+});
+
 require __DIR__.'/auth.php';

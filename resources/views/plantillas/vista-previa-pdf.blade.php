@@ -150,15 +150,15 @@
                 <p style="text-align: center; margin: 2px 0; font-size: 10px;">OFICINA DE APLIC. Y BASES DE DATOS</p>
             </div>
 
-            <h1 style="text-align: center; margin: 0; font-size: 16px; margin-bottom: 10px;">ACTA DE ENTREGA</h1>
+            <h1 style="text-align: center; margin: 0; font-size: 16px; margin-bottom: 45px; margin-top: 45px;">ACTA DE ENTREGA</h1>
             
-            <div class="location" style="text-align: right; margin-top: 10px; font-size: 12px;">
+            <div class="location" style="text-align: right; margin-top: 45px; margin-bottom: 45px; font-size: 12px;">
                 SANTIAGO, 01 de ENERO del 2025
             </div>
         </div>
         
         <!-- Información de origen y destino -->
-        <div class="section" style="margin-bottom: 10px;">
+        <div class="section" style="margin-bottom: 45px;">
             <div class="data-row" style="margin-bottom: 8px;">
                 <span class="data-label" style="font-weight: bold; display: inline-block; width: 150px;">DE:</span>
                 <span class="data-value" style="display: inline-block;">OFICINA DE APLICACIONES Y BASES DE DATOS</span>
@@ -170,40 +170,28 @@
         </div>
         
         <!-- Texto introducción -->
-        <div class="section" style="margin-bottom: 10px;">
+        <div class="section" style="margin-bottom: 40px;">
             <p style="text-align: justify; margin-bottom: 1em; line-height: 1.4; text-indent: 300px;">
                 {{ $plantilla->texto_introduccion ?? 'Texto introductorio de ejemplo...' }}
             </p>
         </div>
-        
-        <!-- Características del servidor -->
-        <div class="section" style="margin-bottom: 10px;">
-            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Dirección IP:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">192.168.1.100</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Sistema Operativo:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">Ubuntu Server 22.04 LTS</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Memoria Ram:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">16GB DDR4</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Disco Duro:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">500GB SSD</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">CPU:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">Intel Xeon 4 cores</td>
-                </tr>
-            </table>
+
+        <!-- Especie o archivo a entregar -->
+        <div class="section" style="margin-bottom: 40px;">
+            <p style="text-align: justify; margin-bottom: 1em; line-height: 1.4; text-indent: 300px;">
+                {{ $plantilla->encabezado_personalizado ?? 'Especie o archivo de ejemplo...' }}
+            </p>
         </div>
-        
+
+        <!-- Solicitado por medio de ... -->
+        <div class="section" style="margin-bottom: 40px;">
+            <p style="text-align: justify; margin-bottom: 1em; line-height: 1.4; text-indent: 300px;">
+                {{ $plantilla->pie_personalizado ?? 'solicitud de ejemplo...' }}
+            </p>
+        </div>
+                
         <!-- Texto confidencialidad -->
-        <div class="section" style="margin-bottom: 10px;">
+        <div class="section" style="margin-bottom: 60px;">
             @if($plantilla->texto_confidencialidad ?? false)
                 @php
                     $parrafos = array_filter(array_map('trim', preg_split('/\n\s*\n/', $plantilla->texto_confidencialidad)));
@@ -221,7 +209,7 @@
         </div>
         
         <!-- Firmas -->
-        <div class="signature-section" style="margin-top: 30px; width: 100%; position: relative;">
+        <div class="signature-section" style="margin-top: 110px; width: 100%; position: relative;">
             <div class="signature-box" style="width: 45%; text-align: center; display: inline-block; vertical-align: top; margin-right: 5%;">
                 <p style="margin: 0 0 5px 0; font-size: 10px;"><strong>ENTREGADO POR</strong></p>
                 <div style="margin-top: 10px; padding-top: 5px; font-weight: bold;">
@@ -249,12 +237,12 @@
             <div class="signature-box" style="width: 45%; text-align: center; display: inline-block; vertical-align: top;">
                 <p style="margin: 0 0 5px 0; font-size: 10px;"><strong>RECEPCIONADO POR</strong></p>
                 <div style="margin-top: 10px; padding-top: 5px; font-weight: bold;">
-                    [Nombre del Programador]
+                    [Nombre del Encargado]
                 </div>    
-                <div>[Cargo del Programador]</div>            
+                <div>[Cargo del Encargado]</div>            
                 
                 <div style="font-weight: bold; margin-top: 2px;">
-                    [Oficina del Programador]
+                    [Oficina del Encargado]
                 </div>
             </div>
         </div>

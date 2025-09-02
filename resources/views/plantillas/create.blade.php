@@ -34,6 +34,24 @@
                         </div>
                         
                         <div class="mb-3">
+                            <label for="encabezado_personalizado" class="form-label">Especie o archivo a entregar</label>
+                            <textarea class="form-control @error('encabezado_personalizado') is-invalid @enderror" 
+                                      id="encabezado_personalizado" name="encabezado_personalizado" rows="3">{{ old('encabezado_personalizado') }}</textarea>
+                            @error('encabezado_personalizado')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pie_personalizado" class="form-label">Solicitador por medio de ...</label>
+                            <textarea class="form-control @error('pie_personalizado') is-invalid @enderror" 
+                                      id="pie_personalizado" name="pie_personalizado" rows="3">{{ old('pie_personalizado') }}</textarea>
+                            @error('pie_personalizado')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
                             <label for="texto_confidencialidad" class="form-label">Texto Confidencialidad</label>
                             <textarea class="form-control @error('texto_confidencialidad') is-invalid @enderror" 
                                       id="texto_confidencialidad" name="texto_confidencialidad" rows="4">{{ old('texto_confidencialidad') }}</textarea>
@@ -41,25 +59,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="encabezado_personalizado" class="form-label">Encabezado Personalizado</label>
-                            <textarea class="form-control @error('encabezado_personalizado') is-invalid @enderror" 
-                                      id="encabezado_personalizado" name="encabezado_personalizado" rows="3">{{ old('encabezado_personalizado') }}</textarea>
-                            @error('encabezado_personalizado')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="pie_personalizado" class="form-label">Pie Personalizado</label>
-                            <textarea class="form-control @error('pie_personalizado') is-invalid @enderror" 
-                                      id="pie_personalizado" name="pie_personalizado" rows="3">{{ old('pie_personalizado') }}</textarea>
-                            @error('pie_personalizado')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                                                
+                                                                                                
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input @error('activa') is-invalid @enderror" 
                                    id="activa" name="activa" {{ old('activa', true) ? 'checked' : '' }}>

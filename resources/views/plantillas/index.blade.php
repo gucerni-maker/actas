@@ -23,29 +23,20 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="text-dark">ID</th>
-                                        <th class="text-dark">Nombre</th>
-                                        <th class="text-dark">Estado</th>
-                                        <th class="text-dark">Fecha de Creación</th>
-                                        <th class="text-dark">Acciones</th>
+                                        <th style="text-align:center;" class="text-dark">ID</th>
+                                        <th style="text-align:center;" class="text-dark">Nombre</th>
+                                        <th style="text-align:center;" class="text-dark">Fecha de Creación</th>
+                                        <th style="text-align:center;" class="text-dark">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($plantillas as $plantilla)
                                         <tr>
-                                            <td>{{ $plantilla->id }}</td>
-                                            <td>{{ $plantilla->nombre }}</td>
-                                            <td>
-                                                <span class="badge bg-{{ $plantilla->activa ? 'success' : 'secondary' }}">
-                                                    {{ $plantilla->activa ? 'Activa' : 'Inactiva' }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $plantilla->created_at->format('d/m/Y H:i') }}</td>
-                                            <td>
-                                                <a href="{{ route('plantillas.show', $plantilla) }}" class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i> Ver
-                                                </a>
-                                                <a href="{{ route('plantillas.vista-previa-pdf', $plantilla) }}" class="btn btn-primary btn-sm" target="_blank">
+                                            <td style="text-align:center;">{{ $plantilla->id }}</td>
+                                            <td style="text-align:center;">{{ $plantilla->nombre }}</td>
+                                            <td style="text-align:center;">{{ $plantilla->created_at->format('d/m/Y H:i') }}</td>
+                                            <td style="text-align:center;">
+                                                <a href="{{ route('plantillas.vista-previa-pdf', $plantilla) }}" class="btn btn-dark btn-outline-light  btn-sm" target="_blank">
                                                     <i class="fas fa-search"></i> Vista Previa
                                                 </a>
                                                 <a href="{{ route('plantillas.edit', $plantilla) }}" class="btn btn-warning btn-sm">

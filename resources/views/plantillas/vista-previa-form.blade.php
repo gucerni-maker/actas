@@ -175,33 +175,7 @@
                 {{ $plantilla->texto_introduccion ?? 'Texto introductorio de ejemplo...' }}
             </p>
         </div>
-        
-        <!-- Características del servidor -->
-        <div class="section" style="margin-bottom: 10px;">
-            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Dirección IP:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">192.168.1.100</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Sistema Operativo:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">Ubuntu Server 22.04 LTS</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Memoria Ram:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">16GB DDR4</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">Disco Duro:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">500GB SSD</td>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #333; padding: 8px; text-align: left; background-color: #f0f0f0; font-weight: bold;">CPU:</th>
-                    <td style="border: 1px solid #333; padding: 8px; text-align: left;">Intel Xeon 4 cores</td>
-                </tr>
-            </table>
-        </div>
-        
+                
         <!-- Texto confidencialidad -->
         <div class="section" style="margin-bottom: 10px;">
             @if($plantilla->texto_confidencialidad ?? false)
