@@ -166,28 +166,50 @@ public function index(Request $request)
     public function update(Request $request, Acta $acta)
     {
         $this->authorizeRole(['admin']);
-        
-        $request->validate([
+    
+        // Reglas de validación base (comunes a todas las actas)
+        $rules = [
             'fecha_entrega' => 'required|date',
             'observaciones' => 'nullable|string',
             'programador_id' => 'required|exists:programadores,id',
-            'servidor_id' => 'required|exists:servidores,id|unique:actas,servidor_id,' . $acta->id,            
-            'oficina_origen' => 'required|string|max:255',
-            'oficina_destino' => 'required|string|max:255',
+            'servidor_id' => 'required|exists:servidores,id|unique:actas,servidor_id,' . $acta->id,
             'nuevo_archivo_pdf' => 'nullable|file|mimes:pdf|max:10240', // 10MB max
-        ],[
-            'servidor_id.unique' => 'Ya existe una acta para este servidor.',
+        ];
+        
+        // Mensajes de error base
+        $messages = [
+            'servidor_id.unique' => 'Ya existe una acta para este servidor. Cada servidor solo puede tener una acta de entrega activa.',
             'servidor_id.required' => 'El servidor es obligatorio.',
             'servidor_id.exists' => 'El servidor seleccionado no existe.',
             'programador_id.required' => 'El programador es obligatorio.',
             'programador_id.exists' => 'El programador seleccionado no existe.',
             'fecha_entrega.required' => 'La fecha de entrega es obligatoria.',
-            'oficina_origen.required' => 'La oficina de origen es obligatoria.',
-            'oficina_destino.required' => 'La oficina de destino es obligatoria.',
-        ]);
-
-        $acta->update($request->except('usuario_id'));
-
+            'nuevo_archivo_pdf.file' => 'El archivo debe ser un archivo válido.',
+            'nuevo_archivo_pdf.mimes' => 'El archivo debe ser en formato PDF.',
+            'nuevo_archivo_pdf.max' => 'El archivo no debe superar 10MB.',
+        ];
+        
+        // Si es una acta generada (no existente), agregar validaciones adicionales
+        if (!$acta->es_acta_existente) {
+            $rules = array_merge($rules, [
+                'comuna' => 'required|string|max:100',
+                'oficina_origen' => 'required|string|max:255',
+                'oficina_destino' => 'required|string|max:255',
+                'texto_introduccion' => 'required|string|max:1000',
+                'texto_confidencialidad' => 'required|string',
+            ]);
+            
+            $messages = array_merge($messages, [
+                'comuna.required' => 'La comuna es obligatoria.',
+                'oficina_origen.required' => 'La oficina de origen es obligatoria.',
+                'oficina_destino.required' => 'La oficina de destino es obligatoria.',
+                'texto_introduccion.required' => 'El texto introductorio es obligatorio.',
+                'texto_confidencialidad.required' => 'El texto de confidencialidad es obligatorio.',
+            ]);
+        }
+        
+        $request->validate($rules, $messages);
+    
         // Manejar el reemplazo del archivo PDF si se proporciona uno nuevo
         if ($request->hasFile('nuevo_archivo_pdf')) {
             $archivo = $request->file('nuevo_archivo_pdf');
@@ -198,26 +220,37 @@ public function index(Request $request)
             }
             
             // Guardar el nuevo archivo PDF
-            $nombreArchivo = 'acta_existente_' . time() . '_' . $archivo->getClientOriginalName();
+            $nombreArchivo = 'acta_' . ($acta->es_acta_existente ? 'existente' : 'generada') . '_' . time() . '_' . $archivo->getClientOriginalName();
             $rutaArchivo = $archivo->storeAs('public/actas', $nombreArchivo);
             
             // Actualizar la ruta del archivo en la base de datos
-            $acta->archivo_pdf = str_replace('public/', '', $rutaArchivo);
+            $acta->update(['archivo_pdf' => str_replace('public/', '', $rutaArchivo)]);
         }
-        
+    
         // Actualizar los demás campos
         $data = $request->except(['nuevo_archivo_pdf', 'usuario_id']);
-        $acta->update($data);
-
-        // Regenerar PDF si es una acta generada (no existente)
-        if (!$acta->es_acta_existente) {
+        
+        // Si es una acta existente, no actualizar los campos específicos de actas generadas
+        if ($acta->es_acta_existente) {
+            // Solo actualizar los campos comunes
+            $dataComunes = array_intersect_key($data, array_flip([
+                'fecha_entrega', 'observaciones', 'programador_id', 'servidor_id'
+            ]));
+            $acta->update($dataComunes);
+        } else {
+            // Para actas generadas, actualizar todos los campos
+            $acta->update($data);
+        }
+    
+        // Regenerar PDF si es una acta generada y no se subió un archivo nuevo
+        if (!$acta->es_acta_existente && !$request->hasFile('nuevo_archivo_pdf')) {
             $this->generarPDF($acta);
         }
-
+    
         return redirect()->route('actas.index')
                         ->with('success', 'Acta actualizada exitosamente.');
     }
-
+    
     public function destroy(Acta $acta)
     {
         $this->authorizeRole(['admin']);

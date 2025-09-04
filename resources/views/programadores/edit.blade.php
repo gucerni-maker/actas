@@ -42,6 +42,51 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        
+                        <div class="mb-3">
+                            <label for="oficina" class="form-label">Oficina</label>
+                            <input type="text" class="form-control @error('oficina') is-invalid @enderror" 
+                                   id="oficina" name="oficina" value="{{ old('oficina', $programador->oficina) }}">
+                            @error('oficina')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="departamento" class="form-label">Departamento</label>
+                            <input type="text" class="form-control @error('departamento') is-invalid @enderror" 
+                                   id="departamento" name="departamento" value="{{ old('departamento', $programador->departamento) }}">
+                            @error('departamento')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="rut" class="form-label">RUT *</label>
+                            <input type="text" class="form-control @error('rut') is-invalid @enderror" 
+                                   id="rut" name="rut" value="{{ old('rut', $programador->rut) }}" required>
+                            @error('rut')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="codigo_programador" class="form-label">Código de Programador</label>
+                            <input type="text" class="form-control @error('codigo_programador') is-invalid @enderror" 
+                                   id="codigo_programador" name="codigo_programador" value="{{ old('codigo_programador', $programador->codigo_programador) }}">
+                            @error('codigo_programador')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control @error('telefono') is-invalid @enderror" 
+                                   id="telefono" name="telefono" value="{{ old('telefono', $programador->telefono) }}">
+                            @error('telefono')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                                                 
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('programadores.index') }}" class="btn btn-secondary">
