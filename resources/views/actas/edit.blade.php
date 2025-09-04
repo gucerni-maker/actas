@@ -12,7 +12,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('actas.update', $acta) }}" method="POST">
+                    <form action="{{ route('actas.update', $acta) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         
@@ -26,7 +26,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="programador_id" class="form-label">Programador *</label>
+                            <label for="programador_id" class="form-label">Encargado *</label>
                             <select class="form-control @error('programador_id') is-invalid @enderror" 
                                     id="programador_id" name="programador_id" required>
                                 <option value="">Seleccione un programador</option>
@@ -65,13 +65,29 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <!-- Campo para reemplazar el archivo PDF -->
+                        @if($acta->archivo_pdf)
+                        <div class="mb-3">
+                            <label for="nuevo_archivo_pdf" class="form-label">Reemplazar Archivo PDF</label>
+                            <input type="file" class="form-control @error('nuevo_archivo_pdf') is-invalid @enderror" 
+                                   id="nuevo_archivo_pdf" name="nuevo_archivo_pdf" accept=".pdf">
+                            <div class="form-text">
+                                Archivo actual: {{ basename($acta->archivo_pdf) }}<br>
+                                Seleccione un nuevo archivo PDF para reemplazar el actual (máximo 10MB)
+                            </div>
+                            @error('nuevo_archivo_pdf')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        @endif
                         
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('actas.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Volver
                             </a>
                             <button type="submit" class="btn btn-dark btn-outline-light">
-                                <i class="fas fa-save"></i> Actualizar Acta
+                                <i class="fas fa-save"></i> Guardar Cambios
                             </button>
                         </div>
                     </form>

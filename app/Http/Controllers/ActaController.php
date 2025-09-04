@@ -96,12 +96,24 @@ public function index(Request $request)
                 'observaciones' => 'nullable|string',
                 'archivo_pdf' => 'nullable|file|mimes:pdf|max:10240',
                 'programador_id' => 'required|exists:programadores,id',
-                'servidor_id' => 'required|exists:servidores,id',
+                'servidor_id' => 'required|exists:servidores,id|unique:actas,servidor_id',
                 'comuna' => 'required|string|max:100',
                 'oficina_origen' => 'required|string|max:255',
                 'oficina_destino' => 'required|string|max:255',
                 'texto_introduccion' => 'required|string|max:1000',
                 'texto_confidencialidad' => 'required|string',
+            ], [
+                'servidor_id.unique' => 'Ya existe una acta para este servidor.',
+                'servidor_id.required' => 'El servidor es obligatorio.',
+                'servidor_id.exists' => 'El servidor seleccionado no existe.',
+                'programador_id.required' => 'El programador es obligatorio.',
+                'programador_id.exists' => 'El programador seleccionado no existe.',
+                'fecha_entrega.required' => 'La fecha de entrega es obligatoria.',
+                'comuna.required' => 'La comuna es obligatoria.',
+                'oficina_origen.required' => 'La oficina de origen es obligatoria.',
+                'oficina_destino.required' => 'La oficina de destino es obligatoria.',
+                'texto_introduccion.required' => 'El texto introductorio es obligatorio.',
+                'texto_confidencialidad.required' => 'El texto de confidencialidad es obligatorio.',
             ]);
 
             // Crear el registro de acta
@@ -159,13 +171,48 @@ public function index(Request $request)
             'fecha_entrega' => 'required|date',
             'observaciones' => 'nullable|string',
             'programador_id' => 'required|exists:programadores,id',
-            'servidor_id' => 'required|exists:servidores,id',
+            'servidor_id' => 'required|exists:servidores,id|unique:actas,servidor_id,' . $acta->id,            
+            'oficina_origen' => 'required|string|max:255',
+            'oficina_destino' => 'required|string|max:255',
+            'nuevo_archivo_pdf' => 'nullable|file|mimes:pdf|max:10240', // 10MB max
+        ],[
+            'servidor_id.unique' => 'Ya existe una acta para este servidor.',
+            'servidor_id.required' => 'El servidor es obligatorio.',
+            'servidor_id.exists' => 'El servidor seleccionado no existe.',
+            'programador_id.required' => 'El programador es obligatorio.',
+            'programador_id.exists' => 'El programador seleccionado no existe.',
+            'fecha_entrega.required' => 'La fecha de entrega es obligatoria.',
+            'oficina_origen.required' => 'La oficina de origen es obligatoria.',
+            'oficina_destino.required' => 'La oficina de destino es obligatoria.',
         ]);
 
         $acta->update($request->except('usuario_id'));
 
-        // Regenerar PDF si se actualiza la acta
-        $this->generarPDF($acta);
+        // Manejar el reemplazo del archivo PDF si se proporciona uno nuevo
+        if ($request->hasFile('nuevo_archivo_pdf')) {
+            $archivo = $request->file('nuevo_archivo_pdf');
+            
+            // Eliminar el archivo PDF anterior si existe
+            if ($acta->archivo_pdf && Storage::exists($acta->archivo_pdf)) {
+                Storage::delete($acta->archivo_pdf);
+            }
+            
+            // Guardar el nuevo archivo PDF
+            $nombreArchivo = 'acta_existente_' . time() . '_' . $archivo->getClientOriginalName();
+            $rutaArchivo = $archivo->storeAs('public/actas', $nombreArchivo);
+            
+            // Actualizar la ruta del archivo en la base de datos
+            $acta->archivo_pdf = str_replace('public/', '', $rutaArchivo);
+        }
+        
+        // Actualizar los demás campos
+        $data = $request->except(['nuevo_archivo_pdf', 'usuario_id']);
+        $acta->update($data);
+
+        // Regenerar PDF si es una acta generada (no existente)
+        if (!$acta->es_acta_existente) {
+            $this->generarPDF($acta);
+        }
 
         return redirect()->route('actas.index')
                         ->with('success', 'Acta actualizada exitosamente.');
@@ -279,8 +326,19 @@ public function index(Request $request)
           'observaciones' => 'nullable|string',
           'archivo_pdf' => 'required|file|mimes:pdf|max:10240', // 10MB max
           'programador_id' => 'required|exists:programadores,id',
-          'servidor_id' => 'required|exists:servidores,id',
-       ]);
+          'servidor_id' => 'required|exists:servidores,id|unique:actas,servidor_id',
+       ],[
+          'servidor_id.unique' => 'Ya existe una acta para este servidor.',
+          'servidor_id.required' => 'El servidor es obligatorio.',
+          'servidor_id.exists' => 'El servidor seleccionado no existe.',
+          'programador_id.required' => 'El programador es obligatorio.',
+          'programador_id.exists' => 'El programador seleccionado no existe.',
+          'fecha_entrega.required' => 'La fecha de entrega es obligatoria.',
+          'archivo_pdf.required' => 'El archivo PDF es obligatorio.',
+          'archivo_pdf.file' => 'El archivo debe ser un archivo válido.',
+          'archivo_pdf.mimes' => 'El archivo debe ser en formato PDF.',
+          'archivo_pdf.max' => 'El archivo no debe superar 10MB.',
+        ]);
 
        // Guardar el archivo PDF
        $archivo = $request->file('archivo_pdf');
