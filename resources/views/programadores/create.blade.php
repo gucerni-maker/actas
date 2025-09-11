@@ -13,11 +13,12 @@
                     <div class="mb-4">
                         <label for="buscar_rut" class="form-label">Buscar por RUT</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="buscar_rut" placeholder="Ingrese el RUT del encargado (sin puntos y sin guión)">
-                            <button class="btn btn-outline-secondary" type="button" id="btn_buscar_rut">
+                            <input type="text" class="form-control" id="buscar_rut" placeholder="Ingrese el RUT del programador (sin puntos y sin guión)" onkeypress="if(event.key==='Enter'){event.preventDefault(); buscarProgramadorPorRut(this.value);}">
+                            <button class="btn btn-outline-secondary" type="button" id="btn_buscar_rut" onclick="buscarProgramadorPorRut(document.getElementById('buscar_rut').value)">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
                         </div>
+                        <div class="form-text">Ingrese el RUT para buscar datos existentes del programador</div>
                     </div>
                     
                     <form id="form_programador" action="{{ route('programadores.store') }}" method="POST">
@@ -93,114 +94,143 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+function mostrarVistaPrevia() {
+    // Prevenir el envío normal del formulario
+    event.preventDefault();
+    
+    // Crear un formulario temporal para enviar los datos por POST
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route("programadores.vista-previa-nueva") }}';
+    form.target = '_blank';
+    
+    // Agregar el token CSRF
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+    
+    // Obtener todos los datos del formulario actual
+    const currentForm = document.querySelector('form');
+    const formData = new FormData(currentForm);
+    
+    // Agregar todos los campos del formulario al formulario temporal
+    for (let [key, value] of formData.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+    }
+    
+    // Agregar el formulario al body y enviarlo
+    document.body.appendChild(form);
+    form.submit();
+    
+    // Remover el formulario después de enviarlo
+    document.body.removeChild(form);
+}
+
+// Función para buscar programador por RUT (usando la nueva ruta)
+function buscarProgramadorPorRut(rut) {
+    // Mostrar indicador de carga
     const btnBuscarRut = document.getElementById('btn_buscar_rut');
-    const inputBuscarRut = document.getElementById('buscar_rut');
+    const btnOriginalText = btnBuscarRut.innerHTML;
+    btnBuscarRut.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+    btnBuscarRut.disabled = true;
+    
+    // Usar la ruta correcta CON la subruta gestion_actas
+    fetch(`/gestion_actas/buscar-programador/${encodeURIComponent(rut)}`, {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json',
+        },
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Rellenar los campos del formulario con los datos encontrados
+            if (document.getElementById('nombre')) {
+                document.getElementById('nombre').value = data.programador.nombre || '';
+            }
+            if (document.getElementById('correo')) {
+                document.getElementById('correo').value = data.programador.correo || '';
+            }
+            if (document.getElementById('cargo')) {
+                document.getElementById('cargo').value = data.programador.cargo || '';
+            }
+            if (document.getElementById('oficina')) {
+                document.getElementById('oficina').value = data.programador.oficina || '';
+            }
+            if (document.getElementById('departamento')) {
+                document.getElementById('departamento').value = data.programador.departamento || '';
+            }
+            if (document.getElementById('rut')) {
+                document.getElementById('rut').value = data.programador.rut || '';
+            }
+            if (document.getElementById('codigo_programador')) {
+                document.getElementById('codigo_programador').value = data.programador.codigo_programador || '';
+            }
+            if (document.getElementById('telefono')) {
+                document.getElementById('telefono').value = data.programador.telefono || '';
+            }
+            
+            // Mostrar mensaje de éxito
+            mostrarMensaje('Datos del programador cargados exitosamente', 'success');
+        } else {
+            mostrarMensaje(data.message || 'Programador no encontrado', 'warning');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        mostrarMensaje('Error al buscar el programador: ' + error.message, 'danger');
+    })
+    .finally(() => {
+        // Restaurar botón
+        btnBuscarRut.innerHTML = btnOriginalText;
+        btnBuscarRut.disabled = false;
+    });
+}
+
+function mostrarMensaje(mensaje, tipo) {
+    // Remover mensajes anteriores
+    const mensajesAnteriores = document.querySelectorAll('#mensaje-alerta');
+    mensajesAnteriores.forEach(msg => msg.remove());
+    
+    // Crear nuevo mensaje
+    const alertDiv = document.createElement('div');
+    alertDiv.id = 'mensaje-alerta';
+    alertDiv.className = `alert alert-${tipo} alert-dismissible fade show`;
+    alertDiv.role = 'alert';
+    alertDiv.innerHTML = `
+        ${mensaje}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    
+    // Insertar el mensaje antes del formulario
     const formProgramador = document.getElementById('form_programador');
+    if (formProgramador) {
+        formProgramador.parentNode.insertBefore(alertDiv, formProgramador);
+    }
     
-    if (btnBuscarRut && inputBuscarRut) {
-        btnBuscarRut.addEventListener('click', function() {
-            const rut = inputBuscarRut.value.trim();
-            if (rut) {
-                buscarProgramadorPorRut(rut);
-            } else {
-                mostrarMensaje('Por favor ingrese un RUT', 'warning');
+    // Auto-ocultar mensaje de éxito después de 5 segundos
+    if (tipo === 'success') {
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
             }
-        });
-        
-        inputBuscarRut.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const rut = inputBuscarRut.value.trim();
-                if (rut) {
-                    buscarProgramadorPorRut(rut);
-                } else {
-                    mostrarMensaje('Por favor ingrese un RUT', 'warning');
-                }
-            }
-        });
+        }, 5000);
     }
-    
-    function buscarProgramadorPorRut(rut) {
-        // Mostrar indicador de carga
-        const btnOriginalText = btnBuscarRut.innerHTML;
-        btnBuscarRut.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
-        btnBuscarRut.disabled = true;
-        
-        fetch(`/programadores/buscar-por-rut/${encodeURIComponent(rut)}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Rellenar los campos del formulario con los datos encontrados
-                    if (document.getElementById('nombre')) {
-                        document.getElementById('nombre').value = data.programador.nombre || '';
-                    }
-                    // El correo lo dejamos vacío para que lo ingrese manualmente
-                    if (document.getElementById('cargo')) {
-                        document.getElementById('cargo').value = data.programador.cargo || '';
-                    }
-                    if (document.getElementById('oficina')) {
-                        document.getElementById('oficina').value = data.programador.oficina || '';
-                    }
-                    if (document.getElementById('rut')) {
-                        document.getElementById('rut').value = data.programador.rut || '';
-                    }
-                    if (document.getElementById('codigo_programador')) {
-                        document.getElementById('codigo_programador').value = data.programador.codigo_programador || '';
-                    }
-                    
-                    // Mostrar mensaje de éxito
-                    mostrarMensaje('Datos del encargado cargados exitosamente', 'success');
-                } else {
-                    mostrarMensaje(data.message || 'Encargado no encontrado', 'warning');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                mostrarMensaje('Error al buscar el Encargado: ' + error.message, 'danger');
-            })
-            .finally(() => {
-                // Restaurar botón
-                btnBuscarRut.innerHTML = btnOriginalText;
-                btnBuscarRut.disabled = false;
-            });
-    }
-    
-    function mostrarMensaje(mensaje, tipo) {
-        // Remover mensajes anteriores
-        const mensajesAnteriores = document.querySelectorAll('#mensaje-alerta');
-        mensajesAnteriores.forEach(msg => msg.remove());
-        
-        // Crear nuevo mensaje
-        const alertDiv = document.createElement('div');
-        alertDiv.id = 'mensaje-alerta';
-        alertDiv.className = `alert alert-${tipo} alert-dismissible fade show`;
-        alertDiv.role = 'alert';
-        alertDiv.innerHTML = `
-            ${mensaje}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        `;
-        
-        // Insertar el mensaje antes del formulario
-        if (formProgramador) {
-            formProgramador.parentNode.insertBefore(alertDiv, formProgramador);
-        }
-        
-        // Auto-ocultar mensaje de éxito después de 5 segundos
-        if (tipo === 'success') {
-            setTimeout(() => {
-                if (alertDiv.parentNode) {
-                    alertDiv.remove();
-                }
-            }, 5000);
-        }
-    }
-});
+}
 </script>
 
 @endsection

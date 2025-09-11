@@ -26,18 +26,26 @@ Route::get('/profile', function () {
     return view('profile.edit');
 })->middleware(['auth'])->name('profile.edit');
 
-// Rutas específicas de actas (colocarlas antes de resource)
+// RUTAS ESPECÍFICAS DE ACTAS (colocarlas antes de resource)
 Route::get('actas/cargar-existente', [ActaController::class, 'showCargarExistente'])->name('actas.cargar-existente.form');
 Route::post('actas/cargar-existente', [ActaController::class, 'cargarExistente'])->name('actas.cargar-existente');
 Route::get('actas/{acta}/pdf', [ActaController::class, 'descargarPDF'])->name('actas.pdf');
-Route::get('programadores/buscar-por-rut/{rut}', [ProgramadorController::class, 'buscarPorRut'])->name('programadores.buscar-por-rut');
 
+// RUTA ESPECIAL PARA BÚSQUEDA DE PROGRAMADORES POR RUT (USANDO UNA RUTA DIFERENTE PARA EVITAR CONFLICTOS)
+Route::middleware(['auth'])->group(function () {
+    Route::get('buscar-programador/{rut}', [ProgramadorController::class, 'buscarPorRut'])->name('programadores.buscar-por-rut-especial');
+});
 
 // Rutas para todos los usuarios autenticados
 Route::middleware(['auth'])->group(function () {
     Route::resource('programadores', ProgramadorController::class)->parameters(['programadores' => 'programador']);
     Route::resource('servidores', ServidorController::class)->parameters(['servidores' => 'servidor']);
     Route::resource('actas', ActaController::class)->parameters(['actas' => 'acta']);
+});
+
+// Ruta para vista previa de programadores (formulario especial)
+Route::middleware(['auth'])->group(function () {
+    Route::post('programadores/vista-previa-nueva', [ProgramadorController::class, 'vistaPreviaNueva'])->name('programadores.vista-previa-nueva');
 });
 
 Route::get('test-acta', [ActaController::class, 'test']);
@@ -96,10 +104,12 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('plantillas', PlantillaActaController::class)->parameters(['plantillas' => 'plantilla']);
     Route::get('plantillas/{plantilla}/vista-previa-pdf', [PlantillaActaController::class, 'preview'])->name('plantillas.vista-previa-pdf');
-
+    
+    // Ruta para vista previa en tiempo real de plantillas nuevas
+    Route::post('plantillas/vista-previa-nueva', [PlantillaActaController::class, 'vistaPreviaNueva'])->name('plantillas.vista-previa-nueva');
 });
 
-// Ruta para obtener datos de plantilla (para usar en AJAX)
+// Ruta para obtener datos de plantilla (solo administradores)
 Route::middleware(['auth'])->group(function () {
     Route::get('plantillas/{plantilla}/datos', [PlantillaActaController::class, 'getDatosPlantilla'])->name('plantillas.datos');
 });

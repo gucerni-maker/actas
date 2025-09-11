@@ -122,7 +122,7 @@ class ProgramadorController extends Controller
         }
     }
 
-public function buscarPorRut($rut)
+    public function buscarPorRut($rut)
 {
     $this->authorizeRole(['admin']);
     
@@ -165,6 +165,7 @@ public function buscarPorRut($rut)
             ]);
         }
     } catch (\Exception $e) {
+        \Log::error('Error al buscar programador por RUT: ' . $e->getMessage());
         return response()->json([
             'success' => false,
             'message' => 'Error al buscar el programador: ' . $e->getMessage()
@@ -172,5 +173,39 @@ public function buscarPorRut($rut)
     }
 }
 
+
+    private function getRutaFirmaAbsoluta($rutaFirmaRelativa)
+    {
+        // Convertir la ruta relativa a absoluta
+        $rutaAbsoluta = storage_path('app/' . $rutaFirmaRelativa);
+        
+        // Verificar que el archivo exista
+        if (file_exists($rutaAbsoluta)) {
+            return $rutaAbsoluta;
+        }
+        
+        return null;
+    }
+
+    public function vistaPreviaNueva(Request $request)
+    {
+        $this->authorizeRole(['admin']);
+
+        // Obtener los datos del formulario
+        $datos = $request->all();
+
+        // Crear un programador temporal con los datos del formulario
+        $programadorTemporal = new \stdClass();
+        $programadorTemporal->nombre = $datos['nombre'] ?? 'Programador de Ejemplo';
+        $programadorTemporal->correo = $datos['correo'] ?? 'ejemplo@dominio.com';
+        $programadorTemporal->cargo = $datos['cargo'] ?? 'Cargo de Ejemplo';
+        $programadorTemporal->oficina = $datos['oficina'] ?? 'Oficina de Ejemplo';
+        $programadorTemporal->departamento = $datos['departamento'] ?? 'Departamento de Ejemplo';
+        $programadorTemporal->rut = $datos['rut'] ?? '12345678-9';
+        $programadorTemporal->codigo_programador = $datos['codigo_programador'] ?? 'COD001';
+        $programadorTemporal->telefono = $datos['telefono'] ?? '123456789';
+
+        return view('programadores.vista-previa-especial', ['programador' => $programadorTemporal]);
+    }
 
 }

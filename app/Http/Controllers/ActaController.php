@@ -408,4 +408,18 @@ public function index(Request $request)
         return null;
     }
 
+    public function marcarComoFirmada(Acta $acta)
+    {
+        $this->authorizeRole(['admin']);
+        
+        // Solo se pueden marcar como firmadas las actas generadas (no existentes)
+        if ($acta->es_acta_existente) {
+            return redirect()->back()->with('error', 'No se puede marcar como firmada una acta existente.');
+        }
+        
+        $acta->update(['firmada' => true]);
+        
+        return redirect()->back()->with('success', 'Acta marcada como firmada exitosamente.');
+    }
+
 }

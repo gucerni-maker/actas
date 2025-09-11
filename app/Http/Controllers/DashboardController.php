@@ -10,48 +10,37 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $totalActas = Acta::count();
         $totalProgramadores = Programador::count();
         $totalServidores = Servidor::count();
-        
+
         // Agregar conteo de usuarios por rol
         $totalAdministradores = User::where('rol', 'admin')->count();
         $totalConsultores = User::where('rol', 'consultor')->count();
-        
+
         // Obtener las últimas actas
-        $ultimasActas = Acta::with(['programador', 'servidor'])
+        $ultimasActas = Acta::with(['programador', 'servidor', 'usuario'])
                           ->orderBy('fecha_entrega', 'desc')
                           ->limit(5)
                           ->get();
 
         // Obtener servidores sin actas asociadas
         $servidoresSinActas = Servidor::whereDoesntHave('actas')
-                          ->select('id', 'nombre', 'sistema_operativo', 'tipo')
-                          ->limit(10) // Limitar a 10 para no sobrecargar el dashboard
-                          ->get();
-
-        // Funcionalidad de búsqueda rápida de actas
-        $resultadosBusqueda = collect(); // Colección vacía por defecto
-        $terminoBusqueda = '';
-        
-        if ($request->filled('buscar_rapido')) {
-            $terminoBusqueda = $request->get('buscar_rapido');
-            
-            // Buscar actas por encargado o dirección IP
-            $resultadosBusqueda = Acta::with(['programador', 'servidor'])
-                                    ->where(function ($query) use ($terminoBusqueda) {
-                                        $query->whereHas('programador', function ($q) use ($terminoBusqueda) {
-                                            $q->where('nombre', 'LIKE', "%{$terminoBusqueda}%");
-                                        })
-                                        ->orWhereHas('servidor', function ($q) use ($terminoBusqueda) {
-                                            $q->where('nombre', 'LIKE', "%{$terminoBusqueda}%"); // nombre = dirección IP
-                                        });
-                                    })
+                                    ->select('id', 'nombre', 'sistema_operativo', 'tipo')
                                     ->limit(10)
                                     ->get();
-        }                  
+
+        // Obtener actas sin firmar (actas generadas que no han sido firmadas)
+        $actasSinFirmar = Acta::with(['programador', 'servidor', 'usuario'])
+                            ->where('es_acta_existente', false)  // Solo actas generadas, no existentes
+                            ->where('firmada', false)            // Que no estén firmadas
+                            ->orderBy('fecha_entrega', 'desc')
+                            ->limit(10)
+                            ->get();
+
+        $terminoBusqueda = '';
 
         return view('dashboard', compact(
             'totalActas',
@@ -61,8 +50,8 @@ class DashboardController extends Controller
             'totalConsultores',
             'ultimasActas',
             'servidoresSinActas',
-            'resultadosBusqueda',
-            'terminoBusqueda'
+            'actasSinFirmar',
+            'terminoBusqueda'  
         ));
     }
 }

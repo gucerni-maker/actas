@@ -16,6 +16,7 @@ class Acta extends Model
         'observaciones',
         'archivo_pdf',
 	    'es_acta_existente',
+        'firmada',
         'programador_id',
         'servidor_id',
         'usuario_id',

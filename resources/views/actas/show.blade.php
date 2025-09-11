@@ -32,16 +32,16 @@
                                     <td>{{ $acta->usuario->name }}</td>
                                 </tr>
 
-				<tr>
-				    <th class="text-dark">Tipo de Acta:</th>
-				    <td>
-	              			@if($acta->es_acta_existente)
-                                          <span class="badge bg-secondary">Acta Existente Cargada</span>
-                                       @else
-                                          <span class="badge bg-secondary">Acta Generada por Sistema</span>
-                                       @endif
-				    </td>
-				</tr>
+			                	<tr>
+				                    <th class="text-dark">Tipo de Acta:</th>
+				                    <td>
+	              			            @if($acta->es_acta_existente)
+                                            <span class="badge bg-secondary">Acta Existente Cargada</span>
+                                        @else
+                                            <span class="badge bg-secondary">Acta Generada por Sistema</span>
+                                        @endif
+				                    </td>
+				                </tr>
 
                                 <tr>
                                     <th class="text-dark">Fecha de Registro:</th>
@@ -114,23 +114,23 @@
                     </div>
                     
 
-		   @if($acta->archivo_pdf)
-		     <div class="row">
-                       <div class="col-md-12">
-                         <h6><strong>Documento PDF</strong></h6>
-                         <div class="mb-2">
-                           @if($acta->es_acta_existente)
-                             <span class="badge bg-secondary">Acta Existente Cargada</span>
-                           @else
-                             <span class="badge bg-secondary">Acta Generada por Sistema</span>
-                           @endif
+		            @if($acta->archivo_pdf)
+		            <div class="row">
+                        <div class="col-md-12">
+                            <h6><strong>Documento PDF</strong></h6>
+                            <div class="mb-2">
+                                @if($acta->es_acta_existente)
+                                    <span class="badge bg-secondary">Acta Existente Cargada</span>
+                                @else
+                                    <span class="badge bg-secondary">Acta Generada por Sistema</span>
+                                @endif
+                            </div>
+           	                <a href="{{ route('actas.pdf', $acta) }}" class="btn btn-danger">
+                                <i class="fas fa-file-pdf"></i> Descargar PDF
+                            </a>
                         </div>
-           	        <a href="{{ route('actas.pdf', $acta) }}" class="btn btn-danger">
-                          <i class="fas fa-file-pdf"></i> Descargar PDF
-                        </a>
-                      </div>
                     </div>
-                  @endif
+                    @endif
 
                     @if(Auth::user()->isAdmin())
                     <div class="d-flex justify-content-between mt-3">
@@ -146,6 +146,29 @@
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
                         </form>
+                    </div>
+                    @endif
+
+                    <!-- Agregar después de los otros botones de acción -->
+                    @if(Auth::user()->isAdmin() && !$acta->es_acta_existente && !$acta->firmada)
+                    <div class="mt-3">
+                        <form action="{{ route('actas.marcar-como-firmada', $acta) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success" 
+                                    onclick="return confirm('¿Estás seguro de marcar esta acta como firmada?')">
+                                <i class="fas fa-file-signature me-1"></i> Marcar como Firmada
+                            </button>
+                        </form>
+                    </div>
+                    @endif
+
+                    <!-- Mostrar estado de la firma -->
+                    @if(!$acta->es_acta_existente)
+                    <div class="mt-2">
+                        <span class="badge bg-{{ $acta->firmada ? 'success' : 'warning' }}">
+                            {{ $acta->firmada ? 'Firmada' : 'Pendiente de Firma' }}
+                        </span>
                     </div>
                     @endif
                 </div>
