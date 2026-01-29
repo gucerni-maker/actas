@@ -39,14 +39,16 @@
                     </x-nav-link>
                 </li>
 
-		        <!-- Agregar esta sección para usuarios administradores -->
-		        @if(Auth::check() && Auth::user()->isAdmin())
-		        <li class="nav-item">
-		            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="nav-link">
-		                <i class="fas fa-users-cog me-1"></i> {{ __('Usuarios') }}
-		            </x-nav-link>
-		        </li>
-		        @endif
+                <!-- Comentado para portafolio público -->
+                <!--
+                @if(Auth::check() && Auth::user()->isAdmin())
+                <li class="nav-item">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="nav-link">
+                        <i class="fas fa-users-cog me-1"></i> {{ __('Usuarios') }}
+                    </x-nav-link>
+                </li>
+                @endif
+                -->
 
                 <!-- plantillas
                 <li class="nav-item">
@@ -58,36 +60,12 @@
  
             </ul>
 
-            <!-- Menú de usuario -->
+            <!-- Información de demostración en lugar del menú de usuario -->
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+                        <i class="fas fa-user-circle me-1"></i> Modo Demostración
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <x-dropdown-link :href="route('profile.edit')" class="dropdown-item">
-                                <i class="fas fa-user me-2"></i> {{ __('Profile') }}
-                            </x-dropdown-link>
-                        </li>
-                        <li>
-                            <x-dropdown-link :href="route('profile.firma')" class="dropdown-item">
-                                <i class="fas fa-signature me-2"></i> {{ __('Firma Digital') }}
-                            </x-dropdown-link>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')" 
-                                    onclick="event.preventDefault(); this.closest('form').submit();" 
-                                    class="dropdown-item text-danger">
-                                    <i class="fas fa-sign-out-alt me-2"></i> {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </div>

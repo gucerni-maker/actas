@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Gestión de Firma Digital</h5>
+                    <h5 class="mb-0 text-dark">Gestión de Firma Digital</h5>
                     <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver al Dashboard
                     </a>
@@ -29,7 +29,29 @@
                             <h6>Firma Actual</h6>
                             @if($user->ruta_firma)
                                 <div class="text-center mb-3">
-                                    <img src="{{ Storage::url($user->ruta_firma) }}" alt="Firma actual" class="img-fluid" style="max-height: 100px;">
+                                    <!-- Mostrar firma actual -->
+                                    @if($user->ruta_firma)
+                                        @php
+                                            // Extraer solo el nombre del archivo de la ruta
+                                            $nombreArchivo = basename($user->ruta_firma);
+                                            // Crear la ruta correcta para acceder al archivo
+                                            $rutaCorrecta = '/gestion_actas/storage/firmas/' . $nombreArchivo;
+                                        @endphp
+                                        <div class="text-center mb-3">
+                                            <strong>Firma Actual:</strong>
+                                            <div class="mt-2">
+                                                <img src="{{ $rutaCorrecta }}" 
+                                                     alt="Firma actual" 
+                                                     class="img-fluid border" 
+                                                     style="max-height: 100px; max-width: 300px;">
+                                            </div>
+                                            <div class="mt-2 small text-muted">
+                                                Archivo: {{ $nombreArchivo }}
+                                            </div>
+                                        </div>
+                                    @else
+                                        <p class="text-muted">No tienes una firma cargada.</p>
+                                    @endif
                                 </div>
                                 <form action="{{ route('profile.firma.delete') }}" method="POST">
                                     @csrf
@@ -58,7 +80,7 @@
                                         Formatos permitidos: PNG, JPG, JPEG. Máximo 2MB. Dimensiones recomendadas: 300x100px
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-dark btn-outline-light">
                                     <i class="fas fa-upload"></i> Cargar Firma
                                 </button>
                             </form>

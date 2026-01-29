@@ -7,8 +7,15 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    <p class="text-muted">Bienvenido, {{ Auth::user()->name }}. Rol: {{ ucfirst(Auth::user()->rol) }}</p>
                 </div>
-
+                @if(Auth::user()->isAdmin())
+                <div>
+                    <a href="{{ route('admin.register') }}" class="btn btn-dark">
+                        <i class="fas fa-user-plus"></i> Registrar Nuevo Usuario
+                    </a>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -108,6 +115,7 @@
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalAdministradores }}</div>
                         <div class="mt-2">
+			    <a href="{{ route('users.administradores') }}" class="btn btn-sm btn-outline-danger">
                                 Ver todos
                             </a>
                         </div>
@@ -130,6 +138,7 @@
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalConsultores }}</div>
                             <div class="mt-2">
+	            	    	    <a href="{{ route('users.consultores') }}" class="btn btn-sm btn-outline-danger">
                                     Ver todos
                                 </a>
                             </div>
@@ -219,15 +228,20 @@
                     <h6 class="m-0 font-weight-bold text-dark">
                         <i class="fas fa-history me-2"></i> Últimas Actas de Entrega
                     </h6>
+                    @if(Auth::user()->isAdmin())
                     <div>
+                        <a href="{{ route('actas.create') }}" class="btn btn-danger btn-sm me-2">
                             <i class="fas fa-plus me-1"></i> Nueva Acta
                         </a>
-
+                        <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-dark btn-sm">
                             <i class="fas fa-upload me-1"></i> Cargar Acta Existente
-
+                        </a>
+                        <!--
+                        <a href="{{ route('plantillas.create') }}" class="btn btn-success btn-sm">
                             <i class="fas fa-file-signature me-1"></i> Crear Plantilla
-
+                        </a> -->
                     </div>
+                    @endif
                 </div>
                 <div class="card-body">
                     @if($ultimasActas->count() > 0)
@@ -275,6 +289,7 @@
     </div>
 
     <!-- Sección de servidores sin actas -->
+    @if($servidoresSinActas->count() > 0 && Auth::user()->isAdmin())
     <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
@@ -308,12 +323,14 @@
                                             </span>
                                         </td>
                                         <td>
+                                            <a href="{{ route('actas.create') }}?servidor_id={{ $servidor->id }}" 
                                                class="btn btn-sm btn-success me-1">
                                                 <i class="fas fa-plus me-1"></i> Crear Acta
-
+                                            </a>
+                                            <a href="{{ route('actas.cargar-existente.form') }}?servidor_id={{ $servidor->id }}" 
                                                class="btn btn-sm btn-dark me-1">
                                                 <i class="fas fa-upload me-1"></i> Cargar Acta
-
+                                            </a>
                                             <a href="{{ route('servidores.show', $servidor) }}" 
                                                class="btn btn-sm btn-info">
                                                 <i class="fas fa-eye"></i>
@@ -335,10 +352,10 @@
             </div>
         </div>
     </div>
-    
+    @endif    
 
     <!-- Nueva sección: Actas sin firmar -->
-
+    @if($actasSinFirmar->count() > 0 && Auth::user()->isAdmin())
     <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
@@ -391,9 +408,9 @@
                                             <a href="{{ route('actas.pdf', $acta) }}" class="btn btn-sm btn-success me-1" target="_blank">
                                                 <i class="fas fa-file-pdf"></i>
                                             </a>
-
-                                                <i class="fas fa-edit">Editar</i>
-
+                                            <a href="{{ route('actas.edit', $acta) }}" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -411,7 +428,7 @@
             </div>
         </div>
     </div>
-  
+    @endif    
 
 </div>
 @endsection

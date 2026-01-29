@@ -8,110 +8,124 @@ use App\Http\Controllers\ServidorController;
 use App\Http\Controllers\PlantillaActaController;
 use Illuminate\Support\Facades\Route;
 
-/*
+// Ruta principal que va directamente al dashboard
 Route::get('/', function () {
-    return view('welcome');
+    $totalActas = \App\Models\Acta::count();
+    $totalProgramadores = \App\Models\Programador::count();
+    $totalServidores = \App\Models\Servidor::count();
+    $totalAdministradores = \App\Models\User::where('rol', 'admin')->count();
+    $totalConsultores = \App\Models\User::where('rol', 'consultor')->count();
+    
+    // Obtener las últimas actas
+    $ultimasActas = \App\Models\Acta::with(['programador', 'servidor', 'usuario'])
+                              ->orderBy('fecha_entrega', 'desc')
+                              ->limit(5)
+                              ->get();
+    
+    // Obtener servidores sin actas asociadas
+    $servidoresSinActas = \App\Models\Servidor::whereDoesntHave('actas')
+                                        ->select('id', 'nombre', 'sistema_operativo', 'tipo')
+                                        ->limit(10)
+                                        ->get();
+    
+    // Obtener actas sin firmar
+    $actasSinFirmar = \App\Models\Acta::with(['programador', 'servidor', 'usuario'])
+                                ->where('es_acta_existente', false)
+                                ->where('firmada', false)
+                                ->orderBy('fecha_entrega', 'desc')
+                                ->limit(10)
+                                ->get();
+
+    $terminoBusqueda = '';
+    $resultadosBusqueda = collect();
+
+    return view('dashboard', compact(
+        'totalActas',
+        'totalProgramadores',
+        'totalServidores',
+        'totalAdministradores',
+        'totalConsultores',
+        'ultimasActas',
+        'servidoresSinActas',
+        'actasSinFirmar',
+        'terminoBusqueda',
+        'resultadosBusqueda'
+    ));
 });
-*/
-Route::get('/', function () {
-    return view('auth.login');
-});
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('dashboard');
+// Ruta para el dashboard
+Route::get('/dashboard', function () {
+    $totalActas = \App\Models\Acta::count();
+    $totalProgramadores = \App\Models\Programador::count();
+    $totalServidores = \App\Models\Servidor::count();
+    $totalAdministradores = \App\Models\User::where('rol', 'admin')->count();
+    $totalConsultores = \App\Models\User::where('rol', 'consultor')->count();
+    
+    // Obtener las últimas actas
+    $ultimasActas = \App\Models\Acta::with(['programador', 'servidor', 'usuario'])
+                              ->orderBy('fecha_entrega', 'desc')
+                              ->limit(5)
+                              ->get();
+    
+    // Obtener servidores sin actas asociadas
+    $servidoresSinActas = \App\Models\Servidor::whereDoesntHave('actas')
+                                        ->select('id', 'nombre', 'sistema_operativo', 'tipo')
+                                        ->limit(10)
+                                        ->get();
+    
+    // Obtener actas sin firmar
+    $actasSinFirmar = \App\Models\Acta::with(['programador', 'servidor', 'usuario'])
+                                ->where('es_acta_existente', false)
+                                ->where('firmada', false)
+                                ->orderBy('fecha_entrega', 'desc')
+                                ->limit(10)
+                                ->get();
 
-// Ruta para el perfil (temporal)
-Route::get('/profile', function () {
-    return view('profile.edit');
-})->middleware(['auth'])->name('profile.edit');
+    $terminoBusqueda = '';
+    $resultadosBusqueda = collect();
 
-// RUTAS ESPECÍFICAS DE ACTAS (colocarlas antes de resource)
-Route::get('actas/cargar-existente', [ActaController::class, 'showCargarExistente'])->name('actas.cargar-existente.form');
-Route::post('actas/cargar-existente', [ActaController::class, 'cargarExistente'])->name('actas.cargar-existente');
+    return view('dashboard', compact(
+        'totalActas',
+        'totalProgramadores',
+        'totalServidores',
+        'totalAdministradores',
+        'totalConsultores',
+        'ultimasActas',
+        'servidoresSinActas',
+        'actasSinFirmar',
+        'terminoBusqueda',
+        'resultadosBusqueda'
+    ));
+})->name('dashboard');
+
+// Rutas públicas para ver datos
+Route::get('actas', [ActaController::class, 'index'])->name('actas.index');
+Route::get('actas/{acta}', [ActaController::class, 'show'])->name('actas.show');
 Route::get('actas/{acta}/pdf', [ActaController::class, 'descargarPDF'])->name('actas.pdf');
 
-// RUTA ESPECIAL PARA BÚSQUEDA DE PROGRAMADORES POR RUT (USANDO UNA RUTA DIFERENTE PARA EVITAR CONFLICTOS)
-Route::middleware(['auth'])->group(function () {
-    Route::get('buscar-programador/{rut}', [ProgramadorController::class, 'buscarPorRut'])->name('programadores.buscar-por-rut-especial');
-});
+Route::get('programadores', [ProgramadorController::class, 'index'])->name('programadores.index');
+Route::get('programadores/{programador}', [ProgramadorController::class, 'show'])->name('programadores.show');
 
-// Rutas para todos los usuarios autenticados
-Route::middleware(['auth'])->group(function () {
-    Route::resource('programadores', ProgramadorController::class)->parameters(['programadores' => 'programador']);
-    Route::resource('servidores', ServidorController::class)->parameters(['servidores' => 'servidor']);
-    Route::resource('actas', ActaController::class)->parameters(['actas' => 'acta']);
-});
+Route::get('servidores', [ServidorController::class, 'index'])->name('servidores.index');
+Route::get('servidores/{servidor}', [ServidorController::class, 'show'])->name('servidores.show');
 
-// Ruta para vista previa de programadores (formulario especial)
-Route::middleware(['auth'])->group(function () {
-    Route::post('programadores/vista-previa-nueva', [ProgramadorController::class, 'vistaPreviaNueva'])->name('programadores.vista-previa-nueva');
-});
+// Ruta para buscar programadores por RUT (simplificada para demostración)
+Route::get('buscar-programador/{rut}', [ProgramadorController::class, 'buscarPorRutDemo'])->name('programadores.buscar-por-rut-demo');
 
 Route::get('test-acta', [ActaController::class, 'test']);
 Route::get('prueba-cargar', [ActaController::class, 'showCargarExistente']);
 
-// Ruta especial para que administradores registren nuevos usuarios
-Route::get('/admin/register', function () {
-    // Verificar que el usuario sea administrador
-    if (!auth()->check() || !auth()->user()->isAdmin()) {
-        abort(403, 'No tienes permisos para acceder a esta sección.');
-    }
-    return view('auth.register-admin');
-})->name('admin.register')->middleware('auth');
+// Eliminar todas las rutas protegidas con middleware 'auth'
 
-// Ruta para buscar programadores por RUT en el registro de usuarios
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/usuarios/buscar-por-rut/{rut}', [App\Http\Controllers\AdminUserController::class, 'buscarPorRut'])->name('admin.usuarios.buscar-por-rut');
-});
+// Rutas de plantillas (solo lectura para demostración)
+Route::get('plantillas', [PlantillaActaController::class, 'index'])->name('plantillas.index');
+Route::get('plantillas/{plantilla}', [PlantillaActaController::class, 'show'])->name('plantillas.show');
+Route::get('plantillas/{plantilla}/vista-previa-pdf', [PlantillaActaController::class, 'preview'])->name('plantillas.vista-previa-pdf');
 
-// Ruta especial para que administradores registren nuevos usuarios
-Route::post('/admin/register', [App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.register.store')->middleware('auth');
+// Ruta para obtener datos de plantilla
+Route::get('plantillas/{plantilla}/datos', [PlantillaActaController::class, 'getDatosPlantilla'])->name('plantillas.datos');
 
-// Rutas para gestión de usuarios (solo administradores)
-Route::middleware('auth')->group(function () {
-    Route::get('users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::get('users/{user}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-    Route::put('users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
-    Route::delete('users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
-    Route::put('users/{user}/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('users.change-password');
-});
-
-// Rutas para filtrar usuarios por rol
-Route::middleware('auth')->group(function () {
-    Route::get('users/administradores', [App\Http\Controllers\UserController::class, 'administradores'])->name('users.administradores');
-    Route::get('users/consultores', [App\Http\Controllers\UserController::class, 'consultores'])->name('users.consultores');
-});
-
-// Rutas para gestión de usuarios (solo administradores)
-Route::middleware('auth')->group(function () {
-    Route::get('users', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::get('users/{user}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-    Route::put('users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
-    Route::delete('users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
-    Route::put('users/{user}/change-password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('users.change-password');
-    Route::put('users/{user}/reactivar', [App\Http\Controllers\UserController::class, 'reactivar'])->name('users.reactivar');
-});
-
-// Rutas para gestión de firmas (solo usuarios autenticados - se verifica rol dentro del controlador)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'showFirma'])->name('profile.firma');
-    Route::post('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'uploadFirma'])->name('profile.firma.upload');
-    Route::delete('/perfil/firma', [App\Http\Controllers\ProfileController::class, 'deleteFirma'])->name('profile.firma.delete');
-});
-
-// Rutas para gestión de plantillas de actas (solo administradores)
-Route::middleware(['auth'])->group(function () {
-    Route::resource('plantillas', PlantillaActaController::class)->parameters(['plantillas' => 'plantilla']);
-    Route::get('plantillas/{plantilla}/vista-previa-pdf', [PlantillaActaController::class, 'preview'])->name('plantillas.vista-previa-pdf');
-    
-    // Ruta para vista previa en tiempo real de plantillas nuevas
-    Route::post('plantillas/vista-previa-nueva', [PlantillaActaController::class, 'vistaPreviaNueva'])->name('plantillas.vista-previa-nueva');
-});
-
-// Ruta para obtener datos de plantilla (solo administradores)
-Route::middleware(['auth'])->group(function () {
-    Route::get('plantillas/{plantilla}/datos', [PlantillaActaController::class, 'getDatosPlantilla'])->name('plantillas.datos');
-});
-
-require __DIR__.'/auth.php';
+// Si hay rutas específicas que necesitas proteger, puedes comentarlas
+// Route::resource('programadores', ProgramadorController::class)->parameters(['programadores' => 'programador']); // Comentada
+// Route::resource('servidores', ServidorController::class)->parameters(['servidores' => 'servidor']); // Comentada
+// Route::resource('actas', ActaController::class)->parameters(['actas' => 'acta']); // Comentada

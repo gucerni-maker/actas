@@ -187,6 +187,30 @@ class ProgramadorController extends Controller
         return null;
     }
 
+
+    public function buscarPorRutDemo($rut)
+    {
+        // Método de demostración que devuelve datos simulados
+        // En un entorno de producción real, esto requeriría autenticación
+        
+        // Simular datos de un programador
+        $programador = [
+            'nombre' => 'Juan Pérez',
+            'correo' => 'juan.perez@empresa.com',
+            'cargo' => 'Desarrollador Senior',
+            'oficina' => 'Área de Sistemas',
+            'departamento' => 'Tecnología',
+            'rut' => $rut,
+            'codigo_programador' => 'DEV001',
+        ];
+        
+        return response()->json([
+            'success' => true,
+            'programador' => $programador
+        ]);
+    }
+
+
     public function vistaPreviaNueva(Request $request)
     {
         $this->authorizeRole(['admin']);

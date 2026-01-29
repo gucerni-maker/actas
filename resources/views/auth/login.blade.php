@@ -73,7 +73,7 @@
 
         <!-- Email Address -->
         <div class="mb-3">
-            <x-input-label for="email" :value="__('Email')" class="form-label" />
+            <x-input-label for="email" :value="__('Correo')" class="form-label" />
             <x-text-input id="email" class="form-control block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
@@ -93,7 +93,7 @@
         <!-- Remember Me -->
         <div class="mb-3 form-check">
             <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-            <label for="remember_me" class="form-check-label form-label">{{ __('Remember me') }}</label>
+            <label for="remember_me" class="form-check-label form-label">{{ __('Recuerda me') }}</label>
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
