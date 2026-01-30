@@ -11,7 +11,7 @@ class ServidorController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
         
         $query = Servidor::query();
         
@@ -41,13 +41,13 @@ class ServidorController extends Controller
 
     public function create()
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         return view('servidores.create');
     }
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $request->validate([
             'nombre' => [
@@ -88,19 +88,19 @@ class ServidorController extends Controller
 
     public function show(Servidor $servidor)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
         return view('servidores.show', compact('servidor'));
     }
 
     public function edit(Servidor $servidor)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         return view('servidores.edit', compact('servidor'));
     }
 
     public function update(Request $request, Servidor $servidor)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $request->validate([
             'tipo' => 'required|in:desarrollo,produccion',
@@ -119,7 +119,7 @@ class ServidorController extends Controller
 
     public function destroy(Servidor $servidor)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $servidor->delete();
 

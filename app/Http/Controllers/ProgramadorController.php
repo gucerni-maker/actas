@@ -10,7 +10,7 @@ class ProgramadorController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
         
         $query = Programador::query();
         
@@ -42,13 +42,13 @@ class ProgramadorController extends Controller
 
     public function create()
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         return view('programadores.create');
     }
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
 
         $request->validate([
             'nombre' => 'required|string|max:255',
@@ -69,19 +69,19 @@ class ProgramadorController extends Controller
 
     public function show(Programador $programador)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
         return view('programadores.show', compact('programador'));
     }
 
     public function edit(Programador $programador)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         return view('programadores.edit', compact('programador'));
     }
 
     public function update(Request $request, Programador $programador)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $request->validate([
             'nombre' => 'required|string|max:255',
@@ -102,7 +102,7 @@ class ProgramadorController extends Controller
 
     public function destroy(Programador $programador)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $programador->delete();
 
@@ -124,7 +124,7 @@ class ProgramadorController extends Controller
 
     public function buscarPorRut($rut)
 {
-    $this->authorizeRole(['admin']);
+    //$this->authorizeRole(['admin']);
     
     try {
         // Limpiar el RUT para manejar diferentes formatos
@@ -213,7 +213,7 @@ class ProgramadorController extends Controller
 
     public function vistaPreviaNueva(Request $request)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
 
         // Obtener los datos del formulario
         $datos = $request->all();

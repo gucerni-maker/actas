@@ -7,14 +7,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-dark">Lista de Actas de Entrega</h5>
-                    @if(Auth::user()->isAdmin())
-                    <a href="{{ route('actas.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nueva Acta
-                    </a>
-		    <a href="{{ route('actas.cargar-existente.form') }}" class="btn btn-dark ms-2">
 	                <i class="fas fa-upload"></i> Cargar Acta Existente
-	            </a>
-                    @endif
                 </div>
                 <div class="card-body">
 
@@ -68,12 +62,6 @@
                         </div>
                     </form>
 
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
                     @if($actas->count() > 0)
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
@@ -103,23 +91,17 @@
                                             </td>
 
                                             <td class="col-md-2">
-					      <div class="btn-group-horizontal btn-group-sm">
+					                        <div class="btn-group-horizontal btn-group-sm">
                                                 <a href="{{ route('actas.show', $acta) }}" class="btn btn-outline-light btn-sm" style="color:#666;">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                @if(Auth::user()->isAdmin())
-                                                <a href="{{ route('actas.edit', $acta) }}" class="btn btn-dark btn-sm">
+                                                <button class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit"></i>
-                                                </a>
-                                                <form action="{{ route('actas.destroy', $acta) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta acta?')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                                @endif
-					      </div>
+                                                </button>    
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+					                        </div>
                                             </td>
                                         </tr>
                                     @endforeach

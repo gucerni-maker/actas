@@ -132,36 +132,22 @@
                     </div>
                     @endif
 
-                    @if(Auth::user()->isAdmin())
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="{{ route('actas.edit', $acta) }}" class="btn btn-dark">
+                        <button type="submit" class="btn btn-warning" >
                             <i class="fas fa-edit"></i> Editar
-                        </a>
-                        
-                        <form action="{{ route('actas.destroy', $acta) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" 
-                                    onclick="return confirm('¿Estás seguro de eliminar esta acta?')">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </button>
-                        </form>
+                        </button>    
+                     
+                        <button type="submit" class="btn btn-danger" >
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
                     </div>
-                    @endif
 
                     <!-- Agregar después de los otros botones de acción -->
-                    @if(Auth::user()->isAdmin() && !$acta->es_acta_existente && !$acta->firmada)
                     <div class="mt-3">
-                        <form action="{{ route('actas.marcar-como-firmada', $acta) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn btn-success" 
-                                    onclick="return confirm('¿Estás seguro de marcar esta acta como firmada?')">
+                            <button type="submit" class="btn btn-success" >
                                 <i class="fas fa-file-signature me-1"></i> Marcar como Firmada
                             </button>
-                        </form>
                     </div>
-                    @endif
 
                     <!-- Mostrar estado de la firma -->
                     @if(!$acta->es_acta_existente)

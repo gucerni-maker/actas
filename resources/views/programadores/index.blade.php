@@ -7,11 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-dark">Lista de Encargados</h5>
-                    @if(Auth::user()->isAdmin())
-                    <a href="{{ route('programadores.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nuevo Encargado
-                    </a>
-                    @endif
                 </div>
                 <div class="card-body">
                     <!-- Formulario de búsqueda -->
@@ -35,12 +31,6 @@
                         </div>
                     </form>
 
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
                     @if($programadores->count() > 0)
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
@@ -53,9 +43,8 @@
                                         </th>
                                         <th class="text-dark">Correo</th>
                                         <th class="text-dark">Grado</th>                                        
-                                        @if(Auth::user()->isAdmin())
                                         <th class="text-dark">Acciones</th>
-                                        @endif
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,25 +53,19 @@
                                             <td>{{ $programador->nombre }}</td>
                                             <td>{{ $programador->correo }}</td>
                                             <td>{{ $programador->cargo }}</td>
-                                            @if(Auth::user()->isAdmin())
                                             <td>
                                                 <div class="d-flex gap-1">
                                                     <a href="{{ route('programadores.show', $programador) }}" class="btn btn-sm p-1 btn-outline-light" style="font-size: 0.7rem; width: 30px; height: 30px; color:#666;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-dark btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
+                                                   <button class="btn btn-warning btn-sm p-1">
                                                         <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <form action="{{ route('programadores.destroy', $programador) }}" method="POST" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;" onclick="return confirm('¿Estás seguro de eliminar este encargado?')">
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
                                                             <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                    </button>
                                                 </div>
                                             </td>
-                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -93,7 +76,6 @@
                             Mostrando {{ $programadores->firstItem() }} de {{ $programadores->lastItem() }} de {{ $programadores->total() }} resultados
                           </div>  
                           <div>
-                            <!-- <div class="d-flex justify-content-center"> -->
                             {{ $programadores->links('pagination::bootstrap-5') }}
                           </div>
                         </div>

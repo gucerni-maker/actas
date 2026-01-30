@@ -16,7 +16,7 @@ class ActaController extends Controller
 
 public function index(Request $request)
 {
-    $this->authorizeRole(['admin', 'consultor']);
+    //$this->authorizeRole(['admin', 'consultor']);
     
     $query = Acta::with(['programador', 'servidor', 'usuario']);
     
@@ -75,7 +75,7 @@ public function index(Request $request)
 
     public function create(Request $request)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $programadores = Programador::all();
         $servidores = Servidor::all();
@@ -89,7 +89,7 @@ public function index(Request $request)
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
             $request->validate([
                 'fecha_entrega' => 'required|date',
@@ -148,7 +148,7 @@ public function index(Request $request)
 
     public function show(Acta $acta)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
         
         $acta->load(['programador', 'servidor', 'usuario']);
         return view('actas.show', compact('acta'));
@@ -156,7 +156,7 @@ public function index(Request $request)
 
     public function edit(Acta $acta)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         $programadores = Programador::all();
         $servidores = Servidor::all();
@@ -165,7 +165,7 @@ public function index(Request $request)
 
     public function update(Request $request, Acta $acta)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
     
         // Reglas de validación base (comunes a todas las actas)
         $rules = [
@@ -253,7 +253,7 @@ public function index(Request $request)
     
     public function destroy(Acta $acta)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         // Eliminar PDF si existe
         if ($acta->archivo_pdf && Storage::exists($acta->archivo_pdf)) {
@@ -268,7 +268,7 @@ public function index(Request $request)
 
     public function generarPDF(Acta $acta)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
         
         $acta->load(['programador', 'servidor', 'usuario']);
         
@@ -296,7 +296,7 @@ public function index(Request $request)
 
     public function descargarPDF(Acta $acta)
     {
-        $this->authorizeRole(['admin', 'consultor']);
+        //$this->authorizeRole(['admin', 'consultor']);
 
         // Verificar si es una acta existente cargada
         if ($acta->es_acta_existente && $acta->archivo_pdf) {
@@ -339,7 +339,7 @@ public function index(Request $request)
 
     public function showCargarExistente(Request $request)
     {
-       $this->authorizeRole(['admin']);
+       //$this->authorizeRole(['admin']);
 
        $programadores = Programador::all();
        $servidores = Servidor::all();
@@ -352,7 +352,7 @@ public function index(Request $request)
 
    public function cargarExistente(Request $request)
    {
-       $this->authorizeRole(['admin']);
+       //$this->authorizeRole(['admin']);
 
        $request->validate([
           'fecha_entrega' => 'required|date',
@@ -410,7 +410,7 @@ public function index(Request $request)
 
     public function marcarComoFirmada(Acta $acta)
     {
-        $this->authorizeRole(['admin']);
+        //$this->authorizeRole(['admin']);
         
         // Solo se pueden marcar como firmadas las actas generadas (no existentes)
         if ($acta->es_acta_existente) {

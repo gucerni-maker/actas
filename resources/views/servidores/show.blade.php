@@ -48,22 +48,14 @@
 
                     </table>
                     
-                    @if(Auth::user()->isAdmin())
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="{{ route('servidores.edit', $servidor) }}" class="btn btn-dark btn-outline-light">
+                        <a href="" class="btn btn-dark btn-outline-light">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                        
-                        <form action="{{ route('servidores.destroy', $servidor) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" 
-                                    onclick="return confirm('¿Estás seguro de eliminar este servidor?')">
+                            <button type="submit" class="btn btn-danger" >
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
-                        </form>
                     </div>
-                    @endif
                 </div>
             </div>
         </div>

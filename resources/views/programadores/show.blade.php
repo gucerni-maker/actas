@@ -45,22 +45,15 @@
                         </tr>                        
                     </table>
                     
-                    @if(Auth::user()->isAdmin())
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="{{ route('programadores.edit', $programador) }}" class="btn btn-secondary">
+                        <a href="" class="btn btn-secondary">
                             <i class="fas fa-edit"></i> Editar
                         </a>
                         
-                        <form action="{{ route('programadores.destroy', $programador) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-dark btn-outline-light" 
-                                    onclick="return confirm('¿Estás seguro de eliminar este encargado?')">
+                            <button type="submit" class="btn btn-dark btn-outline-light" >
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
-                        </form>
                     </div>
-                    @endif
                 </div>
             </div>
         </div>

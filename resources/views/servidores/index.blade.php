@@ -7,11 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-dark">Lista de Servidores</h5>
-                    @if(Auth::user()->isAdmin())
-                    <a href="{{ route('servidores.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus"></i> Nuevo Servidor
-                    </a>
-                    @endif
                 </div>
                 <div class="card-body">
                     <!-- Formulario de búsqueda -->
@@ -34,12 +30,6 @@
                             </div>
                         </div>
                     </form>
-
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
                     @if($servidores->count() > 0)
                         <div class="table-responsive">
@@ -79,18 +69,9 @@
                                                     <a href="{{ route('servidores.show', $servidor) }}" class="btn btn-sm p-1 btn-outline-light" style="font-size: 0.7rem; width: 30px; height: 30px; color:#666;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    @if(Auth::user()->isAdmin())
-                                                    <a href="{{ route('servidores.edit', $servidor) }}" class="btn btn-dark btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <form action="{{ route('servidores.destroy', $servidor) }}" method="POST" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;" onclick="return confirm('¿Estás seguro de eliminar este servidor?')">
+                                                        <button type="submit" class="btn btn-danger btn-sm p-1" style="font-size: 0.7rem; width: 30px; height: 30px;">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
-                                                    </form>
-                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
