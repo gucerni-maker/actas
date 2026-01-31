@@ -4,7 +4,7 @@
 
 <style>
     .letra{
-        font-size:12px;
+        font-size:14px;
     }
 </style>    
 
@@ -59,7 +59,7 @@
                                     <td>{{ $acta->programador->correo }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="text-dark">Grado:</th>
+                                    <th class="text-dark">Cargo:</th>
                                     <td>{{ $acta->programador->cargo }}</td>
                                 </tr>
                                 <tr>
@@ -73,11 +73,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h6><strong>Datos del Servidor</strong></h6>
-                            <table class="table table-borderless">
+                            <table class="table table-hover">
                                 <tr>
-                                    <th class="text-dark">Tipo:</th>
+                                    <th class="text-dark col-3">Tipo:</th>
                                     <td>
-                                        <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'secondary' : 'dark' }}">
+                                        <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'secondary' : 'light' }}" style="color:#222">
                                             {{ ucfirst($acta->servidor->tipo) }}
                                         </span>
                                     </td>
@@ -130,18 +130,18 @@
                     @endif
 
                     <div class="d-flex justify-content-between mt-3">
-                        <button type="submit" class="btn" style="background-color: #6c757d;" >
+                        <button type="submit" class="btn btn-dark btn-outline-light" >
                             <i class="fas fa-edit"></i> Editar
                         </button>    
                      
-                        <button type="submit" class="btn btn-dark" >
+                        <button type="submit" class="btn btn-dark btn-outline-light" >
                             <i class="fas fa-trash"></i> Eliminar
                         </button>
                     </div>
 
                     <!-- Agregar después de los otros botones de acción -->
                     <div class="mt-3">
-                            <button type="submit" class="btn" style="background-color: #23222c;" >
+                            <button type="submit" class="btn btn-dark btn-outline-light" >
                                 <i class="fas fa-file-signature me-1"></i> Marcar como Firmada
                             </button>
                     </div>

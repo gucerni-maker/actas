@@ -9,7 +9,7 @@
                     <h5 class="mb-0 text-dark">Detalles del Encargado</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-borderless">
+                    <table class="table table-hover ">
                         <tr>
                             <th class="text-dark">ID:</th>
                             <td>{{ $programador->id }}</td>
@@ -43,7 +43,7 @@
                     </table>
                     
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="" class="btn btn-secondary">
+                        <a class="btn btn-dark btn-outline-light">
                             <i class="fas fa-edit"></i> Editar
                         </a>
                         

@@ -52,10 +52,10 @@
             </div>
             <div class="row mt-3">
               <div class="col-md-12">
-                <button type="submit" class="btn btn-dark">
+                <button type="submit" class="btn btn-sm btn-outline-light">
                   <i class="fas fa-search"></i> Filtrar
                 </button>
-                <a href="{{ route('actas.index') }}" class="btn btn-secondary">
+                <a href="{{ route('actas.index') }}" class="btn btn-sm btn-secondary me-1 btn-outline-light" style="color:#222">
                   <i class="fas fa-times"></i> Limpiar
                 </a>
               </div>
