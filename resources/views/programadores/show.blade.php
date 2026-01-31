@@ -7,9 +7,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-dark">Detalles del Encargado</h5>
-                    <a href="{{ route('programadores.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </a>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">

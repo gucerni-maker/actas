@@ -7,9 +7,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-dark">Detalles del Servidor</h5>
-                    <a href="{{ route('servidores.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </a>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">
@@ -20,7 +17,7 @@
                         <tr>
                             <th class="text-dark">Tipo:</th>
                             <td>
-                                <span class="badge bg-{{ $servidor->tipo == 'produccion' ? 'danger' : 'warning' }}">
+                                <span class="badge bg-{{ $servidor->tipo == 'produccion' ? 'secondary' : 'light' }}" style="color:#222">
                                     {{ ucfirst($servidor->tipo) }}
                                 </span>
                             </td>
@@ -52,7 +49,7 @@
                         <a href="" class="btn btn-dark btn-outline-light">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                            <button type="submit" class="btn btn-danger" >
+                            <button type="submit" class="btn btn-dark btn-outline-light" >
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
                     </div>

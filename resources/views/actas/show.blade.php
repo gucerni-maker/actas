@@ -14,9 +14,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-dark">Detalles del Acta de Entrega #{{ $acta->id }}</h5>
-                    <a href="{{ route('actas.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </a>
                 </div>
                 <div class="card-body letra" style="background-color: #3D3B3B;">
                     <div class="row">
@@ -29,7 +26,7 @@
                                 </tr>
                                 <tr>
                                     <th class="text-dark">Creada por:</th>
-                                    <td>{{ $acta->usuario->name }}</td>
+                                    <td>Administrador/td>
                                 </tr>
 
 			                	<tr>
@@ -80,7 +77,7 @@
                                 <tr>
                                     <th class="text-dark">Tipo:</th>
                                     <td>
-                                        <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'danger' : 'dark' }}">
+                                        <span class="badge bg-{{ $acta->servidor->tipo == 'produccion' ? 'secondary' : 'dark' }}">
                                             {{ ucfirst($acta->servidor->tipo) }}
                                         </span>
                                     </td>
@@ -102,7 +99,7 @@
                                     <td>{{ $acta->servidor->disco }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="text-dark">Reparticion:</th>
+                                    <th class="text-dark">Oficina:</th>
                                     <td>{{ $acta->servidor->notas_tecnicas ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
@@ -133,18 +130,18 @@
                     @endif
 
                     <div class="d-flex justify-content-between mt-3">
-                        <button type="submit" class="btn btn-warning" >
+                        <button type="submit" class="btn" style="background-color: #6c757d;" >
                             <i class="fas fa-edit"></i> Editar
                         </button>    
                      
-                        <button type="submit" class="btn btn-danger" >
+                        <button type="submit" class="btn btn-dark" >
                             <i class="fas fa-trash"></i> Eliminar
                         </button>
                     </div>
 
                     <!-- Agregar después de los otros botones de acción -->
                     <div class="mt-3">
-                            <button type="submit" class="btn btn-success" >
+                            <button type="submit" class="btn" style="background-color: #23222c;" >
                                 <i class="fas fa-file-signature me-1"></i> Marcar como Firmada
                             </button>
                     </div>
@@ -152,7 +149,7 @@
                     <!-- Mostrar estado de la firma -->
                     @if(!$acta->es_acta_existente)
                     <div class="mt-2">
-                        <span class="badge bg-{{ $acta->firmada ? 'success' : 'warning' }}">
+                        <span class="badge bg-{{ $acta->firmada ? 'dark' : 'secondary' }}">
                             {{ $acta->firmada ? 'Firmada' : 'Pendiente de Firma' }}
                         </span>
                     </div>
