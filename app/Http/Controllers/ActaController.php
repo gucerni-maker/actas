@@ -325,7 +325,7 @@ public function index(Request $request)
         return Storage::download('public/' . $acta->archivo_pdf, $nombreArchivo);
     }
 
-    private function authorizeRole($allowedRoles)
+/*    private function authorizeRole($allowedRoles)
     {
         if (!auth()->check()) {
             abort(401);
@@ -336,6 +336,7 @@ public function index(Request $request)
             abort(403, 'No tienes permisos para acceder a esta sección.');
         }
     }
+*/
 
     public function showCargarExistente(Request $request)
     {

@@ -127,7 +127,7 @@ class ServidorController extends Controller
                         ->with('success', 'Servidor eliminado exitosamente.');
     }
     
-    private function authorizeRole($allowedRoles)
+/*    private function authorizeRole($allowedRoles)
     {
         if (!auth()->check()) {
             abort(401);
@@ -138,4 +138,5 @@ class ServidorController extends Controller
             abort(403, 'No tienes permisos para acceder a esta sección.');
         }
     }
+*/
 }

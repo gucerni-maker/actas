@@ -12,7 +12,7 @@ class ProgramadorSeeder extends Seeder
     {
         // Deshabilitar restricciones de clave foránea temporalmente
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        /*
+        
         // Eliminar datos existentes
         Programador::truncate();
 
@@ -31,7 +31,7 @@ class ProgramadorSeeder extends Seeder
         foreach ($programadoresEspecificos as $programador) {
             Programador::create($programador);
         }
-        */
+        
 
         $cargos = [
             'Analista de Sistemas',

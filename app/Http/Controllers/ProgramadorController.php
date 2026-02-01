@@ -110,7 +110,7 @@ class ProgramadorController extends Controller
                         ->with('success', 'Programador eliminado exitosamente.');
     }
     
-    private function authorizeRole($allowedRoles)
+/*    private function authorizeRole($allowedRoles)
     {
         if (!auth()->check()) {
             abort(401);
@@ -121,6 +121,7 @@ class ProgramadorController extends Controller
             abort(403, 'No tienes permisos para acceder a esta sección.');
         }
     }
+*/
 
     public function buscarPorRut($rut)
 {

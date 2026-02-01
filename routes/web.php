@@ -124,8 +124,3 @@ Route::get('plantillas/{plantilla}/vista-previa-pdf', [PlantillaActaController::
 
 // Ruta para obtener datos de plantilla
 Route::get('plantillas/{plantilla}/datos', [PlantillaActaController::class, 'getDatosPlantilla'])->name('plantillas.datos');
-
-// Si hay rutas específicas que necesitas proteger, puedes comentarlas
-// Route::resource('programadores', ProgramadorController::class)->parameters(['programadores' => 'programador']); // Comentada
-// Route::resource('servidores', ServidorController::class)->parameters(['servidores' => 'servidor']); // Comentada
-// Route::resource('actas', ActaController::class)->parameters(['actas' => 'acta']); // Comentada
