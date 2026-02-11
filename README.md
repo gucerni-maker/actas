@@ -26,9 +26,6 @@ TODO ESTO CON LA FINALIDAD DE MANTENER LA INTEGRIDAD DEL SISTEMA Y EL SERVIDOR Q
 - **Lenguaje:** PHP 8.x
 - **Base de Datos:** MySQL
 - **Frontend:** Bootstrap 5, jQuery
-- **Generación de PDFs:** TCPDF
-- **Autenticación:** Laravel Breeze
-- **Gestión de Assets:** Vite
 
 ## Instalación Local
 
@@ -55,13 +52,13 @@ TODO ESTO CON LA FINALIDAD DE MANTENER LA INTEGRIDAD DEL SISTEMA Y EL SERVIDOR Q
 
 # Descargar e ingresar al directorio
    git clone https://github.com/gucerni-maker/actas.git
-   cd gestion-actas
+   cd actas
 
 # Otorgar permisos
 - chmod -R 775 storage bootstrap/cache
 
 # Instalar dependencias
-- docker run --rm \
+- sudo docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
@@ -92,6 +89,12 @@ TODO ESTO CON LA FINALIDAD DE MANTENER LA INTEGRIDAD DEL SISTEMA Y EL SERVIDOR Q
 
 # Ejecutar los seeds
 - ./vendor/bin/sail artisan db:seed 
+
+# Instalar dependencias npm
+./vendor/bin/sail npm install
+
+# Compilar assets
+./vendor/bin/sail npm run build
 
 # Acceder a la aplicacion
 - http://localhost:8080
