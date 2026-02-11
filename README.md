@@ -30,64 +30,70 @@ TODO ESTO CON LA FINALIDAD DE MANTENER LA INTEGRIDAD DEL SISTEMA Y EL SERVIDOR Q
 - **Autenticación:** Laravel Breeze
 - **Gestión de Assets:** Vite
 
-## Capturas de Pantalla
-
-*(Aquí puedes añadir imágenes del sistema)*
-- Dashboard principal
-- Listado de servidores
-- Formulario de actas
-- Vista previa de PDF
-
 ## Instalación Local
 
 ### Requisitos Previos
-- PHP >= 8.1
-- Composer
-- MySQL/MariaDB
-- Node.js y npm
+- Git
+    sudo apt install git
+    
+- Docker y docker compose
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+    
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    
+    sudo apt update
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    sudo usermod -aG docker ${USER}
 
 ### Pasos de Instalación
 
-1. **Clonar el repositorio**
-   ```bash
+# Descargar e ingresar al directorio
    git clone https://github.com/gucerni-maker/actas.git
-   cd gestion-actas```
+   cd gestion-actas
 
-2. **Instalar dependencias PHP**
-- composer install
+# Otorgar permisos
+- chmod -R 775 storage bootstrap/cache
 
-3. **Configurar variables de entorno**
+# Instalar dependencias
+- docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+
+# Configurar variables de entorno
 - cp .env.example .env
-- edita .env con tu configuración de base de datos:
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=tu_nombre_de_base_de_datos
-    DB_USERNAME=tu_usuario
-    DB_PASSWORD=tu_contraseña
+- nano .env
 
-4. **Generar clave de aplicación**
-- php artisan key:generate
+# configurar archivo .env
+  APP_PORT=8080
+  DB_CONNECTION=mysql
+  DB_HOST=mysql
+  DB_PORT=3306
+  DB_DATABASE=laravel
+  DB_USERNAME=sail
+  DB_PASSWORD=password
+  
+# Construir la imagen
+- ./vendor/bin/sail up -d
 
-5. **Crear la base de datos**
-- Crea una base de datos en MySQL con el nombre especificado en .env
+# Generar clave de aplicación
+- ./vendor/bin/sail artisan key:generate
 
-6. **Ejecutar migraciones y seeders**
-- php artisan migrate --seed
+# Ejecutar las migraciones
+- ./vendor/bin/sail artisan migrate
 
-7. **Instalar dependencias de frontend**
-- npm install
-- npm run build
+# Ejecutar los seeds
+- ./vendor/bin/sail artisan db:seed 
 
-8. **Crear enlace de almacenamiento**
-- php artisan storage:link
+# Acceder a la aplicacion
+- http://localhost:8080
 
-9. **Iniciar el servidor**
-- php artisan serve
-
-### Personalización
-- Añadir campos adicionales
-- Puedes extender los modelos existentes o crear nuevos campos según tus necesidades.
-- Los estilos personalizados se encuentran en resources/css/.
-- Los templates de PDF están en resources/views/pdf/.
 
